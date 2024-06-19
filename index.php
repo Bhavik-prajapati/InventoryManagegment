@@ -28,7 +28,6 @@
             $conn->close();
             ?>
         </select>
-        
         <br><br>
         
         <label for="state">State:</label>

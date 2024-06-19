@@ -1,5 +1,7 @@
 <?php
   include("connection.php");
+session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -140,35 +142,27 @@
 
 
 <?php
-session_start();
 
 
 if (isset($_POST['login-btn'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
   
-  echo "<script>
-     console.log('".$username."')
-   </script>";
 
   $username = mysqli_real_escape_string($conn, $username);
   $password = mysqli_real_escape_string($conn, $password);
 
   // Query to check if the username and password match
-  $query = "SELECT * FROM admin WHERE username='$username' AND password='$password'";
+  $query = "SELECT * FROM admin_master WHERE username='$username' AND password='$password'";
   $result = mysqli_query($conn, $query);
   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-  
-   echo "<script>
-     console.log('".$result."')
-   </script>";
-  
   
   $count = mysqli_num_rows($result);
 
   if ($count == 1) {
     $_SESSION['username'] = $username;
-    header("location: dashboard.php"); 
+    // header("location: dashboard.php"); 
+    echo "<script>window.location = 'dashboard.php';</script>";
   } else {
     echo "<script>alert('Login failed. Incorrect username or password.');</script>";
     echo "<script>window.location = 'admin-login.php';</script>";

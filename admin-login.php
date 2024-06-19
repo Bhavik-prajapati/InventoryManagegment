@@ -68,7 +68,7 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <form  method="POST" action=""  class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
@@ -92,7 +92,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                      <button name="login-btn" class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
@@ -139,9 +139,40 @@
 </html>
 
 
-
 <?php
+session_start();
 
 
+if (isset($_POST['login-btn'])) {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  
+  echo "<script>
+     console.log('".$username."')
+   </script>";
+
+  $username = mysqli_real_escape_string($conn, $username);
+  $password = mysqli_real_escape_string($conn, $password);
+
+  // Query to check if the username and password match
+  $query = "SELECT * FROM admin WHERE username='$username' AND password='$password'";
+  $result = mysqli_query($conn, $query);
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+  
+   echo "<script>
+     console.log('".$result."')
+   </script>";
+  
+  
+  $count = mysqli_num_rows($result);
+
+  if ($count == 1) {
+    $_SESSION['username'] = $username;
+    header("location: dashboard.php"); 
+  } else {
+    echo "<script>alert('Login failed. Incorrect username or password.');</script>";
+    echo "<script>window.location = 'admin-login.php';</script>";
+  }
+}
 
 ?>

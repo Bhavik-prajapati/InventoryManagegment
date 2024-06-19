@@ -10,7 +10,3 @@ history table = process table order by desc
 
 
 
-
-
-
-

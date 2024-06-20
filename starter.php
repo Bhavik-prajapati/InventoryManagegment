@@ -241,7 +241,7 @@ if (isset($_POST['btnSubmit'])) {
 
   // Prepare and bind
   $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `each_bag_weight`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("ssssiddddddssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date);
+  $stmt->bind_param("sssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date);
 
     // Execute the query
     if ($stmt->execute()) {

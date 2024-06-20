@@ -12,6 +12,24 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-person"></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="user-show.php">
+              <i class="bi bi-circle"></i><span>View All</span>
+            </a>
+          </li>
+          <li>
+            <a href="user-add.php">
+              <i class="bi bi-circle"></i><span>Add/Update</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End users Nav -->
+
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#inward-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-box-arrow-in-right"></i><span>Inward</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -25,17 +43,30 @@
       </li><!-- End inward Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person"></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#process-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-box-arrow-in-right"></i><span>Process</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="process-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="add-user.php">
+            <a href="process-form.php">
               <i class="bi bi-circle"></i><span>Form</span>
             </a>
           </li>
         </ul>
-      </li><!-- End users Nav -->
+      </li><!-- End process Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#outward-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-box-arrow-in-right"></i><span>Outward</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="outward-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="outward-form.php">
+              <i class="bi bi-circle"></i><span>Form</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End outward Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">

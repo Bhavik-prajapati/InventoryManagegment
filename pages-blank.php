@@ -3,6 +3,19 @@ Copy code
 include("connection.php");
 session_start();
 
+$sql = "SELECT role, COUNT(*) as count FROM user_master GROUP BY role";
+$result = $conn->query($sql);
+
+$roles = [];
+$counts = [];
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $roles[] = $row["role"];
+        $counts[] = $row["count"];
+    }
+}
+
 if (isset($_POST['btn-adduser'])) {
     if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['role'])) {
         $username = $_POST['username'];
@@ -603,9 +616,9 @@ if (isset($_POST['btn-adduser'])) {
                   <div class="col-sm-10">
                     <select name="role" class="form-select" aria-label="Default select example">
                       <option selected>--Select Role--</option>
-                      <option value="1">Inward</option>
-                      <option value="2">Process</option>
-                      <option value="3">Outward</option>
+                      <option value="Inward">Inward</option>
+                      <option value="Process">Process</option>
+                      <option value="Outward">Outward</option>
                     </select>
                   </div>
                 </div>
@@ -617,6 +630,63 @@ if (isset($_POST['btn-adduser'])) {
                 </div>
               </form>
             </div>
+          </div>
+
+          <div class="row">
+          <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Pie Chart</h5>
+              <!-- Pie Chart -->
+              <canvas id="pieChart" style="max-height: 400px;"></canvas>
+
+
+              <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // PHP variables converted to JavaScript using inline PHP
+        var roles = <?php echo json_encode($roles); ?>;
+        var counts = <?php echo json_encode($counts); ?>;
+
+        new Chart(document.querySelector('#pieChart'), {
+            type: 'pie',
+            data: {
+                labels: roles,
+                datasets: [{
+                    label: 'User Roles',
+                    data: counts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',   // Red
+                        'rgba(54, 162, 235, 0.6)',   // Blue
+                        'rgba(255, 205, 86, 0.6)'    // Yellow
+                        // Add more colors as needed
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(0);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+    </script>
+             
+              <!-- End Pie CHart -->
+
+            </div>
+          </div>
+        </div>
           </div>
 
 

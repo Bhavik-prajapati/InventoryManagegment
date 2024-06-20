@@ -180,6 +180,7 @@ if (isset($_POST['btn-adduser'])) {
               <canvas id="pieChart" style="max-height: 400px;"></canvas>
 
 
+
               <script>
     document.addEventListener("DOMContentLoaded", () => {
         // PHP variables converted to JavaScript using inline PHP
@@ -210,9 +211,13 @@ if (isset($_POST['btn-adduser'])) {
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw.toFixed(0);
-                            }
+                          label: function(tooltipItem) {
+                          let value = tooltipItem.raw;
+                          if (typeof value === 'number') {
+                              value = value.toFixed(0);
+                          }
+                          return tooltipItem.label + ': ' + value;
+                      }
                         }
                     }
                 }
@@ -220,6 +225,7 @@ if (isset($_POST['btn-adduser'])) {
         });
     });
     </script>
+
              
               <!-- End Pie CHart -->
 

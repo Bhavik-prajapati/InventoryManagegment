@@ -147,12 +147,11 @@ session_start();
 if (isset($_POST['login-btn'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
-  
+  $remember = isset($_POST['remember']);
 
   $username = mysqli_real_escape_string($conn, $username);
   $password = mysqli_real_escape_string($conn, $password);
 
-  // Query to check if the username and password match
   $query = "SELECT * FROM admin_master WHERE username='$username' AND password='$password'";
   $result = mysqli_query($conn, $query);
   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -161,7 +160,11 @@ if (isset($_POST['login-btn'])) {
 
   if ($count == 1) {
     $_SESSION['username'] = $username;
-    // header("location: dashboard.php"); 
+    if ($remember) {
+      setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
+      setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
+  }
+    
     echo "<script>window.location = 'dashboard.php';</script>";
   } else {
     echo "<script>alert('Login failed. Incorrect username or password.');</script>";

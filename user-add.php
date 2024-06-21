@@ -1,4 +1,3 @@
-Copy code
 <?php
 include("connection.php");
 session_start();
@@ -10,9 +9,30 @@ $roles = [];
 $counts = [];
 
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {
         $roles[] = $row["role"];
         $counts[] = $row["count"];
+    }
+}
+
+$user = [];
+$id = isset($_GET['id']) ? $_GET['id'] : null;
+if ($id) {
+    $user_query = "SELECT * FROM user_master WHERE id = ?";
+    $user_stmt = $conn->prepare($user_query);
+    if ($user_stmt) {
+        $user_stmt->bind_param("i", $id);
+        $user_stmt->execute();
+        $result = $user_stmt->get_result();
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+        } else {
+            echo '<script>alert("User not found.");</script>';
+        }
+        echo "<script>console.log(".json_encode($user).")</script>";
+        $user_stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
     }
 }
 
@@ -23,43 +43,57 @@ if (isset($_POST['btn-adduser'])) {
         $role = $_POST['role'];
         $date = date('Y-m-d H:i:s');
 
-        // Check if username already exists
-        $check_query = "SELECT * FROM user_master WHERE username = ?";
+        $check_query = "SELECT * FROM user_master WHERE username = ?" . ($id ? " AND id != ?" : "");
         $check_stmt = $conn->prepare($check_query);
         
         if ($check_stmt) {
-            $check_stmt->bind_param("s", $username);
+            if ($id) {
+                $check_stmt->bind_param("si", $username, $id);
+            } else {
+                $check_stmt->bind_param("s", $username);
+            }
             $check_stmt->execute();
             $check_stmt->store_result();
 
             if ($check_stmt->num_rows > 0) {
                 echo '<script>alert("Username already exists. Please choose a different username.");</script>';
             } else {
-                // Username is unique, proceed with insertion
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                $insert_query = "INSERT INTO user_master (username, password, role, date) VALUES (?, ?, ?, ?)";
-                $insert_stmt = $conn->prepare($insert_query);
 
-                if ($insert_stmt) {
-                    $insert_stmt->bind_param("ssss", $username, $hashed_password, $role, $date);
-
-                    if ($insert_stmt->execute()) {
-                        echo '<script>alert("New user added successfully!");</script>';
+                if ($id) {
+                    $update_query = "UPDATE user_master SET username = ?, password = ?, role = ?, date = ? WHERE id = ?";
+                    $update_stmt = $conn->prepare($update_query);
+                    if ($update_stmt) {
+                        $update_stmt->bind_param("ssssi", $username, $hashed_password, $role, $date, $id);
+                        if ($update_stmt->execute()) {
+                            echo '<script>alert("User updated successfully!");</script>';
+                        } else {
+                            echo "Error executing statement: " . $update_stmt->error;
+                        }
+                        $update_stmt->close();
                     } else {
-                        echo "Error executing statement: " . $insert_stmt->error;
+                        echo "Error preparing statement: " . $conn->error;
                     }
-
-                    $insert_stmt->close();
                 } else {
-                    echo "Error preparing statement: " . $conn->error;
+                    $insert_query = "INSERT INTO user_master (username, password, role, date) VALUES (?, ?, ?, ?)";
+                    $insert_stmt = $conn->prepare($insert_query);
+                    if ($insert_stmt) {
+                        $insert_stmt->bind_param("ssss", $username, $hashed_password, $role, $date);
+                        if ($insert_stmt->execute()) {
+                            echo '<script>alert("New user added successfully!");</script>';
+                        } else {
+                            echo "Error executing statement: " . $insert_stmt->error;
+                        }
+                        $insert_stmt->close();
+                    } else {
+                        echo "Error preparing statement: " . $conn->error;
+                    }
                 }
             }
-
             $check_stmt->close();
         } else {
             echo "Error preparing check statement: " . $conn->error;
         }
-
         $conn->close();
     } else {
         echo "All form fields are required.";
@@ -118,12 +152,12 @@ if (isset($_POST['btn-adduser'])) {
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Blank Page</h1>
+      <h1>Add User</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
           <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Blank</li>
+          <li class="breadcrumb-item active">user-add</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -134,37 +168,33 @@ if (isset($_POST['btn-adduser'])) {
         <div class="card">
             <div class="card-body">
               <h5 class="card-title">Users Management</h5>
-
-              <!-- General Form Elements -->
               <form method="POST" action="">
                 <div class="row mb-3">
-                  <label for="inputEmail" name="username" class="col-sm-2 col-form-label">Username</label>
+                  <label for="inputEmail" class="col-sm-2 col-form-label">Username</label>
                   <div class="col-sm-10">
-                    <input type="email" name="username" class="form-control">
+                    <input type="email" name="username" class="form-control" value="<?php echo isset($user['username']) ? $user['username'] : ''; ?>">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="inputPassword" name="password" class="col-sm-2 col-form-label">Password</label>
+                  <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                   <div class="col-sm-10">
-                    <input type="password" name="password" class="form-control">
+                    <input type="password" name="password" class="form-control" value="<?php echo isset($user['password']) ? $user['password'] : ''; ?>">
                   </div>
                 </div>
-
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label">Select Role</label>
                   <div class="col-sm-10">
                     <select name="role" class="form-select" aria-label="Default select example">
-                      <option selected>--Select Role--</option>
-                      <option value="Inward">Inward</option>
-                      <option value="Process">Process</option>
-                      <option value="Outward">Outward</option>
+                      <option value="">--Select Role--</option>
+                      <option value="Inward" <?php echo (isset($user['role']) && $user['role'] == 'Inward') ? 'selected' : ''; ?>>Inward</option>
+                      <option value="Process" <?php echo (isset($user['role']) && $user['role'] == 'Process') ? 'selected' : ''; ?>>Process</option>
+                      <option value="Outward" <?php echo (isset($user['role']) && $user['role'] == 'Outward') ? 'selected' : ''; ?>>Outward</option>
                     </select>
                   </div>
                 </div>
-
                 <div class="row mb-3">
                   <div class="col-sm-10">
-                    <button type="submit" name="btn-adduser" class="btn btn-primary">Add User</button>
+                    <button type="submit" name="btn-adduser" class="btn btn-primary">Save User</button>
                   </div>
                 </div>
               </form>
@@ -233,9 +263,6 @@ if (isset($_POST['btn-adduser'])) {
           </div>
         </div>
           </div>
-
-
-
         </div>
       </div>
     </section>

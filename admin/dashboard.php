@@ -1,3 +1,36 @@
+<?php
+include("../config/connection.php");
+session_start();
+
+// Query for grouped data
+$sqlGrouped = "SELECT role, COUNT(*) as count FROM user_master GROUP BY role";
+$resultGrouped = $conn->query($sqlGrouped);
+
+$roles = [];
+$counts = [];
+
+if ($resultGrouped->num_rows > 0) {
+    while ($row = $resultGrouped->fetch_assoc()) {
+        $roles[] = $row["role"];
+        $counts[] = $row["count"];
+    }
+}
+
+// Query for total count
+$sqlTotal = "SELECT COUNT(*) as total_count FROM user_master";
+$resultTotal = $conn->query($sqlTotal);
+
+$totalCount = 0;
+
+if ($resultTotal->num_rows > 0) {
+    $row = $resultTotal->fetch_assoc();
+    $totalCount = $row["total_count"];
+}
+
+
+// echo "<script>console.log('Total Count: " . $totalCount . "');</script>";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -143,6 +176,57 @@
             </div><!-- End Customers Card -->
 
             <!-- Reports -->
+
+            <div class="col-12">
+              <div class="card p-3">
+                <h1 class="card-title">Total Users ( <?php echo $totalCount; ?> )</h1>
+                <canvas id="pieChart" style="max-height: 400px;"></canvas>
+                <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // PHP variables converted to JavaScript using inline PHP
+        var roles = <?php echo json_encode($roles); ?>;
+        var counts = <?php echo json_encode($counts); ?>;
+
+        new Chart(document.querySelector('#pieChart'), {
+            type: 'pie',
+            data: {
+                labels: roles,
+                datasets: [{
+                    label: 'User Roles',
+                    data: counts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',   // Red
+                        'rgba(54, 162, 235, 0.6)',   // Blue
+                        'rgba(255, 205, 86, 0.6)'    // Yellow
+                        // Add more colors as needed
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                          label: function(tooltipItem) {
+                          let value = tooltipItem.raw;
+                          if (typeof value === 'number') {
+                              value = value.toFixed(0);
+                          }
+                          return tooltipItem.label + ': ' + value;
+                      }
+                        }
+                    }
+                }
+            }
+        });
+    });
+    </script>
+              </div>
+            </div>
             <div class="col-12">
               <div class="card">
 

@@ -1,5 +1,5 @@
 <?php
-  include("config/connection.php");
+  include("../config/connection.php");
 session_start();
 
 ?>
@@ -14,27 +14,27 @@ session_start();
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <title>User Login</title>
+  <title>Admin Login</title>
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
   
 </head>
 
@@ -119,18 +119,17 @@ session_start();
 
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="../assets/vendor/echarts/echarts.min.js"></script>
+  <script src="../assets/vendor/quill/quill.min.js"></script>
+  <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+  <script src="../assets/js/main.js"></script>
 
 
 </body>
@@ -140,43 +139,33 @@ session_start();
 
 <?php
 
-  if (isset($_POST['login-btn'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $remember = isset($_POST['remember']);
 
-    $username = mysqli_real_escape_string($conn, $username);
-    $password = mysqli_real_escape_string($conn, $password);
+if (isset($_POST['login-btn'])) {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $remember = isset($_POST['remember']);
 
-    $query = "SELECT * FROM user_master WHERE username='$username' AND password='$password'";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    
-    $count = mysqli_num_rows($result);
+  $username = mysqli_real_escape_string($conn, $username);
+  $password = mysqli_real_escape_string($conn, $password);
 
-    if ($count == 1) {
-      $role = $row['role']; 
-      $_SESSION['username'] = $username;
-      $_SESSION['role'] = $role;
-        if ($remember) {
-          setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
-          setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
-        }
+  $query = "SELECT * FROM admin_master WHERE username='$username' AND password='$password'";
+  $result = mysqli_query($conn, $query);
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+  
+  $count = mysqli_num_rows($result);
 
-        if($role == "Inward"){
-          echo "<script>window.location = 'inward/inward-form.php';</script>";
-        }
-        elseif ($role == "Process") {
-          echo "<script>window.location = 'process/process-form.php';</script>";
-        }
-        elseif ($role == "Outward") {
-          echo "<script>window.location = 'outward/outward-form.php';</script>";
-        }
-        
-      } else {
-        echo "<script>alert('Login failed. Incorrect username or password.');</script>";
-        echo "<script>window.location = 'index.php';</script>";
-      }
+  if ($count == 1) {
+    $_SESSION['username'] = $username;
+    if ($remember) {
+      setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
+      setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
   }
+    
+    echo "<script>window.location = 'dashboard.php';</script>";
+  } else {
+    echo "<script>alert('Login failed. Incorrect username or password.');</script>";
+    echo "<script>window.location = 'index.php';</script>";
+  }
+}
 
 ?>

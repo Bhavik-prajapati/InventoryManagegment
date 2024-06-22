@@ -6,7 +6,8 @@ outward = outward page
 history table = process table order by desc
 
 
-
+Note:
+Todo: Date field has not added yet in the Inward form
 
 
 

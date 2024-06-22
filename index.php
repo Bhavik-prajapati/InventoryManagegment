@@ -145,8 +145,15 @@ session_start();
     $password = mysqli_real_escape_string($conn, $password);
 
     $query = "SELECT * FROM user_master WHERE username='$username' AND password='$password'";
+
+    
+    
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    $_SESSION['id'] = $row['id'];
+
+    // echo "<script>console.log(".json_encode($_SESSION['id']).")</script>";
     
     $count = mysqli_num_rows($result);
 
@@ -156,8 +163,20 @@ session_start();
       $_SESSION['role'] = $role;
         if ($remember) {
           setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
-          setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
+          setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes 
         }
+
+        $user_type = $_SESSION['role']; // Assuming role itself can be the activity type
+        $email = $_SESSION["username"];
+        $user_id = $_SESSION['id'];
+        $activity_details = "User logged in";
+        
+        $stmt = $conn->prepare("
+            INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+        $stmt->bind_param('isss', $user_id, $email, $user_type, $activity_details);
+        $stmt->execute();
+
 
         if($role == "Inward"){
           echo "<script>window.location = 'inward/inward-form.php';</script>";

@@ -52,12 +52,23 @@ if ($result->num_rows > 0) {
 
 // echo "<script>console.log('Total Count: " . $totalCount . "');</script>";
 
+//recent activities....
+$sqlactitivty = "SELECT * FROM activity_master";
+$recentdata = $conn->query($sqlactitivty);
+
+if ($recentdata->num_rows > 0) {
+    while ($rowrecentdata = $recentdata->fetch_assoc()) {
+      $activities[] = $rowrecentdata;
+    }
+  echo "<script>console.log('Activities:', " . json_encode($activities) . ")</script>";
+}else{
+  echo "No recent data found";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <?php
     include("config/head-data.php");
   ?>

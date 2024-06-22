@@ -36,7 +36,7 @@ include("layout/aside.php");
 
 
   <div class="pagetitle">
-        <h1>Clients</h1>
+        <h1>Users</h1>
     </div>
     <!-- End Page Title -->
     <section class="section">

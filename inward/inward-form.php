@@ -178,26 +178,22 @@
 <?php
 if (isset($_POST['btnSubmit'])) {
     // Capture form data
-    $place = $_POST['place'];
-    $supplier_name = $_POST['supplier_name'];
-    $product_name = $_POST['product_name'];
-    $quality = $_POST['quality'];
-    $bags = $_POST['bags'];
-    $each_bag_weight = $_POST['each_bag_weight'];
-    $rate = $_POST['rate'];
-    $om_exim_weighbridge_weight = $_POST['om_exim_weighbridge_weight'];
-    $other_weighbridge_weight = $_POST['other_weighbridge_weight'];
-    $weight_as_per_average_bag_weight = $_POST['weight_as_per_average_bag_weight'];
-    $bill_weight = $_POST['bill_weight'];
-    $weight_supervisor_name = $_POST['weight_supervisor_name'];
-    $quality_supervisor_name = $_POST['quality_supervisor_name'];
-    $remarks = $_POST['remarks'];
+    $place = mysqli_real_escape_string($conn, $_POST['place']);
+    $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
+    $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+    $quality = mysqli_real_escape_string($conn, $_POST['quality']);
+    $bags = mysqli_real_escape_string($conn, $_POST['bags']);
+    $each_bag_weight = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
+    $rate = mysqli_real_escape_string($conn, $_POST['rate']);
+    $om_exim_weighbridge_weight = mysqli_real_escape_string($conn, $_POST['om_exim_weighbridge_weight']);
+    $other_weighbridge_weight = mysqli_real_escape_string($conn, $_POST['other_weighbridge_weight']);
+    $weight_as_per_average_bag_weight = mysqli_real_escape_string($conn, $_POST['weight_as_per_average_bag_weight']);
+    $bill_weight = mysqli_real_escape_string($conn, $_POST['bill_weight']);
+    $weight_supervisor_name = mysqli_real_escape_string($conn, $_POST['weight_supervisor_name']);
+    $quality_supervisor_name = mysqli_real_escape_string($conn, $_POST['quality_supervisor_name']);
+    $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
     $date = date("Y-m-d H:i:s"); // You can format the date as needed
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
   // Prepare and bind
   $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `each_bag_weight`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");

@@ -13,17 +13,17 @@
       <!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#inward-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-box-arrow-in-right"></i><span>Inward</span><i class="bi bi-chevron-down ms-auto"></i>
+        <a class="nav-link collapsed" data-bs-target="#process-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-box-arrow-in-right"></i><span>Process</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="inward-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="process-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="inward-form.php">
+            <a href="process-form.php">
               <i class="bi bi-circle"></i><span>Form</span>
             </a>
           </li>
         </ul>
-      </li><!-- End inward Nav -->
+      </li><!-- End process Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
@@ -37,6 +37,7 @@
           </li>
         </ul>
       </li><!-- End inventory Nav -->
+
 
     </ul>
 

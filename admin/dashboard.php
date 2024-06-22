@@ -28,6 +28,28 @@ if ($resultTotal->num_rows > 0) {
 }
 
 
+
+$sql = "
+SELECT 
+    (SELECT COUNT(*) FROM `inward_master`) as countInward,
+    (SELECT COUNT(*) FROM `outward_master`) as countOutward,
+    (SELECT COUNT(*) FROM `process_master`) as countProcess
+";
+
+// Execute query and fetch result
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $countInward = $row['countInward'];
+    $countOutward = $row['countOutward'];
+    $countProcess = $row['countProcess'];
+} else {
+    $countInward = 0;
+    $countOutward = 0;
+    $countProcess = 0;
+}
+
 // echo "<script>console.log('Total Count: " . $totalCount . "');</script>";
 
 ?>
@@ -86,16 +108,15 @@ if ($resultTotal->num_rows > 0) {
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Items In Inward <span>| Today</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                      <h6><?php echo $countInward; ?></h6>
+                      <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
                     </div>
                   </div>
                 </div>
@@ -121,16 +142,15 @@ if ($resultTotal->num_rows > 0) {
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                  <h5 class="card-title">Items In Process <span>| Today</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>$3,264</h6>
-                      <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                      <h6><?php echo $countProcess; ?></h6>
+                      <!-- <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
                     </div>
                   </div>
                 </div>
@@ -157,15 +177,17 @@ if ($resultTotal->num_rows > 0) {
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Item's In Outward <span>| Today</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <h6>
+                        <?php echo $countOutward; ?>
+                      </h6>
+                      <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
 
                     </div>
                   </div>

@@ -530,7 +530,7 @@ function time_difference($timestamp) {
             <?php
                     foreach ($activities as $activity) {
                       $time_diff = time_difference($activity['activity_timestamp']);
-                      $activity_message = $activity['activity_details'] . ' by ' . $activity['email'];
+                      $activity_message =$activity['email'] . '  ' . $activity['activity_details'];
                       echo '
                           <div class="activity-item d-flex">
                               <div class="activite-label">' . $time_diff . '</div>

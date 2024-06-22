@@ -169,7 +169,7 @@ session_start();
         $user_type = $_SESSION['role']; // Assuming role itself can be the activity type
         $email = $_SESSION["username"];
         $user_id = $_SESSION['id'];
-        $activity_details = "User logged in";
+        $activity_details = "logged in";
         
         $stmt = $conn->prepare("
             INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)

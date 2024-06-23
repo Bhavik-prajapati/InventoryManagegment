@@ -65,6 +65,7 @@ if (isset($_POST['btn-adduser'])) {
                         $update_stmt->bind_param("ssssi", $username, $password, $role, $date, $id);
                         if ($update_stmt->execute()) {
                             echo '<script>alert("User updated successfully!");</script>';
+                            echo '<script>window.location.href="user-show.php";</script>';
                         } else {
                             echo "Error executing statement: " . $update_stmt->error;
                         }
@@ -140,7 +141,7 @@ if (isset($_POST['btn-adduser'])) {
                 <div class="row mb-3">
                   <label for="inputEmail" class="col-sm-2 col-form-label">Username</label>
                   <div class="col-sm-10">
-                    <input type="email" name="username" class="form-control" value="<?php echo isset($user['username']) ? $user['username'] : ''; ?>">
+                    <input type="text" name="username" class="form-control" value="<?php echo isset($user['username']) ? $user['username'] : ''; ?>">
                   </div>
                 </div>
                 <div class="row mb-3">

@@ -4,7 +4,7 @@ include("../config/connection.php");
   $tname = "user_master";
 
   // Perform SELECT query
-  $sql = "SELECT * FROM $tname";
+  $sql = "SELECT * FROM $tname order by id DESC";
   $result = $conn->query($sql);
 
 ?>

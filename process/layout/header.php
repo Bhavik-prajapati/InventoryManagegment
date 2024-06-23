@@ -1,3 +1,19 @@
+<?php
+  session_start(); // Start the session
+
+  if(isset($_SESSION['role']) && isset($_SESSION['username'])) {
+      if($_SESSION['role'] == "Process"){
+        $user_type = $_SESSION['role'];
+        $email = $_SESSION["username"];
+      }   
+      else{
+        echo "<script>window.location = '../index.php';</script>";
+      }
+  } else {
+    echo "<script>window.location = '../index.php';</script>";
+  }
+?>
+
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">

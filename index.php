@@ -51,7 +51,7 @@
         $stmt = $conn->prepare("
             INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
             VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-        $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $user_type, $activity_details);
+        $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
         $stmt->execute();
 
 

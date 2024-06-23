@@ -2,15 +2,84 @@
   include("config/connection.php");
   session_start();
   
-  // Check if cookies are set
-  if(isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
-    $username = $_COOKIE['username'];
-    $password = $_COOKIE['password'];
-    echo "Cookies are set. Username: " . $username . " Password: " . $password;
-  } else {
-    echo "Cookies are not set.";
+
+  $username_cookie = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
+  $password_cookie = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
+
+  echo "<script>console.log('".$username_cookie."')</script>";
+  echo "<script>console.log('".$password_cookie."')</script>";
+  echo "<script>console.log('helloworld')</script>";
+
+  if($username_cookie && $password_cookie){
+    echo "helloworld";
   }
 
+  
+  if (isset($_POST['login-btn'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $remember = $_POST['remember'];
+
+    $username = mysqli_real_escape_string($conn, $username);
+    $password = mysqli_real_escape_string($conn, $password);
+
+    $query = "SELECT * FROM user_master WHERE username='$username' AND password='$password'";
+
+
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    $_SESSION['id'] = $row['id'];
+
+    // echo "<script>console.log(".json_encode($_SESSION['id']).")</script>";
+    
+    $count = mysqli_num_rows($result);
+
+    if ($count == 1) {
+      $role = $row['role']; 
+      $_SESSION['username'] = $username;
+      $_SESSION['role'] = $role;
+        if (isset($remember)) {
+          setcookie("username", $username, time() + (86400 * 30), "/");
+          setcookie("password", $password, time() + (86400 * 30), "/");
+        }
+
+        $user_type = $_SESSION['role'];
+        $email = $_SESSION["username"];
+        $activity_details = "logged in";
+        
+        $stmt = $conn->prepare("
+            INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+        $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $user_type, $activity_details);
+        $stmt->execute();
+
+
+        if($role == "Inward"){
+          echo "<script>window.location = 'inward/inward-form.php';</script>";
+        }
+        elseif ($role == "Process") {
+          echo "<script>window.location = 'process/process-form.php';</script>";
+        }
+        elseif ($role == "Outward") {
+          echo "<script>window.location = 'outward/outward-form.php';</script>";
+        }
+        
+      } else {
+        echo "<script>alert('Login failed. Incorrect username or password.');</script>";
+        echo "<script>window.location = 'index.php';</script>";
+      }
+  }
+
+
+  // Check if cookies are set
+  // if(isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+  //   $username = $_COOKIE['username'];
+  //   $password = $_COOKIE['password'];
+  //   echo "Cookies are set. Username: " . $username . " Password: " . $password;
+  // } else {
+  //   echo "Cookies are not set.";
+  // }
 
 ?>
 
@@ -80,14 +149,14 @@
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo isset($_COOKIE['username']); ?>" required>
+                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo isset($_COOKIE['username']) ? htmlspecialchars($_COOKIE['username']) : ''; ?>" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo isset($_COOKIE['password']); ?>" required>
+                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo isset($_COOKIE['password']) ? htmlspecialchars($_COOKIE['password']) : ''; ?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -143,66 +212,3 @@
 
 </html>
 
-
-<?php
-
-  if (isset($_POST['login-btn'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $remember = $_POST['remember'];
-
-    $username = mysqli_real_escape_string($conn, $username);
-    $password = mysqli_real_escape_string($conn, $password);
-
-    $query = "SELECT * FROM user_master WHERE username='$username' AND password='$password'";
-
-
-
-
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-    $_SESSION['id'] = $row['id'];
-
-    // echo "<script>console.log(".json_encode($_SESSION['id']).")</script>";
-    
-    $count = mysqli_num_rows($result);
-
-    if ($count == 1) {
-      $role = $row['role']; 
-      $_SESSION['username'] = $username;
-      $_SESSION['role'] = $role;
-        if (isset($remember)) {
-          setcookie("username", $username, time() + (86400 * 30), "/");
-          setcookie("password", $password, time() + (86400 * 30), "/");
-        }
-
-        $user_type = $_SESSION['role']; // Assuming role itself can be the activity type
-        $email = $_SESSION["username"];
-        // $user_id = ;
-        $activity_details = "logged in";
-        
-        $stmt = $conn->prepare("
-            INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-        $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $user_type, $activity_details);
-        $stmt->execute();
-
-
-        if($role == "Inward"){
-          echo "<script>window.location = 'inward/inward-form.php';</script>";
-        }
-        elseif ($role == "Process") {
-          echo "<script>window.location = 'process/process-form.php';</script>";
-        }
-        elseif ($role == "Outward") {
-          echo "<script>window.location = 'outward/outward-form.php';</script>";
-        }
-        
-      } else {
-        echo "<script>alert('Login failed. Incorrect username or password.');</script>";
-        echo "<script>window.location = 'index.php';</script>";
-      }
-  }
-
-?>

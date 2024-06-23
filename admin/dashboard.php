@@ -53,7 +53,7 @@ if ($result->num_rows > 0) {
 // echo "<script>console.log('Total Count: " . $totalCount . "');</script>";
 
 //recent activities....
-$sqlactitivty = "SELECT * FROM activity_master";
+$sqlactitivty = "SELECT * FROM activity_master order by id desc";
 $recentdata = $conn->query($sqlactitivty);
 
 if ($recentdata->num_rows > 0) {
@@ -70,11 +70,13 @@ function time_difference($timestamp) {
   $activity_time = new DateTime($timestamp);
   $interval = $now->diff($activity_time);
 
-  if ($interval->h > 0) {
-      return $interval->h . ' hours ' . $interval->i . ' min';
-  } else {
-      return $interval->i . ' min';
+  $hours = $interval->h + ($interval->days * 24); // Consider the total hours including days
+
+  if ($interval->i >= 30) {
+    $hours += 1; // Round up if 30 minutes or more
   }
+
+  return $hours . ' hours';
 }
 
 

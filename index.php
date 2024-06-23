@@ -146,8 +146,9 @@ session_start();
 
     $query = "SELECT * FROM user_master WHERE username='$username' AND password='$password'";
 
-    
-    
+
+
+
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
@@ -168,13 +169,13 @@ session_start();
 
         $user_type = $_SESSION['role']; // Assuming role itself can be the activity type
         $email = $_SESSION["username"];
-        $user_id = $_SESSION['id'];
+        // $user_id = ;
         $activity_details = "logged in";
         
         $stmt = $conn->prepare("
             INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
             VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-        $stmt->bind_param('isss', $user_id, $email, $user_type, $activity_details);
+        $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $user_type, $activity_details);
         $stmt->execute();
 
 

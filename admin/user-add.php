@@ -1,5 +1,5 @@
 <?php
-  include("../config/connection.php");
+include("../config/connection.php");
 session_start();
 
 $sql = "SELECT role, COUNT(*) as count FROM user_master GROUP BY role";
@@ -58,13 +58,11 @@ if (isset($_POST['btn-adduser'])) {
             if ($check_stmt->num_rows > 0) {
                 echo '<script>alert("Username already exists. Please choose a different username.");</script>';
             } else {
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
                 if ($id) {
                     $update_query = "UPDATE user_master SET username = ?, password = ?, role = ?, date = ? WHERE id = ?";
                     $update_stmt = $conn->prepare($update_query);
                     if ($update_stmt) {
-                        $update_stmt->bind_param("ssssi", $username, $hashed_password, $role, $date, $id);
+                        $update_stmt->bind_param("ssssi", $username, $password, $role, $date, $id);
                         if ($update_stmt->execute()) {
                             echo '<script>alert("User updated successfully!");</script>';
                         } else {
@@ -78,7 +76,7 @@ if (isset($_POST['btn-adduser'])) {
                     $insert_query = "INSERT INTO user_master (username, password, role, date) VALUES (?, ?, ?, ?)";
                     $insert_stmt = $conn->prepare($insert_query);
                     if ($insert_stmt) {
-                        $insert_stmt->bind_param("ssss", $username, $hashed_password, $role, $date);
+                        $insert_stmt->bind_param("ssss", $username, $password, $role, $date);
                         if ($insert_stmt->execute()) {
                             echo '<script>alert("New user added successfully!");</script>';
                         } else {
@@ -100,7 +98,6 @@ if (isset($_POST['btn-adduser'])) {
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

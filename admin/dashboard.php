@@ -65,20 +65,41 @@ if ($recentdata->num_rows > 0) {
   echo "No recent data found";
 }
 
-function time_difference($timestamp) {
-  $now = new DateTime();
-  $activity_time = new DateTime($timestamp);
-  $interval = $now->diff($activity_time);
+function time_difference($datetime, $full = false) {
+  $now = new DateTime;
+  $ago = new DateTime($datetime);
+  $diff = $now->diff($ago);
 
-  $hours = $interval->h + ($interval->days * 24); // Consider the total hours including days
+  $diff->w = floor($diff->d / 7);
+  $diff->d -= $diff->w * 7;
 
-  if ($interval->i >= 30) {
-    $hours += 1; // Round up if 30 minutes or more
+  $string = [
+      'y' => 'year',
+      'm' => 'month',
+      'w' => 'week',
+      'd' => 'day',
+      'h' => 'hour',
+      'i' => 'minute',
+      's' => 'second',
+  ];
+  foreach ($string as $k => &$v) {
+      if ($diff->$k) {
+          $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+      } else {
+          unset($string[$k]);
+      }
   }
 
-  return $hours . ' hours';
+  if (!$full) $string = array_slice($string, 0, 1);
+  return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
 
+
+
+function format_datetime($datetime) {
+  $date = new DateTime($datetime, new DateTimeZone('Asia/Kolkata'));
+  return $date->format('h:i A, d-m-Y');
+}
 
 
 ?>
@@ -530,12 +551,15 @@ function time_difference($timestamp) {
             <h5 class="card-title">Recent Activity <span>| Today</span></h5>
             <div class="activity" style="max-height: 300px; overflow-y: auto;">
             <?php
+            // +++++++++
                     foreach ($activities as $activity) {
+                      // $time_diff = time_difference($activity['activity_timestamp']);
                       $time_diff = time_difference($activity['activity_timestamp']);
+                      $formatted_time = format_datetime($activity['activity_timestamp']);
                       $activity_message =$activity['email'] . '  ' . $activity['activity_details'];
                       echo '
                           <div class="activity-item d-flex">
-                              <div class="activite-label">' . $time_diff . '</div>
+                              <div class="activite-label" style="padding-right:10px;"> (' . $formatted_time . ')</div>
                               <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
                               <div class="activity-content">
                                   ' . $activity_message . '

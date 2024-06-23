@@ -1,6 +1,16 @@
 <?php
   include("config/connection.php");
-session_start();
+  session_start();
+  
+  // Check if cookies are set
+  if(isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+    $username = $_COOKIE['username'];
+    $password = $_COOKIE['password'];
+    echo "Cookies are set. Username: " . $username . " Password: " . $password;
+  } else {
+    echo "Cookies are not set.";
+  }
+
 
 ?>
 
@@ -70,14 +80,14 @@ session_start();
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo isset($_COOKIE['username']); ?>" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo isset($_COOKIE['password']); ?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -139,7 +149,7 @@ session_start();
   if (isset($_POST['login-btn'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $remember = isset($_POST['remember']);
+    $remember = $_POST['remember'];
 
     $username = mysqli_real_escape_string($conn, $username);
     $password = mysqli_real_escape_string($conn, $password);
@@ -162,9 +172,9 @@ session_start();
       $role = $row['role']; 
       $_SESSION['username'] = $username;
       $_SESSION['role'] = $role;
-        if ($remember) {
-          setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
-          setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes 
+        if (isset($remember)) {
+          setcookie("username", $username, time() + (86400 * 30), "/");
+          setcookie("password", $password, time() + (86400 * 30), "/");
         }
 
         $user_type = $_SESSION['role']; // Assuming role itself can be the activity type

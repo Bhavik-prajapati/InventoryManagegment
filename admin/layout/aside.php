@@ -23,7 +23,7 @@
           </li>
           <li>
             <a href="user-add.php">
-              <i class="bi bi-circle"></i><span>Add/Update</span>
+              <i class="bi bi-circle"></i><span>Add New</span>
             </a>
           </li>
         </ul>

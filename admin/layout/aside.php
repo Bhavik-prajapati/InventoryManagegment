@@ -12,6 +12,13 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="inventory-show.php">
+          <i class="bi bi-view-stacked"></i>
+          <span>Inventory</span>
+        </a>
+      </li><!-- End inventory Nav -->
+
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>

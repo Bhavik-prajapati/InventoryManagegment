@@ -21,7 +21,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Inward</h1>
+      <h1>Inward Form</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -37,85 +37,100 @@
                 <div class="row mb-4">
                   <label for="place" class="col-sm-2 col-form-label">Place</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="place" name="place">
+                    <input type="text" placeholder="Enter Place" class="form-control" id="place" name="place">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="supplier_name" class="col-sm-2 col-form-label">Supplier Name</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="supplier_name" name="supplier_name">
+                    <input type="text" placeholder="Enter Supplier Name" class="form-control" id="supplier_name" name="supplier_name">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="product_name" name="product_name">
+                    <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
+                    <select class="form-select" aria-label="Default select example" id="product_name" name="product_name">
+                      <option selected disabled>- - Select Product - -</option>
+                      <option value="ANARDANA">ANARDANA</option>
+                      <option value="ASAFOETIDA POWDER (HING)">ASAFOETIDA POWDER (HING)</option>
+                      <option value="CHILLI POWDER">CHILLI POWDER</option>
+                      <option value="CORIANDER SEEDS">CORIANDER SEEDS</option>
+                      <option value="CUMIN SEEDS">CUMIN SEEDS</option>
+                      <option value="CURRY POWDER">CURRY POWDER</option>
+                      <option value="FENNEL SEEDS">FENNEL SEEDS</option>
+                      <option value="FENUGREEK LEAVES">FENUGREEK LEAVES</option>
+                      <option value="FLEX SEEDS">FLEX SEEDS</option>
+                      <option value="MUSTARD SEEDS">MUSTARD SEEDS</option>
+                      <option value="NATURAL SESAME">NATURAL SESAME</option>
+                      <option value="PSYLLIUM HUSK">PSYLLIUM HUSK</option>
+                    </select>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="quality" class="col-sm-2 col-form-label">Quality</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="quality" name="quality">
+                    <input type="text" placeholder="Enter Quality" class="form-control" id="quality" name="quality">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="bags" class="col-sm-2 col-form-label">Bags</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="bags" name="bags">
+                    <input type="number" placeholder="Enter Bags" class="form-control" id="bags" name="bags">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="each_bag_weight" class="col-sm-2 col-form-label">Each Bag Weight</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="each_bag_weight" name="each_bag_weight">
+                    <input type="number" step="0.00000000001" placeholder="Enter Each Bag Weight" class="form-control" id="each_bag_weight" name="each_bag_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="rate" class="col-sm-2 col-form-label">Rate</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="rate" name="rate">
+                    <input type="number" placeholder="Enter Rate" class="form-control" id="rate" name="rate">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="om_exim_weighbridge_weight" class="col-sm-2 col-form-label">OM Exim Weighbridge Weight</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="om_exim_weighbridge_weight" name="om_exim_weighbridge_weight">
+                    <input type="number" placeholder="Enter OM Exim Weighbridge Weight" class="form-control" id="om_exim_weighbridge_weight" name="om_exim_weighbridge_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="other_weighbridge_weight" class="col-sm-2 col-form-label">Other Weighbridge Weight</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="other_weighbridge_weight" name="other_weighbridge_weight">
+                    <input type="number" placeholder="Enter Other Weighbridge Weight" class="form-control" id="other_weighbridge_weight" name="other_weighbridge_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="weight_as_per_average_bag_weight" class="col-sm-2 col-form-label">Weight as per Average Bag Weight</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="weight_as_per_average_bag_weight" name="weight_as_per_average_bag_weight">
+                    <input type="number" placeholder="Enter Weight as per Average Bag Weight" class="form-control" id="weight_as_per_average_bag_weight" name="weight_as_per_average_bag_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="bill_weight" class="col-sm-2 col-form-label">Bill Weight</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="bill_weight" name="bill_weight">
+                    <input type="number" placeholder="Enter Bill Weight" class="form-control" id="bill_weight" name="bill_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="weight_supervisor_name" class="col-sm-2 col-form-label">Weight Supervisor Name</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="weight_supervisor_name" name="weight_supervisor_name">
+                    <input type="text" placeholder="Enter Weight Supervisor Name" class="form-control" id="weight_supervisor_name" name="weight_supervisor_name">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="quality_supervisor_name" class="col-sm-2 col-form-label">Quality Supervisor Name</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="quality_supervisor_name" name="quality_supervisor_name">
+                    <input type="text" placeholder="Enter Quality Supervisor Name" class="form-control" id="quality_supervisor_name" name="quality_supervisor_name">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                   <div class="col-sm-10">
-                    <input type="text" value="demo field value" class="form-control" id="remarks" name="remarks">
+                    <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
                   </div>
                 </div>
 

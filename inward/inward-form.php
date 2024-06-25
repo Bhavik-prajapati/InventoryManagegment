@@ -88,31 +88,31 @@
                 <div class="row mb-4">
                   <label for="rate" class="col-sm-2 col-form-label">Rate</label>
                   <div class="col-sm-10">
-                    <input type="number" placeholder="Enter Rate" class="form-control" id="rate" name="rate">
+                    <input type="number" step="0.00000000001" placeholder="Enter Rate" class="form-control" id="rate" name="rate">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="om_exim_weighbridge_weight" class="col-sm-2 col-form-label">OM Exim Weighbridge Weight</label>
                   <div class="col-sm-10">
-                    <input type="number" placeholder="Enter OM Exim Weighbridge Weight" class="form-control" id="om_exim_weighbridge_weight" name="om_exim_weighbridge_weight">
+                    <input type="number" step="0.00000000001" placeholder="Enter OM Exim Weighbridge Weight" class="form-control" id="om_exim_weighbridge_weight" name="om_exim_weighbridge_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="other_weighbridge_weight" class="col-sm-2 col-form-label">Other Weighbridge Weight</label>
                   <div class="col-sm-10">
-                    <input type="number" placeholder="Enter Other Weighbridge Weight" class="form-control" id="other_weighbridge_weight" name="other_weighbridge_weight">
+                    <input type="number" step="0.00000000001" placeholder="Enter Other Weighbridge Weight" class="form-control" id="other_weighbridge_weight" name="other_weighbridge_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="weight_as_per_average_bag_weight" class="col-sm-2 col-form-label">Weight as per Average Bag Weight</label>
                   <div class="col-sm-10">
-                    <input type="number" placeholder="Enter Weight as per Average Bag Weight" class="form-control" id="weight_as_per_average_bag_weight" name="weight_as_per_average_bag_weight">
+                    <input type="number" step="0.00000000001" placeholder="Enter Weight as per Average Bag Weight" class="form-control" id="weight_as_per_average_bag_weight" name="weight_as_per_average_bag_weight">
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="bill_weight" class="col-sm-2 col-form-label">Bill Weight</label>
                   <div class="col-sm-10">
-                    <input type="number" placeholder="Enter Bill Weight" class="form-control" id="bill_weight" name="bill_weight">
+                    <input type="number" step="0.00000000001" placeholder="Enter Bill Weight" class="form-control" id="bill_weight" name="bill_weight">
                   </div>
                 </div>
                 <div class="row mb-4">

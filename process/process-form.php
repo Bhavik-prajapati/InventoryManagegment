@@ -1,5 +1,7 @@
 <?php
   include("../config/connection.php");
+  $in_sql = "SELECT * FROM inward_master";
+  $in_result = $conn->query($in_sql);
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +10,8 @@
 <head>
 <?php
     include("config/head-data.php");
-  ?>
+    ?>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
@@ -53,7 +56,19 @@
               <div class="row mb-4">
                 <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                 <div class="col-sm-10">
-                  <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name">
+                  <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
+                  <select class="form-select" aria-label="Default select example" id="product_name" name="product_name">
+                      <option selected disabled>- - Select Product - -</option>
+                      <?php
+                        if ($in_result->num_rows > 0) {
+                          while($in_row = $in_result->fetch_assoc()) {
+                      ?>
+                      <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"] ?></option>
+                      <?php 
+                          }
+                        }
+                      ?>
+                    </select>
                 </div>
               </div>
               <div class="row mb-4">
@@ -65,13 +80,19 @@
               <div class="row mb-4">
                 <label for="bags_quantity" class="col-sm-2 col-form-label">Bags Quantity</label>
                 <div class="col-sm-10">
-                  <input type="number" placeholder="Enter Bags Quantity" class="form-control" id="bags_quantity" name="bags_quantity">
+                  <!-- <input type="number" placeholder="Enter Bags Quantity" class="form-control" id="bags_quantity" name="bags_quantity"> -->
+                  <select class="form-select" aria-label="Default select example" id="bags_quantity" name="bags_quantity">
+                      <option selected disabled>- - Select Product First - -</option>
+                    </select>
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="each_bag_weight" class="col-sm-2 col-form-label">Each Bag Weight</label>
                 <div class="col-sm-10">
-                  <input type="number" step="0.00000000001" placeholder="Enter Each Bag Weight" class="form-control" id="each_bag_weight" name="each_bag_weight">
+                  <!-- <input type="number" step="0.00000000001" placeholder="Enter Each Bag Weight" class="form-control" id="each_bag_weight" name="each_bag_weight"> -->
+                  <select class="form-select" aria-label="Default select example" id="each_bag_weight" name="each_bag_weight">
+                      <option selected disabled>- - Select Bags Quantity First - -</option>
+                    </select>
                 </div>
               </div>
               <div class="row mb-4">
@@ -96,6 +117,59 @@
     </section>
 
   </main><!-- End #main -->
+
+  <script>
+    $(document).ready(function(){
+        $('#product_name').change(function(){
+            var product_name = $(this).val();
+            
+            // AJAX request to fetch data based on selected product_name
+            $.ajax({
+                url: 'fetch_bags.php',
+                type: 'post',
+                data: { product_name: product_name },
+                dataType: 'json',
+                success:function(response){
+                    var len = response.length;
+                    
+                    $('#bags_quantity').empty();
+                    $('#bags_quantity').append("<option selected disabled>- - Select Bags Quantity - -</option>");
+                    for( var i = 0; i<len; i++){
+                        var bags = response[i]['bags'];
+                        
+                        $('#bags_quantity').append("<option value='"+bags+"'>"+bags+"</option>");
+                    }
+                }
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $('#bags_quantity').change(function(){
+            var bags_quantity = $(this).val();
+            
+            // AJAX request to fetch data based on selected bags_quantity
+            $.ajax({
+                url: 'fetch_each_bag_weight.php',
+                type: 'post',
+                data: { bags_quantity: bags_quantity },
+                dataType: 'json',
+                success:function(response){
+                    var len = response.length;
+                    
+                    $('#each_bag_weight').empty();
+                    $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
+                    for( var i = 0; i<len; i++){
+                        var each_bag_weight = response[i]['each_bag_weight'];
+                        
+                        $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
+                    }
+                }
+            });
+        });
+    });
+
+    </script>
 
   <?php
     include("layout/footer.php");

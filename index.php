@@ -2,6 +2,17 @@
   include("config/connection.php");
   session_start();
   
+  if(isset($_SESSION['role']) && isset($_SESSION['username'])) {
+    if($_SESSION['role'] == "Inward"){
+      echo "<script>window.location = 'inward/inward-form.php';</script>";
+    }   
+    elseif ($_SESSION['role'] == "Process") {
+      echo "<script>window.location = 'process/process-form.php';</script>";
+    }
+    elseif ($_SESSION['role'] == "Outward") {
+      echo "<script>window.location = 'outward/outward-form.php';</script>";
+    }
+  }
 
   $username_cookie = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
   $password_cookie = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
@@ -10,9 +21,9 @@
   echo "<script>console.log('".$password_cookie."')</script>";
   echo "<script>console.log('helloworld')</script>";
 
-  if($username_cookie && $password_cookie){
-    echo "helloworld";
-  }
+  // if($username_cookie && $password_cookie){
+  //   echo "helloworld";
+  // }
 
   
   if (isset($_POST['login-btn'])) {

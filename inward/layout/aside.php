@@ -15,7 +15,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="inward-form.php">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>Inward</span>
+          <span>Inward Form</span>
         </a>
       </li><!-- End inward Nav -->
 

@@ -35,49 +35,49 @@
               <div class="row mb-4">
                 <label for="place" class="col-sm-2 col-form-label">Place</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="place" name="place">
+                  <input type="text" placeholder="Enter Place" class="form-control" id="place" name="place">
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="process_name" class="col-sm-2 col-form-label">Process Name</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="process_name" name="process_name">
+                  <input type="text" placeholder="Enter Process Name" class="form-control" id="process_name" name="process_name">
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="foreign_buyer_name" class="col-sm-2 col-form-label">Foreign Buyer Name</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="foreign_buyer_name" name="foreign_buyer_name">
+                  <input type="text" placeholder="Enter Foreign Buyer Name" class="form-control" id="foreign_buyer_name" name="foreign_buyer_name">
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="product_name" name="product_name">
+                  <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name">
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="weight_quality" class="col-sm-2 col-form-label">Weight Quality</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="weight_quality" name="weight_quality">
+                  <input type="text" placeholder="Enter Weight Quality" class="form-control" id="weight_quality" name="weight_quality">
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="bags_quantity" class="col-sm-2 col-form-label">Bags Quantity</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="bags_quantity" name="bags_quantity">
+                  <input type="number" placeholder="Enter Bags Quantity" class="form-control" id="bags_quantity" name="bags_quantity">
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="each_bag_weight" class="col-sm-2 col-form-label">Each Bag Weight</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="each_bag_weight" name="each_bag_weight">
+                  <input type="number" step="0.00000000001" placeholder="Enter Each Bag Weight" class="form-control" id="each_bag_weight" name="each_bag_weight">
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
-                  <input type="text" value="demo field value" class="form-control" id="remarks" name="remarks">
+                  <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
                 </div>
               </div>
               <div class="row mb-3">

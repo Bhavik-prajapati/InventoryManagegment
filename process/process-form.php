@@ -221,6 +221,18 @@ if (isset($_POST['btnSubmit'])) {
   
   // Close the connection
   $stmt->close();
+
+  
+
+
+  $bags_quantity = $bags_quantity - $bags_quantity;
+ 
+  $stmt = $conn->prepare("UPDATE `inward_master` SET `bags` = ?, `each_bag_weight` = ? WHERE `product_name` = ?");
+  $stmt->bind_param("sss", $bags_quantity, $each_bag_weight, $product_name);
+  $stmt->execute();
+  $stmt->close();
+  
+  
   $conn->close();
 
   

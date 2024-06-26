@@ -9,7 +9,9 @@ if(isset($_POST['bags_quantity'])){
     $bags_quantity = $conn->real_escape_string($bags_quantity);
     
     // Prepare SQL query
-    $sql = "SELECT DISTINCT each_bag_weight FROM inward_master WHERE bags = '$bags_quantity'";
+    // $sql = "SELECT DISTINCT each_bag_weight FROM inward_master_v2 WHERE bags = '$bags_quantity'";
+      $sql = "SELECT each_bag_weight FROM inward_master_v2 WHERE product_name = '$product_name'";
+
     
     // Execute SQL query
     $result = $conn->query($sql);

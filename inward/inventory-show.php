@@ -7,6 +7,30 @@ include("../config/connection.php");
   $sql = "SELECT * FROM $tname order by id DESC";
   $result = $conn->query($sql);
 
+
+  $sql2 = "
+SELECT 
+    im.product_name, 
+    CAST(im.bags AS SIGNED) AS bags_inward_master, 
+    CAST(imv2.bags AS SIGNED) AS bags_inward_master_v2, 
+    CAST(imv2.bags AS SIGNED) - CAST(im.bags AS SIGNED) AS difference
+FROM 
+    inward_master im
+JOIN 
+    inward_master_v2 imv2 
+ON 
+    im.product_name = imv2.product_name;
+";
+
+$result = $conn->query($sql2);
+
+$data = array();
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+}
+
+
+
 ?>
 
 
@@ -104,7 +128,35 @@ include("layout/aside.php");
         </div>
     </section>
 
+      
+    <div class="container">
+      <div class="card">
+
+      <?php
+
+      echo "<h2>Fetched Data:</h2>";
+      echo "<table border='1'>";
+      echo "<tr><th>Product Name</th><th>Bags Inward Master</th><th>Bags Inward Master V2</th>
+        <!-- <th>Difference</th> -->
+      </tr>";
+      foreach ($data as $row) {
+          echo "<tr>";
+          echo "<td>" . $row['product_name'] . "</td>";
+          echo "<td>" . $row['bags_inward_master'] . "</td>";
+          echo "<td>" . $row['bags_inward_master_v2'] . "</td>";
+          // echo "<td>" . $row['difference'] . "</td>";
+          echo "</tr>";
+      }
+      echo "</table>";
+
+      ?>
+     
+
+      </div>
+    </div>
+
   </main><!-- End #main -->
+
 
 <?php
 

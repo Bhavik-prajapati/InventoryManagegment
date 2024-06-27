@@ -104,6 +104,66 @@ include("layout/aside.php");
         </div>
     </section>
 
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body overflow-x-scroll">
+                        <h5 class="card-title">Available Stock</h5>
+
+                        <!-- Table with stripped rows -->
+                        <table class="table datatable">
+                            <thead>
+                              <tr>
+                                <th>Product Name</th>
+                                <th>Total Bags</th>
+                                <th>Available Bags</th>
+                                <!-- <th>Difference</th> -->
+                              </tr>
+                            </thead>
+                            <tbody>
+                                    <?php
+                                        $sql2 = "
+                                        SELECT 
+                                            im.product_name, 
+                                            CAST(im.bags AS SIGNED) AS bags_inward_master, 
+                                            CAST(imv2.bags AS SIGNED) AS bags_inward_master_v2, 
+                                            CAST(imv2.bags AS SIGNED) - CAST(im.bags AS SIGNED) AS difference
+                                        FROM 
+                                            inward_master im
+                                        JOIN 
+                                            inward_master_v2 imv2 
+                                        ON 
+                                            im.product_name = imv2.product_name;
+                                        ";
+
+                                        $result = $conn->query($sql2);
+
+                                        $data = array();
+                                        while ($row = $result->fetch_assoc()) {
+                                            $data[] = $row;
+                                        }
+                                        foreach ($data as $row) {
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $row["product_name"] ?></td>
+                                            <td><?php echo $row["bags_inward_master"] ?></td>
+                                            <td><?php echo $row["bags_inward_master_v2"] ?></td>
+                                        </tr>
+                                        <?php 
+                                    }
+                                  ?>
+                                    <tbody>
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
   </main><!-- End #main -->
 
 <?php

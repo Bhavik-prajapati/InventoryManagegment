@@ -1,6 +1,6 @@
 <?php
   include("../config/connection.php");
-  $in_sql = "SELECT * FROM inward_master";
+  $in_sql = "SELECT * FROM inward_master_v2";
   $in_result = $conn->query($in_sql);
 ?>
 
@@ -81,9 +81,16 @@
                 <label for="bags_quantity" class="col-sm-2 col-form-label">Bags Quantity</label>
                 <div class="col-sm-10">
                   <!-- <input type="number" placeholder="Enter Bags Quantity" class="form-control" id="bags_quantity" name="bags_quantity"> -->
+                  <input type="hidden" class="form-control" id="totalbags" name="totalbags">
                   <select class="form-select" aria-label="Default select example" id="bags_quantity" name="bags_quantity">
                       <option selected disabled>- - Select Product First - -</option>
                     </select>
+
+                    <!-- <input type="number" class="form-control" placeholder="Enter Bags Quantity" list="bags_quantity" name="bags_quantity" id="input-datalist">
+                    <datalist id="bags_quantity">
+                        <option>- - Select Product First - -</option>
+                    </datalist>   -->
+
                 </div>
               </div>
               <div class="row mb-4">
@@ -93,6 +100,12 @@
                   <select class="form-select" aria-label="Default select example" id="each_bag_weight" name="each_bag_weight">
                       <option selected disabled>- - Select Bags Quantity First - -</option>
                     </select>
+
+                    <!-- <input type="number" class="form-control" placeholder="Enter Each Bag Weight" list="each_bag_weight" name="each_bag_weight" id="input-datalist">
+                    <datalist id="each_bag_weight">
+                        <option>- - Select Product First - -</option>
+                    </datalist>  -->
+
                 </div>
               </div>
               <div class="row mb-4">
@@ -119,55 +132,78 @@
   </main><!-- End #main -->
 
   <script>
-    $(document).ready(function(){
-        $('#product_name').change(function(){
-            var product_name = $(this).val();
-            
-            // AJAX request to fetch data based on selected product_name
-            $.ajax({
-                url: 'fetch_bags.php',
-                type: 'post',
-                data: { product_name: product_name },
-                dataType: 'json',
-                success:function(response){
-                    var len = response.length;
-                    
-                    $('#bags_quantity').empty();
-                    $('#bags_quantity').append("<option selected disabled>- - Select Bags Quantity - -</option>");
-                    for( var i = 0; i<len; i++){
-                        var bags = response[i]['bags'];
-                        
-                        $('#bags_quantity').append("<option value='"+bags+"'>"+bags+"</option>");
-                    }
+$(document).ready(function(){
+    $('#product_name').change(function(){
+        var product_name = $(this).val();
+        
+        // AJAX request to fetch data based on selected product_name
+        $.ajax({
+            url: 'fetch_bags.php',
+            type: 'post',
+            data: { product_name: product_name },
+            dataType: 'json',
+            success:function(response){
+                var maxBags = response[0]['bags'];  // Assuming response contains the maximum number of bags
+                $('#totalbags').val(maxBags);
+                $('#bags_quantity').empty();
+                $('#bags_quantity').append("<option selected disabled>- - Select Bags Quantity - -</option>");
+                for(var i = 1; i <= maxBags; i++){
+                    $('#bags_quantity').append("<option value='"+i+"'>"+i+"</option>");
                 }
-            });
+            }
         });
     });
+});
 
-    $(document).ready(function(){
-        $('#bags_quantity').change(function(){
-            var bags_quantity = $(this).val();
-            
-            // AJAX request to fetch data based on selected bags_quantity
-            $.ajax({
-                url: 'fetch_each_bag_weight.php',
-                type: 'post',
-                data: { bags_quantity: bags_quantity },
-                dataType: 'json',
-                success:function(response){
-                    var len = response.length;
-                    
-                    $('#each_bag_weight').empty();
-                    $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
-                    for( var i = 0; i<len; i++){
-                        var each_bag_weight = response[i]['each_bag_weight'];
+$(document).ready(function(){
+            $('#product_name').change(function(){
+                var product_name = $(this).val();
+                
+                // AJAX request to fetch data based on selected product_name
+                $.ajax({
+                    url: 'fetch_bags.php',
+                    type: 'post',
+                    data: { product_name: product_name },
+                    dataType: 'json',
+                    success:function(response){
+                        var len = response.length;
                         
-                        $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
+                        $('#each_bag_weight').empty();
+                        $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
+                        for( var i = 0; i < len; i++){
+                            var each_bag_weight = response[i]['each_bag_weight'];
+                            
+                            $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
+                        }
                     }
-                }
+                });
             });
         });
-    });
+
+    // $(document).ready(function(){
+    //     $('#bags_quantity').change(function(){
+    //         var bags_quantity = $(this).val();
+            
+    //         // AJAX request to fetch data based on selected bags_quantity
+    //         $.ajax({
+    //             url: 'fetch_each_bag_weight.php',
+    //             type: 'post',
+    //             data: { bags_quantity: bags_quantity },
+    //             dataType: 'json',
+    //             success:function(response){
+    //                 var len = response.length;
+                    
+    //                 $('#each_bag_weight').empty();
+    //                 $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
+    //                 for( var i = 0; i<len; i++){
+    //                     var each_bag_weight = response[i]['each_bag_weight'];
+                        
+    //                     $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
+    //                 }
+    //             }
+    //         });
+    //     });
+    // });
 
     </script>
 
@@ -223,11 +259,11 @@ if (isset($_POST['btnSubmit'])) {
   $stmt->close();
 
   
-
-
-  $bags_quantity = $bags_quantity - $bags_quantity;
+  $totalbags = mysqli_real_escape_string($conn, $_POST['totalbags']);
  
-  $stmt = $conn->prepare("UPDATE `inward_master` SET `bags` = ?, `each_bag_weight` = ? WHERE `product_name` = ?");
+  $bags_quantity = $totalbags - $bags_quantity;
+ 
+  $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `bags` = ?, `each_bag_weight` = ? WHERE `product_name` = ?");
   $stmt->bind_param("sss", $bags_quantity, $each_bag_weight, $product_name);
   $stmt->execute();
   $stmt->close();

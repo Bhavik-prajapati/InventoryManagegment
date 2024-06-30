@@ -157,7 +157,7 @@ if (isset($_POST['login-btn'])) {
       setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
   }
     
-    echo "<script>window.location = 'dashboard.php';</script>";
+    echo "<script>window.location = 'inventory-show.php';</script>";
   } else {
     echo "<script>alert('Login failed. Incorrect username or password.');</script>";
     echo "<script>window.location = 'index.php';</script>";

@@ -57,7 +57,6 @@ include("layout/aside.php");
                                 <th>product name</th>
                                 <th>quality</th>
                                 <th>bags</th>
-                                <th>each bag weight</th>
                                 <th>rate</th>
                                 <th>om exim weighbridge weight</th>
                                 <th>other weighbridge weight</th>
@@ -66,6 +65,8 @@ include("layout/aside.php");
                                 <th>weight supervisor name</th>
                                 <th>quality supervisor name</th>
                                 <th>remarks</th>
+                                <th>vehicle_no</th>
+                                <th>container_no</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -80,7 +81,6 @@ include("layout/aside.php");
                                             <td><?php echo $row["product_name"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>
                                             <td><?php echo $row["bags"] ?></td>
-                                            <td><?php echo $row["each_bag_weight"] ?></td>
                                             <td><?php echo $row["rate"] ?></td>
                                             <td><?php echo $row["om_exim_weighbridge_weight"] ?></td>
                                             <td><?php echo $row["other_weighbridge_weight"] ?></td>
@@ -89,6 +89,8 @@ include("layout/aside.php");
                                             <td><?php echo $row["weight_supervisor_name"] ?></td>
                                             <td><?php echo $row["quality_supervisor_name"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
+                                            <td><?php echo $row["vehicle_no"] ?></td>
+                                            <td><?php echo $row["container_no"] ?></td>
                                         </tr>
                                         <?php 
                                     }

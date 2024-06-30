@@ -133,6 +133,18 @@
                     <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
                   </div>
                 </div>
+                <div class="row mb-4">
+                  <label for="vehicle_no" class="col-sm-2 col-form-label">vehicle_no</label>
+                  <div class="col-sm-10">
+                    <input type="text" placeholder="Enter Vehicle" class="form-control" id="vehicle_no" name="vehicle_no">
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <label for="container_no" class="col-sm-2 col-form-label">container_no</label>
+                  <div class="col-sm-10">
+                    <input type="text" placeholder="Enter container_no" class="form-control" id="container_no" name="container_no">
+                  </div>
+                </div>
 
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label"></label>
@@ -207,39 +219,35 @@ if (isset($_POST['btnSubmit'])) {
     $weight_supervisor_name = mysqli_real_escape_string($conn, $_POST['weight_supervisor_name']);
     $quality_supervisor_name = mysqli_real_escape_string($conn, $_POST['quality_supervisor_name']);
     $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
-    $date = date("Y-m-d H:i:s"); // You can format the date as needed
-
+    $date = date("Y-m-d H:i:s");  
+    $vehicle_no = mysqli_real_escape_string($conn, $_POST['vehicle_no']);
+    $container_no = mysqli_real_escape_string($conn, $_POST['container_no']);
 
   // Prepare and bind
-  $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `each_bag_weight`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("sssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date);
+  $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  $stmt->bind_param("ssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
 
-    // Execute the query
-    if ($stmt->execute()) {
-        echo "New record created successfully";
+  if ($stmt->execute()) {
+    echo "New record created successfully";
 
-        $activity_details = "entered inward item";
-        
-        $stmt = $conn->prepare("
-            INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-        $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
-        $stmt->execute();
+    $activity_details = "entered inward item";
 
+    $stmt = $conn->prepare("INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details) VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+    $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
+    $stmt->execute();
 
-    } else {
-        echo "Error: " . $stmt->error;
-    }
+  } else {
+      echo "Error: " . $stmt->error;
+  }
 
-    // Close the connection
-    $stmt->close();
+$stmt->close();
 
       // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `each_bag_weight`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date);
+      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("ssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
+
     $stmt->execute();
     $stmt->close();
-
-    $conn->close();
+    $conn->close(); 
 }
 ?>

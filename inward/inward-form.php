@@ -9,6 +9,43 @@
 <?php
     include("config/head-data.php");
   ?>
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+<script>
+        function validateForm() {
+            let form = document.forms["dataForm"];
+            let place = form["place"].value;
+            let supplierName = form["supplier_name"].value;
+            let productName = form["product_name"].value;
+            let quality = form["quality"].value;
+            let bags = form["bags"].value;
+            let eachBagWeight = form["each_bag_weight"].value;
+            let rate = form["rate"].value;
+            let omEximWeight = form["om_exim_weighbridge_weight"].value;
+            let otherWeight = form["other_weighbridge_weight"].value;
+            let avgBagWeight = form["weight_as_per_average_bag_weight"].value;
+            let billWeight = form["bill_weight"].value;
+            let weightSupervisor = form["weight_supervisor_name"].value;
+            let qualitySupervisor = form["quality_supervisor_name"].value;
+            let vehicleNo = form["vehicle_no"].value;
+            let containerNo = form["container_no"].value;
+            let remarks = form["remarks"].value;
+
+            // Validate non-empty fields
+            if (!place || !supplierName || !productName || !quality || !bags || !eachBagWeight || !rate || !omEximWeight || !otherWeight || !avgBagWeight || !billWeight || !weightSupervisor || !qualitySupervisor || !vehicleNo || !containerNo) {
+                alert("Please fill out all required fields.");
+                return false;
+            }
+
+            // Custom validation for numeric values
+            if (bags <= 0 || eachBagWeight <= 0 || rate <= 0 || omEximWeight <= 0 || otherWeight <= 0 || avgBagWeight <= 0 || billWeight <= 0) {
+                alert("Numeric values must be greater than zero.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
 </head>
 
 <body>
@@ -31,13 +68,14 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"></h5>
-              <form method="post" action="">
+              <form  name="dataForm" method="post" action="" onsubmit="return validateForm()">
                 
 
                 <div class="row mb-4">
                   <label for="place" class="col-sm-2 col-form-label">Place</label>
                   <div class="col-sm-10">
                     <input type="text" placeholder="Enter Place" class="form-control" id="place" name="place">
+                    <label id="place_validation" class="text-danger"><small>*Enter Place</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
@@ -348,13 +386,67 @@
                 <div class="row mb-4">
                   <label for="weight_supervisor_name" class="col-sm-2 col-form-label">Weight Supervisor Name</label>
                   <div class="col-sm-10">
-                    <input type="text" placeholder="Enter Weight Supervisor Name" class="form-control" id="weight_supervisor_name" name="weight_supervisor_name">
+                    <!-- <input type="text" placeholder="Enter Weight Supervisor Name" class="form-control" id="weight_supervisor_name" name="weight_supervisor_name"> -->
+                    <select class="form-select" aria-label="Default select example" id="weight_supervisor_name" name="weight_supervisor_name">
+                      <option selected disabled>- - Select Weight Supervisor Name - -</option>
+                      <option value="Jignesh Patel">Jignesh Patel</option>
+                      <option value="Kaushal Patel">Kaushal Patel</option>
+                      <option value="Dipesh Patel">Dipesh Patel</option>
+                      <option value="Rajesh Suthar">Rajesh Suthar</option>
+                      <option value="Karan Raval">Karan Raval</option>
+                      <option value="Kirti Chavda">Kirti Chavda</option>
+                      <option value="Riya Surti">Riya Surti</option>
+                      <option value="Dhruv Patel">Dhruv Patel</option>
+                      <option value="Rajnikant">Rajnikant</option>
+                      <option value="Ramesh Patel">Ramesh Patel</option>
+                      <option value="Divakarji">Divakarji</option>
+                      <option value="Paresh Lodha">Paresh Lodha</option>
+                      <option value="Krushn Damor">Krushn Damor</option>
+                      <option value="Meet Patel">Meet Patel</option>
+                      <option value="Binoy Prajapati">Binoy Prajapati</option>
+                      <option value="Prinjal Patel">Prinjal Patel</option>
+                      <option value="Jay Vyas">Jay Vyas</option>
+                      <option value="Hardik Panchal">Hardik Panchal</option>
+                      <option value="Ronak Patel">Ronak Patel</option>
+                      <option value="Shubh">Shubh</option>
+                      <option value="Manth Patel">Manth Patel</option>
+                      <option value="Vipul Patel">Vipul Patel</option>
+                      <option value="Vikram">Vikram</option>
+                      <option value="Rameshbhai">Rameshbhai</option>
+                    </select>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="quality_supervisor_name" class="col-sm-2 col-form-label">Quality Supervisor Name</label>
                   <div class="col-sm-10">
-                    <input type="text" placeholder="Enter Quality Supervisor Name" class="form-control" id="quality_supervisor_name" name="quality_supervisor_name">
+                    <!-- <input type="text" placeholder="Enter Quality Supervisor Name" class="form-control" id="quality_supervisor_name" name="quality_supervisor_name"> -->
+                    <select class="form-select" aria-label="Default select example" id="quality_supervisor_name" name="quality_supervisor_name">
+                      <option selected disabled>- - Select Quality Supervisor Name - -</option>
+                      <option value="Jignesh Patel">Jignesh Patel</option>
+                      <option value="Kaushal Patel">Kaushal Patel</option>
+                      <option value="Dipesh Patel">Dipesh Patel</option>
+                      <option value="Rajesh Suthar">Rajesh Suthar</option>
+                      <option value="Karan Raval">Karan Raval</option>
+                      <option value="Kirti Chavda">Kirti Chavda</option>
+                      <option value="Riya Surti">Riya Surti</option>
+                      <option value="Dhruv Patel">Dhruv Patel</option>
+                      <option value="Rajnikant">Rajnikant</option>
+                      <option value="Ramesh Patel">Ramesh Patel</option>
+                      <option value="Divakarji">Divakarji</option>
+                      <option value="Paresh Lodha">Paresh Lodha</option>
+                      <option value="Krushn Damor">Krushn Damor</option>
+                      <option value="Meet Patel">Meet Patel</option>
+                      <option value="Binoy Prajapati">Binoy Prajapati</option>
+                      <option value="Prinjal Patel">Prinjal Patel</option>
+                      <option value="Jay Vyas">Jay Vyas</option>
+                      <option value="Hardik Panchal">Hardik Panchal</option>
+                      <option value="Ronak Patel">Ronak Patel</option>
+                      <option value="Shubh">Shubh</option>
+                      <option value="Manth Patel">Manth Patel</option>
+                      <option value="Vipul Patel">Vipul Patel</option>
+                      <option value="Vikram">Vikram</option>
+                      <option value="Rameshbhai">Rameshbhai</option>
+                    </select>
                   </div>
                 </div>
                 <div class="row mb-4">
@@ -364,15 +456,15 @@
                   </div>
                 </div>
                 <div class="row mb-4">
-                  <label for="vehicle_no" class="col-sm-2 col-form-label">vehicle_no</label>
+                  <label for="vehicle_no" class="col-sm-2 col-form-label">Vehicle No</label>
                   <div class="col-sm-10">
-                    <input type="text" placeholder="Enter Vehicle" class="form-control" id="vehicle_no" name="vehicle_no">
+                    <input type="text" placeholder="Enter Vehicle No" class="form-control" id="vehicle_no" name="vehicle_no">
                   </div>
                 </div>
                 <div class="row mb-4">
-                  <label for="container_no" class="col-sm-2 col-form-label">container_no</label>
+                  <label for="container_no" class="col-sm-2 col-form-label">Container No</label>
                   <div class="col-sm-10">
-                    <input type="text" placeholder="Enter container_no" class="form-control" id="container_no" name="container_no">
+                    <input type="text" placeholder="Enter Container No" class="form-control" id="container_no" name="container_no">
                   </div>
                 </div>
 

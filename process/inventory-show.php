@@ -7,6 +7,9 @@ include("../config/connection.php");
   $sql = "SELECT * FROM $tname order by id DESC";
   $result = $conn->query($sql);
 
+
+
+
 ?>
 
 
@@ -57,7 +60,7 @@ include("layout/aside.php");
                                 <th>product name</th>
                                 <th>quality</th>
                                 <th>bags</th>
-                                <th>each bag weight</th>
+                                <th>total kg</th>
                                 <th>rate</th>
                                 <th>om exim weighbridge weight</th>
                                 <th>other weighbridge weight</th>
@@ -66,6 +69,8 @@ include("layout/aside.php");
                                 <th>weight supervisor name</th>
                                 <th>quality supervisor name</th>
                                 <th>remarks</th>
+                                <th>vehicle_no</th>
+                                <th>container_no</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -80,7 +85,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["product_name"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>
                                             <td><?php echo $row["bags"] ?></td>
-                                            <td><?php echo $row["each_bag_weight"] ?></td>
+                                            <td><?php echo $row["total_kg"] ?></td>
                                             <td><?php echo $row["rate"] ?></td>
                                             <td><?php echo $row["om_exim_weighbridge_weight"] ?></td>
                                             <td><?php echo $row["other_weighbridge_weight"] ?></td>
@@ -89,6 +94,8 @@ include("layout/aside.php");
                                             <td><?php echo $row["weight_supervisor_name"] ?></td>
                                             <td><?php echo $row["quality_supervisor_name"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
+                                            <td><?php echo $row["vehicle_no"] ?></td>
+                                            <td><?php echo $row["container_no"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -104,7 +111,35 @@ include("layout/aside.php");
         </div>
     </section>
 
-    
+      
+    <!-- <div class="container">
+      <div class="card"> -->
+
+      <?php
+
+
+
+      // echo "<h2>Fetched Data:</h2>";
+      // echo "<table border='1'>";
+      // echo "<tr><th>Product Name</th><th>Bags Inward Master</th><th>Bags Inward Master V2</th>
+      //   <!-- <th>Difference</th> -->
+      // </tr>";
+      // foreach ($data as $row) {
+      //     echo "<tr>";
+      //     echo "<td>" . $row['product_name'] . "</td>";
+      //     echo "<td>" . $row['bags_inward_master'] . "</td>";
+      //     echo "<td>" . $row['bags_inward_master_v2'] . "</td>";
+      //     // echo "<td>" . $row['difference'] . "</td>";
+      //     echo "</tr>";
+      // }
+      // echo "</table>";
+
+      ?>
+     
+<!-- 
+      </div>
+    </div> -->
+
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -117,20 +152,28 @@ include("layout/aside.php");
                         <table class="table datatable">
                             <thead>
                               <tr>
-                                <th>Product Name</th>
-                                <th>Total Bags</th>
-                                <th>Available Bags</th>
-                                <!-- <th>Difference</th> -->
+                              <th>Product Name</th>
+                              <th>Supplier Name</th>
+                              <th>Quality</th>
+                              <th>Rate</th>
+                              <th>Place</th>
+                              <th>Total Kg</th>
+                              <th>Available Kg</th>
                               </tr>
                             </thead>
                             <tbody>
                                     <?php
                                         $sql2 = "
                                         SELECT 
-                                            im.product_name, 
-                                            CAST(im.bags AS SIGNED) AS bags_inward_master, 
-                                            CAST(imv2.bags AS SIGNED) AS bags_inward_master_v2, 
-                                            CAST(imv2.bags AS SIGNED) - CAST(im.bags AS SIGNED) AS difference
+                                            imv2.product_name, 
+                                            imv2.supplier_name, 
+                                            imv2.quality, 
+                                            imv2.rate, 
+                                            imv2.place, 
+                                            imv2.total_kg, 
+                                            CAST(im.total_kg AS SIGNED) AS total_kg_inward_master, 
+                                            CAST(imv2.total_kg AS SIGNED) AS total_kg_inward_master_v2, 
+                                            CAST(imv2.total_kg AS SIGNED) - CAST(im.total_kg AS SIGNED) AS difference
                                         FROM 
                                             inward_master im
                                         JOIN 
@@ -149,8 +192,13 @@ include("layout/aside.php");
                                     ?>
                                         <tr>
                                             <td><?php echo $row["product_name"] ?></td>
-                                            <td><?php echo $row["bags_inward_master"] ?></td>
-                                            <td><?php echo $row["bags_inward_master_v2"] ?></td>
+                                            <td><?php echo $row["supplier_name"] ?></td>
+                                            <td><?php echo $row["quality"] ?></td>
+                                            <td><?php echo $row["rate"] ?></td>
+                                            <td><?php echo $row["place"] ?></td>
+                                            <td><?php echo $row["total_kg_inward_master"] ?></td>
+                                            <!-- <td><?php echo $row["bags_inward_master"] ?></td> -->
+                                            <td><?php echo $row["total_kg_inward_master_v2"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -167,6 +215,7 @@ include("layout/aside.php");
 
 
   </main><!-- End #main -->
+
 
 <?php
 

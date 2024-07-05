@@ -1,5 +1,4 @@
 <?php
-  session_start(); // Start the session
 
   if(isset($_SESSION['role']) && isset($_SESSION['username'])) {
     if($_SESSION['role'] == "Inward"){

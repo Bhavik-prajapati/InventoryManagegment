@@ -6,45 +6,76 @@
 <html lang="en">
 
 <head>
-<?php
+  <?php
     include("config/head-data.php");
   ?>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+  <style>
+    .text-danger {
+      display: none;
+    }
+  </style>
+
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <script>
-        function validateForm() {
-            let form = document.forms["dataForm"];
-            let place = form["place"].value;
-            let supplierName = form["supplier_name"].value;
-            let productName = form["product_name"].value;
-            let quality = form["quality"].value;
-            let bags = form["bags"].value;
-            let eachBagWeight = form["each_bag_weight"].value;
-            let rate = form["rate"].value;
-            let omEximWeight = form["om_exim_weighbridge_weight"].value;
-            let otherWeight = form["other_weighbridge_weight"].value;
-            let avgBagWeight = form["weight_as_per_average_bag_weight"].value;
-            let billWeight = form["bill_weight"].value;
-            let weightSupervisor = form["weight_supervisor_name"].value;
-            let qualitySupervisor = form["quality_supervisor_name"].value;
-            let vehicleNo = form["vehicle_no"].value;
-            let containerNo = form["container_no"].value;
-            let remarks = form["remarks"].value;
+  function validateForm() {
+    let form = document.forms["dataForm"];
+    let valid = true;
 
-            // Validate non-empty fields
-            if (!place || !supplierName || !productName || !quality || !bags || !eachBagWeight || !rate || !omEximWeight || !otherWeight || !avgBagWeight || !billWeight || !weightSupervisor || !qualitySupervisor || !vehicleNo || !containerNo) {
-                alert("Please fill out all required fields.");
-                return false;
-            }
+    function checkField(fieldName, labelId) {
+      let field = form[fieldName].value;
+      let label = document.getElementById(labelId);
+      if (!field) {
+        label.style.display = 'block';
+        valid = false;
+      } else {
+        label.style.display = 'none';
+      }
+    }
 
-            // Custom validation for numeric values
-            if (bags <= 0 || eachBagWeight <= 0 || rate <= 0 || omEximWeight <= 0 || otherWeight <= 0 || avgBagWeight <= 0 || billWeight <= 0) {
-                alert("Numeric values must be greater than zero.");
-                return false;
-            }
+    // Validate each field
+    checkField("place", "place_validation");
+    checkField("supplier_name", "supplier_name_validation");
+    checkField("product_name", "product_name_validation");
+    checkField("quality", "quality_validation");
+    checkField("bags", "bags_validation");
+    checkField("each_bag_weight", "each_bag_weight_validation");
+    checkField("rate", "rate_validation");
+    checkField("om_exim_weighbridge_weight", "om_exim_weighbridge_weight_validation");
+    checkField("other_weighbridge_weight", "other_weighbridge_weight_validation");
+    checkField("weight_as_per_average_bag_weight", "weight_as_per_average_bag_weight_validation");
+    checkField("bill_weight", "bill_weight_validation");
+    checkField("weight_supervisor_name", "weight_supervisor_name_validation");
+    checkField("quality_supervisor_name", "quality_supervisor_name_validation");
+    checkField("vehicle_no", "vehicle_no_validation");
+    checkField("container_no", "container_no_validation");
+    checkField("remarks", "remarks_validation");
 
-            return true;
-        }
-    </script>
+    // Custom validation for numeric values
+    // function checkNumericField(fieldName, labelId) {
+    //   let field = form[fieldName].value;
+    //   if (field <= 0) {
+    //     alert("Numeric values must be greater than zero.");
+    //     document.getElementById(labelId).style.display = 'block';
+    //     valid = false;
+    //   }
+    // }
+
+    // checkNumericField("bags", "bags_validation");
+    // checkNumericField("each_bag_weight", "each_bag_weight_validation");
+    // checkNumericField("rate", "rate_validation");
+    // checkNumericField("om_exim_weighbridge_weight", "om_exim_weighbridge_weight_validation");
+    // checkNumericField("other_weighbridge_weight", "other_weighbridge_weight_validation");
+    // checkNumericField("weight_as_per_average_bag_weight", "weight_as_per_average_bag_weight_validation");
+    // checkNumericField("bill_weight", "bill_weight_validation");
+
+    return valid;
+  }
+</script>
 
 </head>
 
@@ -82,14 +113,15 @@
                   <label for="supplier_name" class="col-sm-2 col-form-label">Supplier Name</label>
                   <div class="col-sm-10">
                     <input type="text" placeholder="Enter Supplier Name" class="form-control" id="supplier_name" name="supplier_name">
+                    <label id="supplier_name_validation" class="text-danger"><small>*Enter Supplier Name</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                   <div class="col-sm-10">
                     <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
-                    <select class="form-select" aria-label="Default select example" id="product_name" name="product_name">
-                      <option selected disabled>- - Select Product - -</option>
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
+                      <option value="" selected disabled>- - Select Product - -</option>
                       <option value="Ajwain Seeds">Ajwain Seeds</option>
                       <option value="AjinoMoto (MSG)">AjinoMoto (MSG)</option>
                       <option value="Amchur Powder">Amchur Powder</option>
@@ -333,54 +365,70 @@
                       <option value="Bambino Vermicelli Raw">Bambino Vermicelli Raw</option>
                       <option value="Bambino Vermicelli Roasted">Bambino Vermicelli Roasted</option>
                     </select>
+                    <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
                   </div>
                 </div>
+
+                <script>
+                  $(document).ready(function() {
+                    $('#product_name').select2();
+                  });
+                </script>
+
                 <div class="row mb-4">
                   <label for="quality" class="col-sm-2 col-form-label">Quality</label>
                   <div class="col-sm-10">
                     <input type="text" placeholder="Enter Quality" class="form-control" id="quality" name="quality">
+                    <label id="quality_validation" class="text-danger"><small>*Enter Quality</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="bags" class="col-sm-2 col-form-label">Bags</label>
                   <div class="col-sm-10">
                     <input type="number" placeholder="Enter Bags" class="form-control" id="bags" name="bags">
+                    <label id="bags_validation" class="text-danger"><small>*Enter Bags</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
-                  <label for="each_bag_weight" class="col-sm-2 col-form-label">Each Bag Weight</label>
+                  <label for="each_bag_weight" class="col-sm-2 col-form-label">Total KG</label>
                   <div class="col-sm-10">
-                    <input type="number" step="0.00000000001" placeholder="Enter Each Bag Weight" class="form-control" id="each_bag_weight" name="each_bag_weight">
+                    <input type="number" step="0.00000000001" placeholder="Enter Total KG" class="form-control" id="each_bag_weight" name="each_bag_weight">
+                    <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Total KG</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="rate" class="col-sm-2 col-form-label">Rate</label>
                   <div class="col-sm-10">
                     <input type="number" step="0.00000000001" placeholder="Enter Rate" class="form-control" id="rate" name="rate">
+                    <label id="rate_validation" class="text-danger"><small>*Enter Rate</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="om_exim_weighbridge_weight" class="col-sm-2 col-form-label">OM Exim Weighbridge Weight</label>
                   <div class="col-sm-10">
                     <input type="number" step="0.00000000001" placeholder="Enter OM Exim Weighbridge Weight" class="form-control" id="om_exim_weighbridge_weight" name="om_exim_weighbridge_weight">
+                    <label id="om_exim_weighbridge_weight_validation" class="text-danger"><small>*Enter OM Exim Weighbridge Weight</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="other_weighbridge_weight" class="col-sm-2 col-form-label">Other Weighbridge Weight</label>
                   <div class="col-sm-10">
                     <input type="number" step="0.00000000001" placeholder="Enter Other Weighbridge Weight" class="form-control" id="other_weighbridge_weight" name="other_weighbridge_weight">
+                    <label id="other_weighbridge_weight_validation" class="text-danger"><small>*Enter Other Weighbridge Weight</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="weight_as_per_average_bag_weight" class="col-sm-2 col-form-label">Weight as per Average Bag Weight</label>
                   <div class="col-sm-10">
                     <input type="number" step="0.00000000001" placeholder="Enter Weight as per Average Bag Weight" class="form-control" id="weight_as_per_average_bag_weight" name="weight_as_per_average_bag_weight">
+                    <label id="weight_as_per_average_bag_weight_validation" class="text-danger"><small>*Enter Weight as per Average Bag Weight</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="bill_weight" class="col-sm-2 col-form-label">Bill Weight</label>
                   <div class="col-sm-10">
                     <input type="number" step="0.00000000001" placeholder="Enter Bill Weight" class="form-control" id="bill_weight" name="bill_weight">
+                    <label id="bill_weight_validation" class="text-danger"><small>*Enter Bill Weight</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
@@ -388,7 +436,7 @@
                   <div class="col-sm-10">
                     <!-- <input type="text" placeholder="Enter Weight Supervisor Name" class="form-control" id="weight_supervisor_name" name="weight_supervisor_name"> -->
                     <select class="form-select" aria-label="Default select example" id="weight_supervisor_name" name="weight_supervisor_name">
-                      <option selected disabled>- - Select Weight Supervisor Name - -</option>
+                      <option value="" selected disabled>- - Select Weight Supervisor Name - -</option>
                       <option value="Jignesh Patel">Jignesh Patel</option>
                       <option value="Kaushal Patel">Kaushal Patel</option>
                       <option value="Dipesh Patel">Dipesh Patel</option>
@@ -414,6 +462,7 @@
                       <option value="Vikram">Vikram</option>
                       <option value="Rameshbhai">Rameshbhai</option>
                     </select>
+                    <label id="weight_supervisor_name_validation" class="text-danger"><small>*Select Weight Supervisor Name</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
@@ -421,7 +470,7 @@
                   <div class="col-sm-10">
                     <!-- <input type="text" placeholder="Enter Quality Supervisor Name" class="form-control" id="quality_supervisor_name" name="quality_supervisor_name"> -->
                     <select class="form-select" aria-label="Default select example" id="quality_supervisor_name" name="quality_supervisor_name">
-                      <option selected disabled>- - Select Quality Supervisor Name - -</option>
+                      <option value="" selected disabled>- - Select Quality Supervisor Name - -</option>
                       <option value="Jignesh Patel">Jignesh Patel</option>
                       <option value="Kaushal Patel">Kaushal Patel</option>
                       <option value="Dipesh Patel">Dipesh Patel</option>
@@ -447,27 +496,30 @@
                       <option value="Vikram">Vikram</option>
                       <option value="Rameshbhai">Rameshbhai</option>
                     </select>
-                  </div>
-                </div>
-                <div class="row mb-4">
-                  <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
-                  <div class="col-sm-10">
-                    <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
+                    <label id="quality_supervisor_name_validation" class="text-danger"><small>*Select Quality Supervisor Name</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="vehicle_no" class="col-sm-2 col-form-label">Vehicle No</label>
                   <div class="col-sm-10">
                     <input type="text" placeholder="Enter Vehicle No" class="form-control" id="vehicle_no" name="vehicle_no">
+                    <label id="vehicle_no_validation" class="text-danger"><small>*Enter Vehicle No</small></label>
                   </div>
                 </div>
                 <div class="row mb-4">
                   <label for="container_no" class="col-sm-2 col-form-label">Container No</label>
                   <div class="col-sm-10">
                     <input type="text" placeholder="Enter Container No" class="form-control" id="container_no" name="container_no">
+                    <label id="container_no_validation" class="text-danger"><small>*Enter Container No</small></label>
                   </div>
                 </div>
-
+                <div class="row mb-4">
+                  <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
+                  <div class="col-sm-10">
+                    <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
+                    <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label>
+                  </div>
+                </div>
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label"></label>
                   <div class="col-sm-10">
@@ -546,8 +598,8 @@ if (isset($_POST['btnSubmit'])) {
     $container_no = mysqli_real_escape_string($conn, $_POST['container_no']);
 
   // Prepare and bind
-  $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("ssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
+  $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  $stmt->bind_param("sssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
 
   if ($stmt->execute()) {
     echo "New record created successfully";
@@ -565,8 +617,8 @@ if (isset($_POST['btnSubmit'])) {
 $stmt->close();
 
       // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
+      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `total_kg`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("sssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
 
     $stmt->execute();
     $stmt->close();

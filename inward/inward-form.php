@@ -73,6 +73,22 @@
     // checkNumericField("weight_as_per_average_bag_weight", "weight_as_per_average_bag_weight_validation");
     // checkNumericField("bill_weight", "bill_weight_validation");
 
+    const formFields = [
+    "place", "supplier_name", "product_name", "quality", "bags", 
+    "each_bag_weight", "rate", "om_exim_weighbridge_weight", 
+    "other_weighbridge_weight", "weight_as_per_average_bag_weight", 
+    "bill_weight", "weight_supervisor_name", "quality_supervisor_name", 
+    "vehicle_no", "container_no", "remarks"
+  ];
+
+  formFields.forEach(fieldName => {
+    document.getElementById(fieldName).onchange = function() {
+      validateForm(false);
+    };
+  });
+
+
+    
     return valid;
   }
 </script>
@@ -99,7 +115,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"></h5>
-              <form  name="dataForm" method="post" action="" onsubmit="return validateForm()">
+              <form  name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
                 
 
                 <div class="row mb-4">

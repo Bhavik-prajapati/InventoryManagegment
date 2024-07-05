@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 30, 2024 at 11:27 AM
+-- Generation Time: Jul 05, 2024 at 04:30 PM
 -- Server version: 5.7.31
--- PHP Version: 7.3.21
+-- PHP Version: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `activity_master` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `activity_master`
@@ -147,7 +147,27 @@ INSERT INTO `activity_master` (`id`, `user_id`, `email`, `user_type`, `activity_
 (40, 22, 'inward@gmail.com', 'Inward', '2024-06-30 06:11:47', 'entered inward item'),
 (41, 22, 'inward@gmail.com', 'Inward', '2024-06-30 06:14:37', 'entered inward item'),
 (42, 22, 'inward@gmail.com', 'Inward', '2024-06-30 06:19:12', 'entered inward item'),
-(43, 22, 'inward@gmail.com', 'Inward', '2024-06-30 07:28:24', 'logged in');
+(43, 22, 'inward@gmail.com', 'Inward', '2024-06-30 07:28:24', 'logged in'),
+(44, 1, 'demo001@gmail.com', 'Inward', '2024-07-03 15:58:40', 'entered inward item'),
+(45, 1, 'demo001@gmail.com', 'Inward', '2024-07-03 16:59:55', 'entered inward item'),
+(46, 1, 'demo001@gmail.com', 'Inward', '2024-07-03 17:01:18', 'entered inward item'),
+(47, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 09:01:58', 'logged in'),
+(48, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 09:02:01', 'entered inward item'),
+(49, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 09:04:06', 'entered inward item'),
+(50, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 09:05:50', 'entered inward item'),
+(51, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 13:05:50', 'logged in'),
+(52, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 15:01:57', 'logged in'),
+(53, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 15:56:31', 'logged in'),
+(54, 22, 'demo002@gmail.com', 'Process', '2024-07-04 15:59:38', 'logged in'),
+(55, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 16:01:53', 'logged in'),
+(56, 5, 'demo001@gmail.com', 'Inward', '2024-07-04 18:13:39', 'logged in'),
+(57, 5, 'demo001@gmail.com', 'Inward', '2024-07-05 06:00:38', 'logged in'),
+(58, 5, 'demo001@gmail.com', 'Inward', '2024-07-05 06:02:01', 'logged in'),
+(59, 22, 'demo002@gmail.com', 'Process', '2024-07-05 10:13:41', 'logged in'),
+(60, 22, 'admin', 'Process', '2024-07-05 11:24:48', 'entered process item'),
+(61, 22, 'admin', 'Process', '2024-07-05 11:44:40', 'entered process item'),
+(62, 22, 'admin', 'Process', '2024-07-05 11:44:41', 'entered process item'),
+(63, 22, 'admin', 'Process', '2024-07-05 11:44:42', 'entered process item');
 
 -- --------------------------------------------------------
 
@@ -185,6 +205,7 @@ CREATE TABLE IF NOT EXISTS `inward_master` (
   `product_name` text,
   `quality` text,
   `bags` text,
+  `total_kg` text,
   `rate` text,
   `om_exim_weighbridge_weight` text,
   `other_weighbridge_weight` text,
@@ -197,29 +218,14 @@ CREATE TABLE IF NOT EXISTS `inward_master` (
   `vehicle_no` text NOT NULL,
   `container_no` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `inward_master`
 --
 
-INSERT INTO `inward_master` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES
-(12, 'Place A', 'Supplier X', 'Product 1', 'High', '80', '20.0', '5050', '5050', '5050', '5000', 'Supervisor 1', 'Quality Supervisor 1', 'Remark 1', '2024-06-01', '', ''),
-(11, 'Place B', 'Supplier Y', 'Product 2', 'Medium', '200', '25.0', '6040', '6040', '6040', '6000', 'Supervisor 2', 'Quality Supervisor 2', 'Remark 2', '2024-06-02', '', ''),
-(10, 'Place A', 'Supplier X', 'Product 1', 'High', '80', '20.0', '5050', '5050', '5050', '5000', 'Supervisor 1', 'Quality Supervisor 1', 'Remark 1', '2024-06-01', '', ''),
-(9, 'demo field value2', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', '2024-06-23 16:59:02', '', ''),
-(8, 'testing data', 'testing data2', 'testing data3', 'testing data4', 'testing data', 'testing data', 'testing data', 'testing data', 'testing data', 'testing data', 'testing data', 'testing data', 'testing data', '2024-06-22 17:20:14', '', ''),
-(6, 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', '2024-06-20 14:45:08', '', ''),
-(7, 'demo field value1', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', '2024-06-20 14:45:11', '', ''),
-(13, 'Place B', 'Supplier Y', 'Product 2', 'Medium', '200', '25.0', '6040', '6040', '6040', '6000', 'Supervisor 2', 'Quality Supervisor 2', 'Remark 2', '2024-06-02', '', ''),
-(14, 'Place O', 'Supplier O', 'Product x', 'High', '100', '20.0', '5050', '5050', '5050', '5000', 'Supervisor x', 'Quality Supervisor 1', 'Remark 1', '2024-06-01', '', ''),
-(15, 'Place OO', 'Supplier OO', 'Product y', 'Medium', '200', '25.0', '6040', '6040', '6040', '6000', 'Supervisor y', 'Quality Supervisor 2', 'Remark 2', '2024-06-02', '', ''),
-(16, 'factory 1', 'factory1 supplier 1', 'CHILLI POWDER', 'good', '0', '100', '5', '5', '4.99999999999', '10', 'rahul kumar', 'bhavik kumar', 'no', '2024-06-26 15:24:09', '', ''),
-(17, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '130', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', ''),
-(18, 'virpur', 'jalaram bapa', 'FLEX SEEDS', 'split', '200', '10', '1000', '1000', '14000', '14000', 'jalaram bapa', 'jalaram bapa', 'PURITY 99.49%', '2024-06-26 17:08:45', '', ''),
-(19, 'hey', 'ehihdsihids', 'ANARDANA', '100', '100', '100', '100', '100', '100', '10000', 'hellobhai', 'heehello', 'pure', '2024-06-30 06:11:47', '', ''),
-(20, 'place 1', 'place 123', 'CHILLI POWDER', '100', '100', '100', '100100', '100', '100', '1000', 'naiidshidhsih', 'naiidshidhsih', 'naiidshidhsih', '2024-06-30 06:14:37', '123', '1'),
-(21, 'hey', 'hii', 'CUMIN SEEDS', '500', '500', '500', '500', '500', '500', '500', 'hehskhkshk', 'fskhdks', 'bfksbkb', '2024-06-30 06:19:12', '500', '5000000');
+INSERT INTO `inward_master` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES
+(17, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '130', '2500', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', '');
 
 -- --------------------------------------------------------
 
@@ -235,6 +241,7 @@ CREATE TABLE IF NOT EXISTS `inward_master_v2` (
   `product_name` text,
   `quality` text,
   `bags` text,
+  `total_kg` text,
   `rate` text,
   `om_exim_weighbridge_weight` text,
   `other_weighbridge_weight` text,
@@ -247,16 +254,14 @@ CREATE TABLE IF NOT EXISTS `inward_master_v2` (
   `vehicle_no` text NOT NULL,
   `container_no` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `inward_master_v2`
 --
 
-INSERT INTO `inward_master_v2` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES
-(1, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '100', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', ''),
-(2, 'virpur', 'jalaram bapa', 'FLEX SEEDS', 'split', '150', '10', '1000', '1000', '14000', '14000', 'jalaram bapa', 'jalaram bapa', 'PURITY 99.49%', '2024-06-26 17:08:45', '', ''),
-(3, 'hey', 'hii', 'CUMIN SEEDS', '500', '500', '500', '500', '500', '500', '500', 'hehskhkshk', 'fskhdks', 'bfksbkb', '2024-06-30 06:19:12', '500', '5000000');
+INSERT INTO `inward_master_v2` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES
+(1, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '100', '2500', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', '');
 
 -- --------------------------------------------------------
 
@@ -299,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `process_master` (
   `remarks` text,
   `date` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `process_master`
@@ -319,7 +324,11 @@ INSERT INTO `process_master` (`id`, `place`, `process_name`, `foreign_buyer_name
 (11, 'Place A', 'Process 00', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
 (12, 'Place B', 'Process OO', 'Buyer Y', 'Product 2', 'Medium', '20', '3.2', 'Remark Y', '2024-06-03'),
 (13, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(14, 'factory 1', 'demo 1 ', 'kaka ji', 'CHILLI POWDER', '10', '10', '10', 'no', '2024-06-26 15:26:01');
+(14, 'factory 1', 'demo 1 ', 'kaka ji', 'CHILLI POWDER', '10', '10', '10', 'no', '2024-06-26 15:26:01'),
+(15, '', '', '', '', '', '', '', '', '2024-07-05 11:24:48'),
+(16, '', '', '', 'CURRY POWDER', '', '', '', '', '2024-07-05 11:44:40'),
+(17, '', '', '', '', '', '', '', '', '2024-07-05 11:44:41'),
+(18, '', '', '', '', '', '', '', '', '2024-07-05 11:44:42');
 
 -- --------------------------------------------------------
 
@@ -343,7 +352,7 @@ CREATE TABLE IF NOT EXISTS `user_master` (
 
 INSERT INTO `user_master` (`id`, `role`, `username`, `password`, `date`) VALUES
 (20, 'Process', 'rahul@gmail.com', 'rahul@gmail.com', '2024-06-22 17:11:17'),
-(5, 'Inward', 'abcd@gmail.com', 'abcd@gmail.com', '2024-06-20 01:23:54'),
+(5, 'Inward', 'demo001@gmail.com', 'demo001@gmail.com', '2024-06-20 01:23:54'),
 (6, 'Inward', 'abcd@gmail.com', '$2y$10$2Vai2Mg1.ixbgw8G5CyvXuZkTpoR1x952JQ1P4C5jcfZln8.l5Z4e', '2024-06-20 01:27:18'),
 (7, 'Inward', 'abcd@gmail.com', '$2y$10$YpSjPvvrSFMPBgwAu.lVpetTTKoC0HUN8Bfl6ZeJTGL0syhIpQ/ra', '2024-06-20 01:27:27'),
 (10, 'Inward', 'test1@123', '$2y$10$3w1qEewrB3bH42hzmbGfEObiQ.1DKyIBG0uaVpocwvChM8wkrHniy', '2024-06-20 02:27:57'),
@@ -356,7 +365,7 @@ INSERT INTO `user_master` (`id`, `role`, `username`, `password`, `date`) VALUES
 (17, 'Inward', 'tarak@gmail.com', 'tarak@gmail.com', '2024-06-21 02:22:03'),
 (18, 'Process', 'testuser@123', '$2y$10$gO0LUdVDmBn7FG8sOPq4Bep8yQ1P2KOlzRHJ44cbDqUyFoTQ6rDQ6', '2024-06-22 16:48:32'),
 (21, 'Process', 'testing@123gmail.com', 'testing@123gmail.com', '2024-06-26 15:20:28'),
-(22, 'Inward', 'inward@gmail.com', 'inward@gmail.com', '2024-06-26 15:20:13');
+(22, 'Process', 'demo002@gmail.com', 'demo002@gmail.com', '2024-07-04 15:59:20');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

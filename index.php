@@ -1,6 +1,5 @@
 <?php
   include("config/connection.php");
-  session_start();
   
   if(isset($_SESSION['role']) && isset($_SESSION['username'])) {
     if($_SESSION['role'] == "Inward"){

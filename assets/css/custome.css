@@ -1,0 +1,37 @@
+*{
+    margin: 0;padding: 0;box-sizing: border-box;
+}
+input,
+select,
+textarea {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Optional: If you want to add a bottom border for visual separation */
+input,
+select,
+textarea {
+  border-bottom: 1px solid #ccc !important;
+}
+
+/* Optional: If you want to style the focus state */
+input:focus,
+select:focus,
+textarea:focus {
+  border-bottom-color: #007bff !important; /* Change to your preferred focus color */
+}
+
+button[type="submit"] {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 15px 32px; /* Add some padding */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make the button inline */
+    font-size: 16px; /* Increase font size */
+    margin: 4px 2px; /* Add some margin */
+    cursor: pointer; /* Add a pointer cursor on hover */
+    border-radius: 8px; /* Rounded corners */
+  }

@@ -1,6 +1,5 @@
 <?php
 include("../config/connection.php");
-session_start();
 
 $sql = "SELECT role, COUNT(*) as count FROM user_master GROUP BY role";
 $result = $conn->query($sql);

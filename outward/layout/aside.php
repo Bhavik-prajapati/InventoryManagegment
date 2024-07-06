@@ -13,18 +13,11 @@
       <!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="process-form.php">
-          <i class="bi bi-arrow-repeat"></i>
-          <span>Process Inward</span>
+        <a class="nav-link collapsed" href="inward-form.php">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Inward Form</span>
         </a>
-      </li><!-- End process Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="process-outward-form.php">
-          <i class="bi bi-arrow-repeat"></i>
-          <span>Process Outward</span>
-        </a>
-      </li><!-- End process Nav -->
+      </li><!-- End inward Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="inventory-show.php">

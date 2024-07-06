@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 05, 2024 at 04:30 PM
+-- Generation Time: Jul 06, 2024 at 08:38 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.4.9
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `activity_master` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `activity_master`
@@ -167,7 +167,16 @@ INSERT INTO `activity_master` (`id`, `user_id`, `email`, `user_type`, `activity_
 (60, 22, 'admin', 'Process', '2024-07-05 11:24:48', 'entered process item'),
 (61, 22, 'admin', 'Process', '2024-07-05 11:44:40', 'entered process item'),
 (62, 22, 'admin', 'Process', '2024-07-05 11:44:41', 'entered process item'),
-(63, 22, 'admin', 'Process', '2024-07-05 11:44:42', 'entered process item');
+(63, 22, 'admin', 'Process', '2024-07-05 11:44:42', 'entered process item'),
+(64, 5, 'demo001@gmail.com', 'Inward', '2024-07-05 16:32:18', 'logged in'),
+(65, 5, 'demo001@gmail.com', 'Inward', '2024-07-05 16:38:09', 'logged in'),
+(66, 5, 'demo001@gmail.com', 'Inward', '2024-07-05 16:39:45', 'logged in'),
+(67, 22, 'demo002@gmail.com', 'Process', '2024-07-05 17:15:31', 'logged in'),
+(68, 22, 'demo002@gmail.com', 'Process', '2024-07-06 05:10:09', 'logged in'),
+(69, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 06:26:00', 'logged in'),
+(70, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 08:11:46', 'entered inward item'),
+(71, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 08:14:23', 'entered inward item'),
+(72, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 08:14:48', 'entered inward item');
 
 -- --------------------------------------------------------
 
@@ -218,14 +227,17 @@ CREATE TABLE IF NOT EXISTS `inward_master` (
   `vehicle_no` text NOT NULL,
   `container_no` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `inward_master`
 --
 
 INSERT INTO `inward_master` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES
-(17, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '130', '2500', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', '');
+(17, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '130', '2500', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', ''),
+(28, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:11:46', '', ''),
+(29, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:14:23', '', ''),
+(30, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:14:48', '', '');
 
 -- --------------------------------------------------------
 
@@ -254,14 +266,17 @@ CREATE TABLE IF NOT EXISTS `inward_master_v2` (
   `vehicle_no` text NOT NULL,
   `container_no` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `inward_master_v2`
 --
 
 INSERT INTO `inward_master_v2` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES
-(1, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '100', '2500', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', '');
+(1, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '100', '2500', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', ''),
+(10, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:11:46', '', ''),
+(11, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:14:23', '', ''),
+(12, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:14:48', '', '');
 
 -- --------------------------------------------------------
 
@@ -272,18 +287,25 @@ INSERT INTO `inward_master_v2` (`id`, `place`, `supplier_name`, `product_name`, 
 DROP TABLE IF EXISTS `outward_master`;
 CREATE TABLE IF NOT EXISTS `outward_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `place` text,
-  `foreign_buyer_name` text,
-  `product_name` text,
-  `quality` text,
-  `bags_quantity` text,
-  `each_bag_weight` text,
-  `weighbridge_weight` text,
-  `invoice_weight` text,
-  `remarks` text,
   `date` text,
+  `product` text,
+  `quality` text,
+  `buyer_name` text,
+  `vehicle_number` text,
+  `container_number` text,
+  `quantity_per_kg` text,
+  `supervisor_name` text,
+  `gate_person_name` text,
+  `remarks` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `outward_master`
+--
+
+INSERT INTO `outward_master` (`id`, `date`, `product`, `quality`, `buyer_name`, `vehicle_number`, `container_number`, `quantity_per_kg`, `supervisor_name`, `gate_person_name`, `remarks`) VALUES
+(1, '2024-07-06', 'Demo Item', '4', 'asdasd', 'asd', 'asd', '324', 'asd', 'asd', 'asd');
 
 -- --------------------------------------------------------
 
@@ -357,7 +379,7 @@ INSERT INTO `user_master` (`id`, `role`, `username`, `password`, `date`) VALUES
 (7, 'Inward', 'abcd@gmail.com', '$2y$10$YpSjPvvrSFMPBgwAu.lVpetTTKoC0HUN8Bfl6ZeJTGL0syhIpQ/ra', '2024-06-20 01:27:27'),
 (10, 'Inward', 'test1@123', '$2y$10$3w1qEewrB3bH42hzmbGfEObiQ.1DKyIBG0uaVpocwvChM8wkrHniy', '2024-06-20 02:27:57'),
 (19, 'Process', 'test@gmail.com', 'test@gmail.com', '2024-06-22 17:02:12'),
-(12, 'Outward', 'test3@123', 'test3@123', '2024-06-20 02:28:22'),
+(12, 'Outward', 'demo003@gmail.com', 'demo003@gmail.com', '2024-06-20 02:28:22'),
 (13, 'Inward', 'rahul@123', '$2y$10$Gct7wG7uQFXxgn10iL0.0OkMY0U/vlpY3o7Pt9RPm7sSb6X5tDMcm', '2024-06-20 14:18:11'),
 (14, 'Inward', 'inward1@gmail.com', '$2y$10$vJd1Or6VIUgtCiLywu/EKOfplqij.XUKrbuuyUVFeAGoXRlq55lZm', '2024-06-20 14:24:01'),
 (15, 'Inward', 'bhavik@123', '$2y$10$k3ZsM.H2X7XexBUcaJsXzeT0cDm6L7BLtvERicfL3N1gmm4qEkvNu', '2024-06-20 14:24:49'),

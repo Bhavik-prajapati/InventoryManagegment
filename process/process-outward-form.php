@@ -128,16 +128,16 @@
               </div>
 
               <script>
-                window.onload = function() {
-                    const dateInput = document.getElementById('date');
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = String(today.getMonth() + 1).padStart(2, '0');
-                    const day = String(today.getDate()).padStart(2, '0');
-                    const currentDate = `${year}-${month}-${day}`;
-                
-                    dateInput.value = currentDate;
-                };
+            window.onload = function() {
+                const dateInput = document.getElementById('date');
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const currentDate = `${year}-${month}-${day}`;
+            
+                dateInput.value = currentDate;
+            };
               </script>
 
               <div class="row mb-4">

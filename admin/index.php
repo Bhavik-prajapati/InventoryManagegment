@@ -1,6 +1,44 @@
 <?php
   include("../config/connection.php");
 
+  // Check if user is already logged in
+  if (isset($_SESSION['username'])) {
+    echo "<script>window.location = 'inventory-show.php';</script>";
+  }
+
+  // Handle form submission
+  if (isset($_POST['login-btn'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $remember = isset($_POST['remember']);
+
+    $username = mysqli_real_escape_string($conn, $username);
+    $password = mysqli_real_escape_string($conn, $password);
+
+    $query = "SELECT * FROM admin_master WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    $count = mysqli_num_rows($result);
+
+    if ($count == 1) {
+      $_SESSION['username'] = $username;
+
+      if ($remember) {
+        setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
+        setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
+      } else {
+        // Clear cookies if "Remember Me" is not checked
+        setcookie("username", "", time() - 3600, "/");
+        setcookie("password", "", time() - 3600, "/");
+      }
+
+      echo "<script>window.location = 'inventory-show.php';</script>";
+    } else {
+      echo "<script>alert('Login failed. Incorrect username or password.');</script>";
+      echo "<script>window.location = 'index.php';</script>";
+    }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +59,7 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -48,8 +86,8 @@
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
               <div class="d-flex justify-content-center py-4">
-                <a href="index.html" class="logo d-flex align-items-center w-auto">
-                  <img src="assets/img/logo.png" alt="">
+                <a class="logo d-flex align-items-center w-auto">
+                  <img src="../assets/img/logo.png" alt="">
                   <span class="d-none d-lg-block">Admin Login</span>
                 </a>
               </div><!-- End Logo -->
@@ -63,20 +101,20 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form  method="POST" action=""  class="row g-3 needs-validation" novalidate>
+                  <form method="POST" action="" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo isset($_COOKIE['username']) ? htmlspecialchars($_COOKIE['username']) : ''; ?>" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo isset($_COOKIE['password']) ? htmlspecialchars($_COOKIE['password']) : ''; ?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -126,41 +164,6 @@
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>
 
-
 </body>
 
 </html>
-
-
-<?php
-
-
-if (isset($_POST['login-btn'])) {
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-  $remember = isset($_POST['remember']);
-
-  $username = mysqli_real_escape_string($conn, $username);
-  $password = mysqli_real_escape_string($conn, $password);
-
-  $query = "SELECT * FROM admin_master WHERE username='$username' AND password='$password'";
-  $result = mysqli_query($conn, $query);
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-  
-  $count = mysqli_num_rows($result);
-
-  if ($count == 1) {
-    $_SESSION['username'] = $username;
-    if ($remember) {
-      setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
-      setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
-  }
-    
-    echo "<script>window.location = 'inventory-show.php';</script>";
-  } else {
-    echo "<script>alert('Login failed. Incorrect username or password.');</script>";
-    echo "<script>window.location = 'index.php';</script>";
-  }
-}
-
-?>

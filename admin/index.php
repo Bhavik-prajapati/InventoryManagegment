@@ -25,12 +25,12 @@
       $_SESSION['username'] = $username;
 
       if ($remember) {
-        setcookie("username", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
-        setcookie("password", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
+        setcookie("usernameadmin", $username, time() + (86400 * 30), "/"); // 86400 = 1 day
+        setcookie("passwordadmin", $password, time() + (86400 * 30), "/"); // For demonstration purposes only
       } else {
         // Clear cookies if "Remember Me" is not checked
-        setcookie("username", "", time() - 3600, "/");
-        setcookie("password", "", time() - 3600, "/");
+        setcookie("usernameadmin", "", time() - 3600, "/");
+        setcookie("passwordadmin", "", time() - 3600, "/");
       }
 
       echo "<script>window.location = 'inventory-show.php';</script>";
@@ -107,14 +107,14 @@
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo isset($_COOKIE['username']) ? htmlspecialchars($_COOKIE['username']) : ''; ?>" required>
+                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo isset($_COOKIE['usernameadmin']) ? htmlspecialchars($_COOKIE['usernameadmin']) : ''; ?>" required>
                         <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo isset($_COOKIE['password']) ? htmlspecialchars($_COOKIE['password']) : ''; ?>" required>
+                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo isset($_COOKIE['passwordadmin']) ? htmlspecialchars($_COOKIE['passwordadmin']) : ''; ?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 

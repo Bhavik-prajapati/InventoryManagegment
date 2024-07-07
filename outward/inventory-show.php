@@ -146,41 +146,28 @@ include("layout/aside.php");
 
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
-                        <h5 class="card-title">Available Stock</h5>
+                        <h5 class="card-title">Outward Record</h5>
 
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
                               <tr>
-                              <th>Product Name</th>
-                              <th>Supplier Name</th>
-                              <th>Quality</th>
-                              <th>Rate</th>
-                              <th>Place</th>
-                              <th>Total Kg</th>
-                              <th>Available Kg</th>
+                                <th>product</th>
+                                <th>quality</th>
+                                <th>buyer_name</th>
+                                <th>vehicle_number</th>
+                                <th>container_number</th>
+                                <th>quantity_per_kg</th>
+                                <th>supervisor_name</th>
+                                <th>gate_person_name</th>
+                                <th>remarks</th>
+                                <th>date</th>
+
                               </tr>
                             </thead>
                             <tbody>
-                            <?php
-                                        $sql2 = "
-                                        SELECT 
-                                            imv2.product_name, 
-                                            imv2.supplier_name, 
-                                            imv2.quality, 
-                                            imv2.rate, 
-                                            imv2.place, 
-                                            imv2.total_kg, 
-                                            CAST(im.total_kg AS SIGNED) AS total_kg_inward_master, 
-                                            CAST(imv2.total_kg AS SIGNED) AS total_kg_inward_master_v2, 
-                                            CAST(imv2.total_kg AS SIGNED) - CAST(im.total_kg AS SIGNED) AS difference
-                                        FROM 
-                                            inward_master im
-                                        JOIN 
-                                            inward_master_v2 imv2 
-                                        ON 
-                                            im.product_name = imv2.product_name;
-                                        ";
+                                    <?php
+                                        $sql2 = "SELECT * FROM outward_master";
 
                                         $result = $conn->query($sql2);
 
@@ -191,14 +178,16 @@ include("layout/aside.php");
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $row["product_name"] ?></td>
-                                            <td><?php echo $row["supplier_name"] ?></td>
+                                            <td><?php echo $row["product"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>
-                                            <td><?php echo $row["rate"] ?></td>
-                                            <td><?php echo $row["place"] ?></td>
-                                            <td><?php echo $row["total_kg_inward_master"] ?></td>
-                                            <!-- <td><?php echo $row["bags_inward_master"] ?></td> -->
-                                            <td><?php echo $row["total_kg_inward_master_v2"] ?></td>
+                                            <td><?php echo $row["buyer_name"] ?></td>
+                                            <td><?php echo $row["vehicle_number"] ?></td>
+                                            <td><?php echo $row["container_number"] ?></td>
+                                            <td><?php echo $row["quantity_per_kg"] ?></td>
+                                            <td><?php echo $row["supervisor_name"] ?></td>
+                                            <td><?php echo $row["gate_person_name"] ?></td>
+                                            <td><?php echo $row["remarks"] ?></td>
+                                            <td><?php echo $row["date"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -212,7 +201,6 @@ include("layout/aside.php");
             </div>
         </div>
     </section>
-
 
   </main><!-- End #main -->
 

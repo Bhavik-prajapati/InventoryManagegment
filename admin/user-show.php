@@ -19,6 +19,12 @@ include("../config/connection.php");
     include("config/head-data.php");
   ?>
   
+  <style>
+    .datatable-search{
+      display: none;
+    }
+  </style>
+
 </head>
 
 

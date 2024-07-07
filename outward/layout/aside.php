@@ -13,9 +13,9 @@
       <!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="inward-form.php">
+        <a class="nav-link collapsed" href="outward-form.php">
           <i class="bi bi-box-arrow-in-right"></i>
-          <span>Inward Form</span>
+          <span>Outward Form</span>
         </a>
       </li><!-- End inward Nav -->
 

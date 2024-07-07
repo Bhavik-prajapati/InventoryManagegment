@@ -160,57 +160,45 @@
                 </div>
               </div>
               <div class="row mb-4">
-                <label for="process_name" class="col-sm-2 col-form-label">Quality</label>
+                <label for="quality" class="col-sm-2 col-form-label">Quality</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Quality" class="form-control" id="quality" name="quality">
                   <label id="quality_validation" class="text-danger"><small>*Enter Place</small></label>
                 </div>
               </div>
-              <div class="row mb-4">
-                <label for="foreign_buyer_name" class="col-sm-2 col-form-label">1 no</label>
-                <div class="col-sm-10">
-                  <input type="text" placeholder="Enter Foreign Buyer Name" class="form-control" id="foreign_buyer_name" name="foreign_buyer_name">
-                  <label id="foreign_buyer_name_validation" class="text-danger"><small>*Enter Place</small></label>
-                </div>
-              </div>
-              <div class="row mb-4">
-                <label for="weight_quality" class="col-sm-2 col-form-label">Weight Quality</label>
-                <div class="col-sm-10">
-                  <input type="text" placeholder="Enter Weight Quality" class="form-control" id="weight_quality" name="weight_quality">
-                  <label id="weight_quality_validation" class="text-danger"><small>*Enter Place</small></label>
-                </div>
-              </div>
-              <!-- <div class="row mb-4">
-                <label for="bags_quantity" class="col-sm-2 col-form-label">Bags Quantity</label>
-                <div class="col-sm-10">
-                  <input type="hidden" class="form-control" id="totalbags" name="totalbags">
-                  <select class="form-select" aria-label="Default select example" id="bags_quantity" name="bags_quantity">
-                      <option selected disabled>- - Select Product First - -</option>
-                    </select>
-                </div>
-              </div> -->
-              <div class="row mb-4">
-                <label for="each_bag_weight" class="col-sm-2 col-form-label">Total Kg</label>
-                <div class="col-sm-10">
-                <div class="input-group">
-                  <span class="input-group-text">
-                    <label>Available: <span id="max_total_kg_1">0</span>kg</label>
-                  </span>
-                  <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight">
-                </div>
-                <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Place</small></label>
-                <label id="total_kg_overflow_validation" class="text-danger"><small>*Weight exceeds the <span id="max_total_kg_2">0</span> limit.</small></label>
-                  <!-- <select class="form-select" aria-label="Default select example" id="each_bag_weight" name="each_bag_weight">
-                      <option selected disabled>- - Select Bags Quantity First - -</option>
-                    </select> -->
 
-                    <!-- <input type="number" class="form-control" placeholder="Enter Each Bag Weight" list="each_bag_weight" name="each_bag_weight" id="input-datalist">
-                    <datalist id="each_bag_weight">
-                        <option>- - Select Product First - -</option>
-                    </datalist>  -->
-
+              <div class="row mb-4">
+                <label for="one_no" class="col-sm-2 col-form-label">1 no</label>
+                <div class="col-sm-10">
+                  <input type="text" placeholder="Enter 1 no." class="form-control" id="one_no" name="one_no">
+                  <label id="one_no_validation" class="text-danger"><small>*Enter 1 no.</small></label>
                 </div>
               </div>
+
+              <div class="row mb-4">
+                <label for="two_no" class="col-sm-2 col-form-label">2 no</label>
+                <div class="col-sm-10">
+                  <input type="text" placeholder="Enter 2 no." class="form-control" id="two_no" name="two_no">
+                  <label id="two_no_validation" class="text-danger"><small>*Enter 2 no.</small></label>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <label for="three_no" class="col-sm-2 col-form-label">3 no</label>
+                <div class="col-sm-10">
+                  <input type="text" placeholder="Enter 3 no." class="form-control" id="three_no" name="three_no">
+                  <label id="three_no_validation" class="text-danger"><small>*Enter 3 no.</small></label>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <label for="waste_product_weight" class="col-sm-2 col-form-label">Waste Product Weight</label>
+                <div class="col-sm-10">
+                  <input type="text" placeholder="Enter Waste Product Weight" class="form-control" id="waste_product_weight" name="waste_product_weight">
+                  <label id="waste_product_weight_validation" class="text-danger"><small>*Enter Place</small></label>
+                </div>
+              </div>
+
               <div class="row mb-4">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">

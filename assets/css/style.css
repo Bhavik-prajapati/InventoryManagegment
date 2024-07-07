@@ -599,7 +599,7 @@ h6 {
 --------------------------------------------------------------*/
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 0px !important;
   left: 0;
   bottom: 0;
   width: 300px;
@@ -610,7 +610,7 @@ h6 {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-color: #fff;
+  background-color: #19224d !important;
 }
 
 @media (max-width: 1199px) {
@@ -671,6 +671,9 @@ h6 {
   margin-bottom: 5px;
 }
 
+.sidebar span{
+  color: white !important;
+}
 .sidebar-nav .nav-heading {
   font-size: 11px;
   text-transform: uppercase;
@@ -686,7 +689,7 @@ h6 {
   font-weight: 600;
   color: #4154f1;
   transition: 0.3;
-  background: #f6f9ff;
+  /* background: #f6f9ff; */
   padding: 10px 15px;
   border-radius: 4px;
 }
@@ -698,22 +701,21 @@ h6 {
 }
 
 .sidebar-nav .nav-link.collapsed {
-  color: #012970;
-  background: #fff;
+  color: white;
+  /* background: #fff; */
 }
 
 .sidebar-nav .nav-link.collapsed i {
   color: #899bbd;
 }
 
-.sidebar-nav .nav-link:hover {
-  color: #4154f1;
-  background: #f6f9ff;
-}
-
-.sidebar-nav .nav-link:hover i {
-  color: #4154f1;
-}
+/* .sidebar-nav .nav-link:hover { */
+  /* color: #4154f1; */
+  /* background: #f6f9ff; */
+/* } */
+/* .sidebar-nav .nav-link:hover is { */
+  /* color: #4154f1; */
+/* } */
 
 .sidebar-nav .nav-link .bi-chevron-down {
   margin-right: 0;

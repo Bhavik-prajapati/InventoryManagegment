@@ -3,6 +3,7 @@
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
+    <img style=" padding-bottom:10px;border-bottom:1px solid white;" src="../assets/img/logop.png" class="img-fluid mb-2" style="width:250px;height:80px;" alt="">
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="dashboard.php">

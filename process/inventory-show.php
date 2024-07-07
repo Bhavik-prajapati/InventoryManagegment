@@ -21,6 +21,30 @@ include("../config/connection.php");
   <?php
     include("config/head-data.php");
   ?>
+
+<style>
+  
+  th{
+      /* background-color: rgb(40,47,84) !important; */
+      color:#e88125 !important;
+      background-color: rgb(220,220,220, 0.2) !important;
+    }
+    
+    
+    th button{
+      margin: 0 10px;
+      background-color: unset !important;
+    }
+    
+    td:nth-child(odd){
+      background-color: rgb(220,220,220, 0.2) !important;
+
+    }
+    
+    thead{
+    }
+
+  </style>
   
 </head>
 
@@ -54,7 +78,7 @@ include("layout/aside.php");
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
-                              <tr>
+                              <tr> 
                                 <th>place</th>
                                 <th>supplier name</th>
                                 <th>product name</th>

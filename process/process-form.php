@@ -179,6 +179,8 @@
                   <span class="input-group-text">
                     <label>Available: <span id="max_total_kg_1">0</span>kg</label>
                   </span>
+                  <input type="hidden" id="product_id" name="product_id">
+                  <input type="hidden" id="available_kg" name="available_kg">
                   <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight">
                 </div>
                 <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Place</small></label>
@@ -259,6 +261,8 @@
                         $('#each_bag_weight').empty();
                         $('#max_total_kg_1').text(response[0]['total_kg']);
                         $('#max_total_kg_2').text(response[0]['total_kg']);
+                        $('#available_kg').val(response[0]['total_kg']);
+                        $('#product_id').val(response[0]['id']);
                         // $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
                         // for( var i = 0; i < len; i++){
                         //     var each_bag_weight = response[i]['total_kg'];
@@ -322,15 +326,18 @@ if (isset($_POST['btnSubmit'])) {
   $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
   $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
   $weight_quality = mysqli_real_escape_string($conn, $_POST['weight_quality']);
-  $bags_quantity = mysqli_real_escape_string($conn, $_POST['bags_quantity']);
-  $each_bag_weight = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
+  $total_kg = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
   $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
   $date = date("Y-m-d H:i:s"); // Assuming the date is captured directly from the form input
   
   // Prepare and bind
-  $stmt = $conn->prepare("INSERT INTO `process_master`(`id`, `place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `bags_quantity`, `each_bag_weight`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("ssssssssss", $id, $place, $process_name, $foreign_buyer_name, $product_name, $weight_quality, $bags_quantity, $each_bag_weight, $remarks, $date);
+  $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+  $stmt = $conn->prepare($sql);
   
+  // Bind the parameters
+  $stmt->bind_param("sssssdss", $place, $process_name, $foreign_buyer_name, $product_name, $weight_quality, $total_kg, $remarks, $date);
+
   // Execute the query
   if ($stmt->execute()) {
       echo "New record created successfully";
@@ -349,12 +356,13 @@ if (isset($_POST['btnSubmit'])) {
   $stmt->close();
 
   
-  $totalbags = mysqli_real_escape_string($conn, $_POST['totalbags']);
+  $available_kg = mysqli_real_escape_string($conn, $_POST['available_kg']);
+  $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
  
-  $bags_quantity = $totalbags - $bags_quantity;
+  $kg = $available_kg - $total_kg;
  
-  $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `bags` = ?, `each_bag_weight` = ? WHERE `product_name` = ?");
-  $stmt->bind_param("sss", $bags_quantity, $each_bag_weight, $product_name);
+  $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `total_kg` = ? WHERE `id` = ?");
+  $stmt->bind_param("si", $kg, $product_id);
   $stmt->execute();
   $stmt->close();
   

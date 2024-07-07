@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 06, 2024 at 08:38 AM
+-- Generation Time: Jul 07, 2024 at 07:20 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.4.9
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `activity_master` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=73 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `activity_master`
@@ -176,7 +176,16 @@ INSERT INTO `activity_master` (`id`, `user_id`, `email`, `user_type`, `activity_
 (69, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 06:26:00', 'logged in'),
 (70, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 08:11:46', 'entered inward item'),
 (71, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 08:14:23', 'entered inward item'),
-(72, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 08:14:48', 'entered inward item');
+(72, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 08:14:48', 'entered inward item'),
+(73, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 09:48:49', 'logged in'),
+(74, 22, 'demo002@gmail.com', 'Process', '2024-07-06 16:24:48', 'logged in'),
+(75, 12, 'demo003@gmail.com', 'Outward', '2024-07-06 16:26:54', 'logged in'),
+(76, 22, 'demo002@gmail.com', 'Process', '2024-07-06 16:34:27', 'logged in'),
+(77, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:26:30', 'logged in'),
+(78, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:27:24', 'entered process item'),
+(79, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:33:45', 'entered process item'),
+(80, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:34:58', 'entered process item'),
+(81, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:39:50', 'entered process item');
 
 -- --------------------------------------------------------
 
@@ -326,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `process_master` (
   `remarks` text,
   `date` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `process_master`
@@ -350,7 +359,38 @@ INSERT INTO `process_master` (`id`, `place`, `process_name`, `foreign_buyer_name
 (15, '', '', '', '', '', '', '', '', '2024-07-05 11:24:48'),
 (16, '', '', '', 'CURRY POWDER', '', '', '', '', '2024-07-05 11:44:40'),
 (17, '', '', '', '', '', '', '', '', '2024-07-05 11:44:41'),
-(18, '', '', '', '', '', '', '', '', '2024-07-05 11:44:42');
+(18, '', '', '', '', '', '', '', '', '2024-07-05 11:44:42'),
+(19, '', '', '', '', '', '', '', '', '2024-07-07 06:27:24'),
+(20, '', '', '', '', '', '', '', '', '2024-07-07 06:33:45'),
+(21, '', '', '', '', '', '', '', '', '2024-07-07 06:34:58'),
+(22, '', '', '', '', '', '', '', '', '2024-07-07 06:39:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `process_outward_master`
+--
+
+DROP TABLE IF EXISTS `process_outward_master`;
+CREATE TABLE IF NOT EXISTS `process_outward_master` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` text,
+  `product_name` text,
+  `quality` text,
+  `one_no` text,
+  `two_no` text,
+  `three_no` text,
+  `waste_product_weight` text,
+  `remarks` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `process_outward_master`
+--
+
+INSERT INTO `process_outward_master` (`id`, `date`, `product_name`, `quality`, `one_no`, `two_no`, `three_no`, `waste_product_weight`, `remarks`) VALUES
+(1, '2024-07-07', 'CURRY POWDER', '4', 'asd', 'asd', 'asd', 'asd', 'asd');
 
 -- --------------------------------------------------------
 

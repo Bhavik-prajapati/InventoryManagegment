@@ -1,0 +1,31 @@
+body{
+
+}
+
+.body-overlay{
+
+}
+
+header, .sidebar{
+
+}
+
+.card{
+
+}
+
+.footer{
+  border: none !important;
+}
+
+input{
+  border: 1px solid black !important;
+}
+
+input::placeholder{
+
+}
+
+.card-body .row:nth-child(odd){
+  background-color: black !important;
+}

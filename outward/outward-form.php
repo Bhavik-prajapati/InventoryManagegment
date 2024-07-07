@@ -20,6 +20,8 @@
     }
   </style>
 
+<!-- <link rel="stylesheet" href="style.css"> -->
+
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
 <script>
   function validateForm() {
@@ -78,9 +80,6 @@
       validateForm(false);
     };
   });
-
-
-    
     return valid;
   }
 </script>
@@ -88,47 +87,49 @@
 </head>
 
 <body>
-
-  <?php
+  <div class="body-overlay">
+    
+    
+    <?php
     include("layout/header.php");
     include("layout/aside.php");
-  ?>
+    ?>
 
-  <main id="main" class="main">
-
-    <div class="pagetitle">
-      <h1>Outward Form</h1>
-    </div><!-- End Page Title -->
-
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title"></h5>
-
-              <form name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
-            <div class="row mb-4">
-              <label for="date" class="col-sm-2 col-form-label">Date</label>
-              <div class="col-sm-10">
-                <input type="date" placeholder="Enter Date" class="form-control" id="date" name="date">
-                <label id="date_validation" class="text-danger"><small>*Please enter a date.</small></label>
+<main id="main" class="main">
+  
+  <div class="pagetitle">
+    <h1>Outward Form</h1>
+  </div><!-- End Page Title -->
+  
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            
+            <form name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
+              <div class="row mb-4">
+                <label for="date" class="col-sm-2 col-form-label">Date</label>
+                <div class="col-sm-10">
+                  <input type="date" placeholder="Enter Date" class="form-control" id="date" name="date">
+                  <label id="date_validation" class="text-danger"><small>*Please enter a date.</small></label>
+                </div>
               </div>
-            </div>
-
-            <script>
-              window.onload = function() {
+              
+              <script>
+                window.onload = function() {
                   const dateInput = document.getElementById('date');
                   const today = new Date();
                   const year = today.getFullYear();
                   const month = String(today.getMonth() + 1).padStart(2, '0');
                   const day = String(today.getDate()).padStart(2, '0');
                   const currentDate = `${year}-${month}-${day}`;
-              
+                  
                   dateInput.value = currentDate;
-              };
-            </script>
+                };
+                </script>
 
             <div class="row mb-4">
               <label for="product_name" class="col-sm-2 col-form-label">Product</label>
@@ -139,17 +140,17 @@
                   <?php
                     if ($in_result->num_rows > 0) {
                       while($in_row = $in_result->fetch_assoc()) {
-                  ?>
+                        ?>
                   <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"] ?></option>
                   <?php 
                       }
                     }
-                  ?>
+                    ?>
                 </select>
                 <label id="product_name_validation" class="text-danger"><small>*Please select a product.</small></label>
               </div>
             </div>
-
+            
             <div class="row mb-4">
               <label for="quality" class="col-sm-2 col-form-label">Quality</label>
               <div class="col-sm-10">
@@ -157,7 +158,7 @@
                 <label id="quality_validation" class="text-danger"><small>*Please enter the quality.</small></label>
               </div>
             </div>
-
+            
             <div class="row mb-4">
               <label for="foreign_buyer_name" class="col-sm-2 col-form-label">Buyer Name</label>
               <div class="col-sm-10">
@@ -165,7 +166,7 @@
                 <label id="foreign_buyer_name_validation" class="text-danger"><small>*Please enter the buyer's name.</small></label>
               </div>
             </div>
-
+            
             <div class="row mb-4">
               <label for="vehicle_number" class="col-sm-2 col-form-label">Vehicle Number</label>
               <div class="col-sm-10">
@@ -173,7 +174,7 @@
                 <label id="vehicle_number_validation" class="text-danger"><small>*Please enter the vehicle number.</small></label>
               </div>
             </div>
-
+            
             <div class="row mb-4">
               <label for="container_number" class="col-sm-2 col-form-label">Container Number</label>
               <div class="col-sm-10">
@@ -181,7 +182,7 @@
                 <label id="container_number_validation" class="text-danger"><small>*Please enter the container number.</small></label>
               </div>
             </div>
-
+            
             <div class="row mb-4">
               <label for="quantity_per_kg" class="col-sm-2 col-form-label">Quantity per Kg</label>
               <div class="col-sm-10">
@@ -189,7 +190,7 @@
                 <label id="quantity_per_kg_validation" class="text-danger"><small>*Please enter the quantity per kg.</small></label>
               </div>
             </div>
-
+            
             <div class="row mb-4">
               <label for="supervisor_name" class="col-sm-2 col-form-label">Supervisor Name</label>
               <div class="col-sm-10">
@@ -213,7 +214,7 @@
                 <label id="remarks_validation" class="text-danger"><small>*Please enter remarks.</small></label>
               </div>
             </div>
-
+            
             <div class="row mb-3">
               <label class="col-sm-2 col-form-label"></label>
               <div class="col-sm-10">
@@ -222,9 +223,9 @@
             </div>
           </form>
                 
-
-                
-            </div>
+          
+          
+        </div>
           </div>
 
         </div>
@@ -232,17 +233,18 @@
     </section>
 
   </main><!-- End #main -->
-
+  
   <?php
     include("layout/footer.php");
-  ?>
+    ?>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <?php
+<?php
     include("config/footer-data.php");
-  ?>
+    ?>
 
+</div>
 </body>
 
 </html>

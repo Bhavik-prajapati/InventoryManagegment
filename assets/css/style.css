@@ -6,6 +6,13 @@
 * License: https://bootstrapmade.com/license/
 */
 
+
+/* Custome */
+
+.datatable-search{
+  display: none !important;
+}
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/

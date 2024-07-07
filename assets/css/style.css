@@ -77,7 +77,8 @@ h6 {
   right: 15px;
   bottom: 15px;
   z-index: 99999;
-  background: #4154f1;
+  background: #e88125;
+  color: white;
   width: 40px;
   height: 40px;
   border-radius: 4px;
@@ -86,13 +87,13 @@ h6 {
 
 .back-to-top i {
   font-size: 24px;
-  color: #fff;
+  color: #fff !important;
   line-height: 0;
 }
 
 .back-to-top:hover {
-  background: #6776f4;
-  color: #fff;
+  background: #e88125;
+  color: #fff !important;
 }
 
 .back-to-top.active {
@@ -385,6 +386,9 @@ h6 {
   padding-left: 20px;
   /* Toggle Sidebar Button */
   /* Search Bar */
+}
+.header span,h6,i{
+  color: #e88125 !important;
 }
 
 .header .toggle-sidebar-btn, .sidebar .toggle-sidebar-btn {

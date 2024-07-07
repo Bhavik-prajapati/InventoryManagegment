@@ -169,17 +169,13 @@ if (isset($_POST['btn-adduser'])) {
             </div>
           </div>
 
-          <div class="row">
-          <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Pie Chart</h5>
-              <!-- Pie Chart -->
-              <canvas id="pieChart" style="max-height: 400px;"></canvas>
-
-
-
-              <script>
+          <!-- <div class="row"> -->
+          <!-- <div class="col-lg-6"> -->
+          <!-- <div class="card"> -->
+            <!-- <div class="card-body"> -->
+              <!-- <h5 class="card-title">Pie Chart</h5> -->
+              <!-- <canvas id="pieChart" style="max-height: 400px;"></canvas> -->
+            <!--   <script>
     document.addEventListener("DOMContentLoaded", () => {
         // PHP variables converted to JavaScript using inline PHP
         var roles = <?php echo json_encode($roles); ?>;
@@ -222,17 +218,13 @@ if (isset($_POST['btn-adduser'])) {
             }
         });
     });
-    </script>
-
-             
-              <!-- End Pie CHart -->
-
-            </div>
+    </script> -->
+        <!--     </div>
           </div>
         </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
 
   </main><!-- End #main -->

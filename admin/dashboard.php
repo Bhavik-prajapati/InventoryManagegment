@@ -247,7 +247,7 @@ function format_datetime($datetime) {
 
             <!-- Reports -->
 
-            <div class="col-12">
+         <!--    <div class="col-12">
               <div class="card p-3">
                 <h1 class="card-title">Total Users ( <?php echo $totalCount; ?> )</h1>
                 <canvas id="pieChart" style="max-height: 400px;"></canvas>
@@ -296,8 +296,8 @@ function format_datetime($datetime) {
     });
     </script>
               </div>
-            </div>
-            <div class="col-12">
+            </div> -->
+          <!--   <div class="col-12">
               <div class="card recent-sales overflow-auto">
 
                 <div class="filter">
@@ -313,10 +313,10 @@ function format_datetime($datetime) {
                   </ul>
                 </div>
               </div>
-            </div><!-- End Recent Sales -->
+            </div> --><!-- End Recent Sales -->
 
             <!-- Top Selling -->
-            <div class="col-12">
+         <!--    <div class="col-12">
               <div class="card top-selling overflow-auto">
 
                 <div class="filter">
@@ -333,7 +333,7 @@ function format_datetime($datetime) {
                 </div>
                 </div>
             </div><!-- End Top Selling -->
-
+ 
           </div>
         </div><!-- End Left side columns -->
 
@@ -381,7 +381,7 @@ function format_datetime($datetime) {
           </div>
 
           <!-- Budget Report -->
-          <div class="card">
+          <!-- <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -395,10 +395,11 @@ function format_datetime($datetime) {
               </ul>
             </div>
 
-          </div><!-- End Budget Report -->
+          </div> -->
+          <!-- End Budget Report -->
 
           <!-- Website Traffic -->
-          <div class="card">
+          <!-- <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -411,7 +412,8 @@ function format_datetime($datetime) {
                 <li><a class="dropdown-item" href="#">This Year</a></li>
               </ul>
             </div>
-          </div><!-- End Website Traffic -->
+          </div> -->
+          <!-- End Website Traffic -->
         </div><!-- End Right side columns -->
 
       </div>

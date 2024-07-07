@@ -28,7 +28,7 @@ textarea:focus {
 }
 
 button[type="submit"] {
-    background-color: #4CAF50; /* Green background */
+    background-color: #e88125 !important; /* Green background */
     border: none; /* Remove borders */
     color: white; /* White text */
     padding: 15px 32px; /* Add some padding */
@@ -40,3 +40,10 @@ button[type="submit"] {
     cursor: pointer; /* Add a pointer cursor on hover */
     border-radius: 8px; /* Rounded corners */
   }
+
+  .pagetitle h1{
+    color: #e88125 !important;
+  }
+  /* form label{ */
+    /* color: #e88125; */
+  /* } */

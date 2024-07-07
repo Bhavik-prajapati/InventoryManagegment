@@ -1,6 +1,8 @@
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
+  <i class="bi bi-list toggle-sidebar-btn" style="position:absolute; top:8px; right:-50px;"></i>
+  
 
     <ul class="sidebar-nav" id="sidebar-nav">
 

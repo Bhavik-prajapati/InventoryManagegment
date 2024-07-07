@@ -53,26 +53,28 @@
     }
 
     // Validate each field
-    checkField("place", "place_validation");
-    checkField("process_name", "process_name_validation");
-    checkField("foreign_buyer_name", "foreign_buyer_name_validation");
+    // checkField("date", "date_validation");
     checkField("product_name", "product_name_validation");
-    checkField("weight_quality", "weight_quality_validation");
-    checkField("each_bag_weight", "each_bag_weight_validation");
+    checkField("quality", "quality_validation");
+    checkField("one_no", "one_no_validation");
+    checkField("two_no", "two_no_validation");
+    checkField("three_no", "three_no_validation");
+    checkField("waste_product_weight", "waste_product_weight_validation");
     checkField("remarks", "remarks_validation");
 
-    function checkNumericField(fieldName, labelId) {
-      let field = form[fieldName].value;
-      if (field > parseFloat(document.getElementById("max_total_kg_1").innerText)) {
-        document.getElementById(labelId).style.display = 'block';
-        valid = false;
-      }
-      else{
-        document.getElementById(labelId).style.display = 'none';
-      }
-    }
+    // function checkNumericField(fieldName, labelId) {
+    //   let field = form[fieldName].value;
+    //   if (field > parseFloat(document.getElementById("max_total_kg_1").innerText)) {
+    //     document.getElementById(labelId).style.display = 'block';
+    //     valid = false;
+    //   }
+    //   else{
+    //     document.getElementById(labelId).style.display = 'none';
+    //   }
+    // }
 
-    checkNumericField("each_bag_weight", "total_kg_overflow_validation");
+    // checkNumericField("each_bag_weight", "total_kg_overflow_validation");
+
     // checkNumericField("each_bag_weight", "each_bag_weight_validation");
     // checkNumericField("rate", "rate_validation");
     // checkNumericField("om_exim_weighbridge_weight", "om_exim_weighbridge_weight_validation");
@@ -81,9 +83,9 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-    "place", "process_name", "foreign_buyer_name", "product_name", 
-    "weight_quality", "each_bag_weight", "remarks"
-  ];
+        "date", "product_name", "quality", 
+        "one_no", "two_no", "three_no", "waste_product_weight", "remarks"
+    ];
 
   formFields.forEach(fieldName => {
     document.getElementById(fieldName).onchange = function() {
@@ -156,14 +158,14 @@
                         }
                       ?>
                     </select>
-                    <label id="product_name_validation" class="text-danger"><small>*Enter Place</small></label>
+                    <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="quality" class="col-sm-2 col-form-label">Quality</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Quality" class="form-control" id="quality" name="quality">
-                  <label id="quality_validation" class="text-danger"><small>*Enter Place</small></label>
+                  <label id="quality_validation" class="text-danger"><small>*Enter Quality</small></label>
                 </div>
               </div>
 
@@ -195,7 +197,7 @@
                 <label for="waste_product_weight" class="col-sm-2 col-form-label">Waste Product Weight</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Waste Product Weight" class="form-control" id="waste_product_weight" name="waste_product_weight">
-                  <label id="waste_product_weight_validation" class="text-danger"><small>*Enter Place</small></label>
+                  <label id="waste_product_weight_validation" class="text-danger"><small>*Enter Waste Product Weight</small></label>
                 </div>
               </div>
 
@@ -203,7 +205,7 @@
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
-                  <label id="remarks_validation" class="text-danger"><small>*Enter Place</small></label>
+                  <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label>
 
                 </div>
               </div>
@@ -320,51 +322,30 @@
 <?php
 if (isset($_POST['btnSubmit'])) {
 
-  // Capture form data
+    // Capture and sanitize form data
+    $date = mysqli_real_escape_string($conn, $_POST['date']);
+    $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+    $quality = mysqli_real_escape_string($conn, $_POST['quality']);
+    $one_no = mysqli_real_escape_string($conn, $_POST['one_no']);
+    $two_no = mysqli_real_escape_string($conn, $_POST['two_no']);
+    $three_no = mysqli_real_escape_string($conn, $_POST['three_no']);
+    $waste_product_weight = mysqli_real_escape_string($conn, $_POST['waste_product_weight']);
+    $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
 
-  $place = mysqli_real_escape_string($conn, $_POST['place']);
-  $process_name = mysqli_real_escape_string($conn, $_POST['process_name']);
-  $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
-  $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
-  $weight_quality = mysqli_real_escape_string($conn, $_POST['weight_quality']);
-  $bags_quantity = mysqli_real_escape_string($conn, $_POST['bags_quantity']);
-  $each_bag_weight = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
-  $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
-  $date = date("Y-m-d H:i:s"); // Assuming the date is captured directly from the form input
-  
-  // Prepare and bind
-  $stmt = $conn->prepare("INSERT INTO `process_master`(`id`, `place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `bags_quantity`, `each_bag_weight`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("ssssssssss", $id, $place, $process_name, $foreign_buyer_name, $product_name, $weight_quality, $bags_quantity, $each_bag_weight, $remarks, $date);
-  
-  // Execute the query
-  if ($stmt->execute()) {
-      echo "New record created successfully";
-      $activity_details = "entered process item";
-        
-      $stmt = $conn->prepare("
-          INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-          VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-      $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
-      $stmt->execute();
-  } else {
-      echo "Error: " . $stmt->error;
-  }
-  
-  // Close the connection
-  $stmt->close();
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssss", $date, $product_name, $quality, $one_no, $two_no, $three_no, $waste_product_weight, $remarks);
 
-  
-  $totalbags = mysqli_real_escape_string($conn, $_POST['totalbags']);
- 
-  $bags_quantity = $totalbags - $bags_quantity;
- 
-  $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `bags` = ?, `each_bag_weight` = ? WHERE `product_name` = ?");
-  $stmt->bind_param("sss", $bags_quantity, $each_bag_weight, $product_name);
-  $stmt->execute();
-  $stmt->close();
-  
-  
-  $conn->close();
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close connections
+    $stmt->close();
+    $conn->close();
 
   
 }

@@ -341,7 +341,7 @@ if (isset($_POST['btnSubmit'])) {
   // Execute the query
   if ($stmt->execute()) {
       echo "New record created successfully";
-      $activity_details = "entered process item";
+      $activity_details = "entered process inward record";
         
       $stmt = $conn->prepare("
           INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)

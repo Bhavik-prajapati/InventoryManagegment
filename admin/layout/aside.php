@@ -7,18 +7,25 @@
     <img style="padding-bottom: 15px; border-bottom: 1px solid #ffffff1a;" src="../assets/img/logop.png" class="img-fluid mb-2" style="width:250px;height:80px;" alt="">
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="dashboard.php">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-
-      <li class="nav-item">
         <a class="nav-link collapsed" href="inventory-show.php">
           <i class="bi bi-view-stacked"></i>
           <span>Inventory</span>
         </a>
       </li><!-- End inventory Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="process-record-show.php">
+          <i class="bi bi-card-list"></i>
+          <span>Process Records</span>
+        </a>
+      </li><!-- End Process Records Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="outward-record-show.php">
+          <i class="bi bi-card-list"></i>
+          <span>Outward Records</span>
+        </a>
+      </li><!-- End Outward Records Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
@@ -37,6 +44,13 @@
           </li>
         </ul>
       </li><!-- End users Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="user-activity.php">
+          <i class="bi bi-clock-history"></i>
+          <span>User Activity</span>
+        </a>
+      </li><!-- End User Activity Nav -->
 
     </ul>
 

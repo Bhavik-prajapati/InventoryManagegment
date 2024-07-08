@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 07, 2024 at 07:20 AM
+-- Generation Time: Jul 08, 2024 at 11:46 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.4.9
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `activity_master` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `activity_master`
@@ -185,7 +185,23 @@ INSERT INTO `activity_master` (`id`, `user_id`, `email`, `user_type`, `activity_
 (78, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:27:24', 'entered process item'),
 (79, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:33:45', 'entered process item'),
 (80, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:34:58', 'entered process item'),
-(81, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:39:50', 'entered process item');
+(81, 22, 'demo002@gmail.com', 'Process', '2024-07-07 06:39:50', 'entered process item'),
+(82, 22, 'demo002@gmail.com', 'Process', '2024-07-07 07:23:47', 'logged in'),
+(83, 22, 'demo002@gmail.com', 'Process', '2024-07-07 10:42:05', 'logged in'),
+(84, 22, 'demo002@gmail.com', 'Process', '2024-07-07 11:09:59', 'entered process item'),
+(85, 22, 'demo002@gmail.com', 'Process', '2024-07-07 11:32:40', 'entered process item'),
+(86, 22, 'demo002@gmail.com', 'Process', '2024-07-07 11:34:34', 'entered process item'),
+(87, 22, 'demo002@gmail.com', 'Process', '2024-07-07 11:36:09', 'entered process item'),
+(88, 22, 'demo002@gmail.com', 'Process', '2024-07-07 11:36:46', 'entered process item'),
+(89, 22, 'demo002@gmail.com', 'Process', '2024-07-07 17:52:45', 'logged in'),
+(90, 12, 'demo003@gmail.com', 'Outward', '2024-07-07 18:31:50', 'logged in'),
+(91, 22, 'demo002@gmail.com', 'Process', '2024-07-07 18:32:15', 'logged in'),
+(92, 12, 'demo003@gmail.com', 'Outward', '2024-07-07 18:33:12', 'logged in'),
+(93, 22, 'demo002@gmail.com', 'Process', '2024-07-07 18:37:33', 'logged in'),
+(94, 12, 'demo003@gmail.com', 'Outward', '2024-07-07 18:39:16', 'logged in'),
+(95, 22, 'demo002@gmail.com', 'Process', '2024-07-08 11:35:15', 'logged in'),
+(96, 22, 'demo002@gmail.com', 'Process', '2024-07-08 11:35:28', 'entered process item'),
+(97, 22, 'demo002@gmail.com', 'Process', '2024-07-08 11:36:28', 'entered process item');
 
 -- --------------------------------------------------------
 
@@ -282,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `inward_master_v2` (
 --
 
 INSERT INTO `inward_master_v2` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES
-(1, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '100', '2500', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', ''),
+(1, 'gondal', 'labh exime', 'CURRY POWDER', 'split', '100', '2200', '21.33', '2600', '2630', '2500', '2600', 'ramesh bhai', 'ramesh bhai', 'PURITY 99.49%', '2024-06-26 16:20:25', '', ''),
 (10, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:11:46', '', ''),
 (11, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:14:23', '', ''),
 (12, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2024-07-06 08:14:48', '', '');
@@ -330,40 +346,46 @@ CREATE TABLE IF NOT EXISTS `process_master` (
   `foreign_buyer_name` text,
   `product_name` text,
   `weight_quality` text,
-  `bags_quantity` text,
-  `each_bag_weight` text,
+  `total_kg` text,
   `remarks` text,
   `date` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `process_master`
 --
 
-INSERT INTO `process_master` (`id`, `place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `bags_quantity`, `each_bag_weight`, `remarks`, `date`) VALUES
-(1, 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', '2024-06-23 05:02:04'),
-(2, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(3, 'Place B', 'Process Y', 'Buyer Y', 'Product 2', 'Medium', '20', '3.2', 'Remark Y', '2024-06-03'),
-(4, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(5, 'Place B', 'Process Y', 'Buyer Y', 'Product 2', 'Medium', '20', '3.2', 'Remark Y', '2024-06-03'),
-(6, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(7, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(8, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(9, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(10, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(11, 'Place A', 'Process 00', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(12, 'Place B', 'Process OO', 'Buyer Y', 'Product 2', 'Medium', '20', '3.2', 'Remark Y', '2024-06-03'),
-(13, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', '5.5', 'Remark X', '2024-06-03'),
-(14, 'factory 1', 'demo 1 ', 'kaka ji', 'CHILLI POWDER', '10', '10', '10', 'no', '2024-06-26 15:26:01'),
-(15, '', '', '', '', '', '', '', '', '2024-07-05 11:24:48'),
-(16, '', '', '', 'CURRY POWDER', '', '', '', '', '2024-07-05 11:44:40'),
-(17, '', '', '', '', '', '', '', '', '2024-07-05 11:44:41'),
-(18, '', '', '', '', '', '', '', '', '2024-07-05 11:44:42'),
-(19, '', '', '', '', '', '', '', '', '2024-07-07 06:27:24'),
-(20, '', '', '', '', '', '', '', '', '2024-07-07 06:33:45'),
-(21, '', '', '', '', '', '', '', '', '2024-07-07 06:34:58'),
-(22, '', '', '', '', '', '', '', '', '2024-07-07 06:39:50');
+INSERT INTO `process_master` (`id`, `place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`) VALUES
+(1, 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', 'demo field value', '2024-06-23 05:02:04'),
+(2, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(3, 'Place B', 'Process Y', 'Buyer Y', 'Product 2', 'Medium', '20', 'Remark Y', '2024-06-03'),
+(4, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(5, 'Place B', 'Process Y', 'Buyer Y', 'Product 2', 'Medium', '20', 'Remark Y', '2024-06-03'),
+(6, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(7, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(8, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(9, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(10, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(11, 'Place A', 'Process 00', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(12, 'Place B', 'Process OO', 'Buyer Y', 'Product 2', 'Medium', '20', 'Remark Y', '2024-06-03'),
+(13, 'Place A', 'Process X', 'Buyer X', 'Product 1', 'High', '10', 'Remark X', '2024-06-03'),
+(14, 'factory 1', 'demo 1 ', 'kaka ji', 'CHILLI POWDER', '10', '10', 'no', '2024-06-26 15:26:01'),
+(15, '', '', '', '', '', '', '', '2024-07-05 11:24:48'),
+(16, '', '', '', 'CURRY POWDER', '', '', '', '2024-07-05 11:44:40'),
+(17, '', '', '', '', '', '', '', '2024-07-05 11:44:41'),
+(18, '', '', '', '', '', '', '', '2024-07-05 11:44:42'),
+(19, '', '', '', '', '', '', '', '2024-07-07 06:27:24'),
+(20, '', '', '', '', '', '', '', '2024-07-07 06:33:45'),
+(21, '', '', '', '', '', '', '', '2024-07-07 06:34:58'),
+(22, '', '', '', '', '', '', '', '2024-07-07 06:39:50'),
+(23, 'himmatnagar', 'demo', 'demo', 'CURRY POWDER', 'demo', '', 'PURITY-99.49%', '2024-07-07 11:09:59'),
+(24, 'adsasd', 'asasd', 'asdasd', 'CURRY POWDER', 'asdasd', '100', 'dfghdfgh', '2024-07-07 11:32:40'),
+(25, 'asdasd', 'asdasd', 'asdasd', 'CURRY POWDER', 'asdasd', '100', 'PURITY-99.49%', '2024-07-07 11:34:34'),
+(26, 'asdasd', 'asdasd', 'asdasd', 'CURRY POWDER', 'asdasd', '2400', 'PURITY-99.49%', '2024-07-07 11:36:07'),
+(27, 'himmatnagar', 'fgh', 'fgh', 'CURRY POWDER', 'fghfgh', '100', 'dfgdfg', '2024-07-07 11:36:46'),
+(28, 'asdasd', 'asdasd', 'asdasd', 'CURRY POWDER', 'asdasd', '100', 'PURITY-99.49%', '2024-07-08 11:35:28'),
+(29, 'asdasda', 'asdasdasd', 'asdasdasd', 'CURRY POWDER', 'asdasd', '100', 'sdfsdf', '2024-07-08 11:36:28');
 
 -- --------------------------------------------------------
 

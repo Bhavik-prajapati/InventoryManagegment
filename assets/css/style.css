@@ -13,6 +13,23 @@
   display: none !important;
 }
 
+.datatable th{
+  color:#e88125 !important;
+  background-color: rgb(220,220,220, 0.2) !important;
+}
+
+
+.datatable th button{
+  margin: 0 10px !important;
+  background-color: unset !important;
+}
+
+.datatable td:nth-child(odd){
+  background-color: rgb(220,220,220, 0.2) !important;
+
+}
+
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/

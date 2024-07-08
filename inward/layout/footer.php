@@ -4,6 +4,6 @@
       &copy; Copyright <strong><span>Inventory Managegment</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-      Developed by <a href="#">Excelsius</a>
+    Developed by <a href="#" >SYN Softech Soltions</a>
     </div>
   </footer><!-- End Footer -->

@@ -37,6 +37,13 @@ include("layout/aside.php");
 
   <div class="pagetitle">
         <h1>Users</h1>
+        <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Admin</li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">View all</li>
+        </ol>
+      </nav>
     </div>
     <!-- End Page Title -->
     <section class="section">

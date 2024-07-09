@@ -105,7 +105,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Process</h1>
+      <h1>Process Inward</h1>
     </div><!-- End Page Title -->
 
     <section class="section">

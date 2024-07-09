@@ -4,6 +4,7 @@ include("config/connection.php");
 if (isset($_POST['login-btn'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $role = $_POST['role'];
     $remember = isset($_POST['remember']);
 
     $username = mysqli_real_escape_string($conn, $username);
@@ -18,7 +19,7 @@ if (isset($_POST['login-btn'])) {
 
     if ($count == 1) {
         $_SESSION['id'] = $row['id'];
-        $role = $row['role'];
+        // $role = $row['role'];
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $role;
 
@@ -86,6 +87,48 @@ $password_cookie = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
+
+  <style>
+    .text-danger {
+      display: none;
+    }
+  </style>
+  <script>
+  function validateForm() {
+    let form = document.forms["dataForm"];
+    let valid = true;
+
+    function checkField(fieldName, labelId) {
+      let field = form[fieldName].value;
+      let label = document.getElementById(labelId);
+      if (!field) {
+        label.style.display = 'block';
+        valid = false;
+      } else {
+        label.style.display = 'none';
+      }
+    }
+
+    // Validate each field
+    checkField("yourUsername", "usernameValidation");
+    checkField("yourPassword", "passwordValidation");
+    checkField("yourRole", "roleValidation");
+
+
+    const formFields = ["yourUsername", "yourPassword", "yourRole"];
+
+  formFields.forEach(fieldName => {
+    document.getElementById(fieldName).onchange = function() {
+      validateForm(false);
+    };
+  });
+
+
+    
+    return valid;
+  }
+</script>
+
 </head>
 <body>
   <main>
@@ -105,19 +148,30 @@ $password_cookie = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
-                  <form method="POST" action="" class="row g-3 needs-validation" novalidate>
+                  <form name="dataForm" method="POST" action="" class="row g-3" onsubmit="return validateForm(true)">
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo htmlspecialchars($username_cookie); ?>" required>
-                        <div class="invalid-feedback">Please enter your username.</div>
+                        <input type="text" name="username" class="form-control" id="yourUsername" value="<?php echo htmlspecialchars($username_cookie); ?>" >
                       </div>
+                      <div id="usernameValidation" class="text-danger">*Please enter your username.</div>
                     </div>
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo htmlspecialchars($password_cookie); ?>" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
+                      <input type="password" name="password" class="form-control" id="yourPassword" value="<?php echo htmlspecialchars($password_cookie); ?>" >
+                      <div id="passwordValidation" class="text-danger">*Please enter your password!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourRole" class="form-label">User Module</label>
+                      <select class="form-control" name="role" id="yourRole" >
+                        <option value="" selected disabled>-- select module --</option>
+                        <option value="Inward">Inward</option>
+                        <option value="Process">Process</option>
+                        <option value="Outward">Outward</option>
+                      </select>
+                      <div id="roleValidation" class="text-danger">*Select user module!</div>
                     </div>
                     <div class="col-12">
                       <div class="form-check">

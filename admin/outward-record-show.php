@@ -33,6 +33,12 @@ include("layout/aside.php");
 
   <div class="pagetitle">
         <h1>Outward Record</h1>
+        <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Admin</li>
+          <li class="breadcrumb-item active">Outward Record</li>
+        </ol>
+      </nav>
     </div>
     <!-- End Page Title -->
 

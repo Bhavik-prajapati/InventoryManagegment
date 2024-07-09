@@ -35,6 +35,12 @@ include("layout/aside.php");
 
   <div class="pagetitle">
         <h1>Process Records</h1>
+        <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Admin</li>
+          <li class="breadcrumb-item active">Process Records</li>
+        </ol>
+      </nav>
     </div>
 
 

@@ -16,17 +16,24 @@ textarea {
 /* Optional: If you want to add a bottom border for visual separation */
 input,
 select,
-textarea {
+textarea,
+.select2-container--default .select2-selection--single {
   /* border-bottom: 1px solid #ccc !important; */
   border: 1px solid #dbdfe9 !important;
   background-color: #fcfcfc !important;
+}
+
+.select2-container--default .select2-selection--single{
+  height: unset !important;
+  padding: 6px 12px;
+  font-size: 1rem;
 }
 
 /* Optional: If you want to style the focus state */
 input:focus,
 select:focus,
 textarea:focus {
-  border-bottom-color: #007bff !important; /* Change to your preferred focus color */
+  /* border-bottom-color: #007bff !important; */
 }
 
 button[type="submit"] {

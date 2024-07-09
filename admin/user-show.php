@@ -60,7 +60,6 @@ include("layout/aside.php");
                         <table class="table datatable">
                             <thead>
                               <tr>
-                                <th>Role</th>
                                 <th>Username</th>
                                 <th>Password</th>
                                 <th style="display:inline-block"></th>
@@ -73,15 +72,14 @@ include("layout/aside.php");
                                       while($row = $result->fetch_assoc()) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $row["role"] ?></td>
                                             <td><?php echo $row["username"] ?></td>
                                             <td><?php echo $row["password"] ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="user-add.php?id=<?php echo $row["id"] ?>" class="bi bi-pencil-square btn btn-light m-1"></a>
+                                                    <a href="user-add.php?id=<?php echo $row["id"] ?>" class="bi bi-pencil-square m-1" style="padding:10px 20px; background-color:#e881258d;"></a>
                                                     <form action="" method="POST">
                                                       <input type="hidden" name="id" value="<?php echo $row["id"] ?>">
-                                                      <button type="submit" name="deleteBtn" class="bi bi-trash btn btn-light m-1"></button>
+                                                      <button type="submit" name="deleteBtn" class="bi bi-trash btn btn-light m-1" style="padding:10px 20px;"></button>
                                                     </form>
                                                 </div>
                                             </td>

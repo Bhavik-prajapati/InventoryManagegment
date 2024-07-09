@@ -1,6 +1,6 @@
 <?php
   include("../config/connection.php");
-  $in_sql = "SELECT * FROM inward_master_v2";
+  $in_sql = "SELECT * FROM process_master";
   $in_result = $conn->query($in_sql);
 ?>
 
@@ -56,10 +56,10 @@
     // checkField("date", "date_validation");
     checkField("product_name", "product_name_validation");
     checkField("quality", "quality_validation");
-    checkField("one_no", "one_no_validation");
-    checkField("two_no", "two_no_validation");
-    checkField("three_no", "three_no_validation");
-    checkField("waste_product_weight", "waste_product_weight_validation");
+    // checkField("one_no", "one_no_validation");
+    // checkField("two_no", "two_no_validation");
+    // checkField("three_no", "three_no_validation");
+    // checkField("waste_product_weight", "waste_product_weight_validation");
     checkField("remarks", "remarks_validation");
 
     // function checkNumericField(fieldName, labelId) {
@@ -83,8 +83,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-        "date", "product_name", "quality", 
-        "one_no", "two_no", "three_no", "waste_product_weight", "remarks"
+        "date", "product_name", "quality", "remarks"
     ];
 
   formFields.forEach(fieldName => {
@@ -152,7 +151,7 @@
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                      <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"] ?></option>
+                        <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Date:".$in_row["date"] ?></option>
                       <?php 
                           }
                         }

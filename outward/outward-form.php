@@ -1,5 +1,7 @@
 <?php
   include("../config/connection.php");
+  $in_sql = "SELECT * FROM process_outward_master";
+  $in_result = $conn->query($in_sql);
 ?>
 
 <!DOCTYPE html>
@@ -136,12 +138,11 @@
               <div class="col-sm-10">
                 <select class="form-select" aria-label="Default select example" id="product_name" name="product_name">
                   <option value="" selected disabled>- - Select Product - -</option>
-                  <option value="Demo Item">Demo Item</option>
                   <?php
                     if ($in_result->num_rows > 0) {
                       while($in_row = $in_result->fetch_assoc()) {
                         ?>
-                  <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"] ?></option>
+                        <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Date:".$in_row["date"] ?></option>
                   <?php 
                       }
                     }

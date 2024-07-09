@@ -7,9 +7,6 @@ include("../config/connection.php");
   $sql = "SELECT * FROM $tname order by id DESC";
   $result = $conn->query($sql);
 
-
-
-
 ?>
 
 
@@ -69,8 +66,9 @@ include("layout/aside.php");
                                 <th>weight supervisor name</th>
                                 <th>quality supervisor name</th>
                                 <th>remarks</th>
-                                <th>vehicle_no</th>
-                                <th>container_no</th>
+                                <th>vehicle no</th>
+                                <th>container no</th>
+                                <th>date</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -96,6 +94,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["remarks"] ?></td>
                                             <td><?php echo $row["vehicle_no"] ?></td>
                                             <td><?php echo $row["container_no"] ?></td>
+                                            <td><?php echo $row["date"] ?></td>
                                         </tr>
                                         <?php 
                                     }

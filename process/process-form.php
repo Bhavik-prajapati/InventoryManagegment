@@ -117,6 +117,27 @@
               <h5 class="card-title"></h5>
               <form  name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
               <div class="row mb-4">
+                <label for="date" class="col-sm-2 col-form-label">Date</label>
+                <div class="col-sm-10">
+                  <input type="date" placeholder="Enter Date" class="form-control" id="date" name="date">
+                  <label id="date_validation" class="text-danger"><small>*Please enter a date.</small></label>
+                </div>
+              </div>
+              
+              <script>
+                window.onload = function() {
+                  const dateInput = document.getElementById('date');
+                  const today = new Date();
+                  const year = today.getFullYear();
+                  const month = String(today.getMonth() + 1).padStart(2, '0');
+                  const day = String(today.getDate()).padStart(2, '0');
+                  const currentDate = `${year}-${month}-${day}`;
+                  
+                  dateInput.value = currentDate;
+                };
+                </script>
+
+              <div class="row mb-4">
                 <label for="place" class="col-sm-2 col-form-label">Place</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Place" class="form-control" id="place" name="place">
@@ -328,7 +349,7 @@ if (isset($_POST['btnSubmit'])) {
   $weight_quality = mysqli_real_escape_string($conn, $_POST['weight_quality']);
   $total_kg = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
   $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
-  $date = date("Y-m-d H:i:s"); // Assuming the date is captured directly from the form input
+  $date = mysqli_real_escape_string($conn, $_POST['date']);
   
   // Prepare and bind
   $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

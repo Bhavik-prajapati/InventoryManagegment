@@ -117,7 +117,27 @@
             <div class="card-body">
               <h5 class="card-title"></h5>
               <form  name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
-                
+              <div class="row mb-4">
+                <label for="date" class="col-sm-2 col-form-label">Date</label>
+                <div class="col-sm-10">
+                  <input type="date" placeholder="Enter Date" class="form-control" id="date" name="date">
+                  <label id="date_validation" class="text-danger"><small>*Please enter a date.</small></label>
+                </div>
+              </div>
+              
+              <script>
+                window.onload = function() {
+                  const dateInput = document.getElementById('date');
+                  const today = new Date();
+                  const year = today.getFullYear();
+                  const month = String(today.getMonth() + 1).padStart(2, '0');
+                  const day = String(today.getDate()).padStart(2, '0');
+                  const currentDate = `${year}-${month}-${day}`;
+                  
+                  dateInput.value = currentDate;
+                };
+                </script>
+
 
                 <div class="row mb-4">
                   <label for="place" class="col-sm-2 col-form-label">Place</label>
@@ -452,7 +472,7 @@
                   <label for="weight_supervisor_name" class="col-sm-2 col-form-label">Weight Supervisor Name</label>
                   <div class="col-sm-10">
                     <!-- <input type="text" placeholder="Enter Weight Supervisor Name" class="form-control" id="weight_supervisor_name" name="weight_supervisor_name"> -->
-                    <select class="form-select" aria-label="Default select example" id="weight_supervisor_name" name="weight_supervisor_name">
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="weight_supervisor_name" name="weight_supervisor_name">
                       <option value="" selected disabled>- - Select Weight Supervisor Name - -</option>
                       <option value="Jignesh Patel">Jignesh Patel</option>
                       <option value="Kaushal Patel">Kaushal Patel</option>
@@ -482,11 +502,18 @@
                     <label id="weight_supervisor_name_validation" class="text-danger"><small>*Select Weight Supervisor Name</small></label>
                   </div>
                 </div>
+
+                <script>
+                  $(document).ready(function() {
+                    $('#weight_supervisor_name').select2();
+                  });
+                </script>
+
                 <div class="row mb-4">
                   <label for="quality_supervisor_name" class="col-sm-2 col-form-label">Quality Supervisor Name</label>
                   <div class="col-sm-10">
                     <!-- <input type="text" placeholder="Enter Quality Supervisor Name" class="form-control" id="quality_supervisor_name" name="quality_supervisor_name"> -->
-                    <select class="form-select" aria-label="Default select example" id="quality_supervisor_name" name="quality_supervisor_name">
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="quality_supervisor_name" name="quality_supervisor_name">
                       <option value="" selected disabled>- - Select Quality Supervisor Name - -</option>
                       <option value="Jignesh Patel">Jignesh Patel</option>
                       <option value="Kaushal Patel">Kaushal Patel</option>
@@ -516,6 +543,13 @@
                     <label id="quality_supervisor_name_validation" class="text-danger"><small>*Select Quality Supervisor Name</small></label>
                   </div>
                 </div>
+
+                <script>
+                  $(document).ready(function() {
+                    $('#quality_supervisor_name').select2();
+                  });
+                </script>
+
                 <div class="row mb-4">
                   <label for="vehicle_no" class="col-sm-2 col-form-label">Vehicle No</label>
                   <div class="col-sm-10">
@@ -610,7 +644,7 @@ if (isset($_POST['btnSubmit'])) {
     $weight_supervisor_name = mysqli_real_escape_string($conn, $_POST['weight_supervisor_name']);
     $quality_supervisor_name = mysqli_real_escape_string($conn, $_POST['quality_supervisor_name']);
     $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
-    $date = date("Y-m-d H:i:s");  
+    $date =  mysqli_real_escape_string($conn, $_POST['date']);  
     $vehicle_no = mysqli_real_escape_string($conn, $_POST['vehicle_no']);
     $container_no = mysqli_real_escape_string($conn, $_POST['container_no']);
 
@@ -634,9 +668,9 @@ if (isset($_POST['btnSubmit'])) {
 $stmt->close();
 
       // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `rate`, `total_kg`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("sssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
-
+      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
+    
     $stmt->execute();
     $stmt->close();
     $conn->close(); 

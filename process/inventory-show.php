@@ -69,8 +69,9 @@ include("layout/aside.php");
                                 <th>weight supervisor name</th>
                                 <th>quality supervisor name</th>
                                 <th>remarks</th>
-                                <th>vehicle_no</th>
-                                <th>container_no</th>
+                                <th>vehicle no</th>
+                                <th>container no</th>
+                                <th>date</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -96,6 +97,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["remarks"] ?></td>
                                             <td><?php echo $row["vehicle_no"] ?></td>
                                             <td><?php echo $row["container_no"] ?></td>
+                                            <td><?php echo $row["date"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -159,28 +161,12 @@ include("layout/aside.php");
                               <th>Place</th>
                               <th>Total Kg</th>
                               <th>Available Kg</th>
+                              <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>
                                     <?php
-                                        $sql2 = "
-                                        SELECT 
-                                            imv2.product_name, 
-                                            imv2.supplier_name, 
-                                            imv2.quality, 
-                                            imv2.rate, 
-                                            imv2.place, 
-                                            imv2.total_kg, 
-                                            CAST(im.total_kg AS SIGNED) AS total_kg_inward_master, 
-                                            CAST(imv2.total_kg AS SIGNED) AS total_kg_inward_master_v2, 
-                                            CAST(imv2.total_kg AS SIGNED) - CAST(im.total_kg AS SIGNED) AS difference
-                                        FROM 
-                                            inward_master im
-                                        JOIN 
-                                            inward_master_v2 imv2 
-                                        ON 
-                                            im.product_name = imv2.product_name;
-                                        ";
+                                        $sql2 = "SELECT * FROM inward_master_v2";
 
                                         $result = $conn->query($sql2);
 
@@ -196,9 +182,9 @@ include("layout/aside.php");
                                             <td><?php echo $row["quality"] ?></td>
                                             <td><?php echo $row["rate"] ?></td>
                                             <td><?php echo $row["place"] ?></td>
-                                            <td><?php echo $row["total_kg_inward_master"] ?></td>
-                                            <!-- <td><?php echo $row["bags_inward_master"] ?></td> -->
-                                            <td><?php echo $row["total_kg_inward_master_v2"] ?></td>
+                                            <td><?php echo $row["main_kg"] ?></td>
+                                            <td><?php echo $row["total_kg"] ?></td>
+                                            <td><?php echo $row["date"] ?></td>
                                         </tr>
                                         <?php 
                                     }

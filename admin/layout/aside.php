@@ -9,7 +9,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="inventory-show.php">
           <i class="bi bi-view-stacked"></i>
-          <span>Inventory</span>
+          <span>Database Inventory</span>
         </a>
       </li><!-- End inventory Nav -->
 

@@ -1,3 +1,16 @@
+<?php
+  if (isset($_POST['btnInward'])) {
+    $_SESSION['role'] = "Inward";
+    echo "<script>window.location = '../inward/inward-form.php';</script>";
+    
+  }
+
+  if (isset($_POST['btnProcess'])) {
+    $_SESSION['role'] = "Process";
+    echo "<script>window.location = '../process/process-form.php';</script>";
+
+  }
+?>
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
@@ -29,5 +42,28 @@
       </li><!-- End inventory Nav -->
 
     </ul>
+    <form method="POST" action="">
+      <ul class="sidebar-nav" id="sidebar-nav" style="border-top: 1px solid #ffffff1a;">
+        <li class="nav-item active">
+          <button name="btnInward" class="nav-link collapsed w-100">
+            <i class="bi bi-caret-right"></i>
+            <span>Inward</span>
+          </button>
+        </li>
 
+        <li class="nav-item active">
+          <button name="btnProcess" class="nav-link collapsed w-100">
+            <i class="bi bi-caret-right"></i>
+            <span>Process</span>
+          </button>
+        </li>
+
+        <li class="nav-item active">
+          <button class="nav-link collapsed w-100">
+            <i class="bi bi-caret-right-fill"></i>
+            <span style="color: #e88125 !important;">Outward</span>
+          </button>
+        </li>
+      </ul>
+    </form>
   </aside><!-- End Sidebar-->

@@ -121,11 +121,11 @@ function format_datetime($datetime) {
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>User Activity</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item">Admin</li>
+          <li class="breadcrumb-item active">User Activity</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -358,7 +358,7 @@ function format_datetime($datetime) {
             </div>
 
             <div class="card-body">
-            <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+            <h5 class="card-title"></span></h5>
             <div class="activity" style="max-height: 300px; overflow-y: auto;">
             <?php
             // +++++++++

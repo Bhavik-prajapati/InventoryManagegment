@@ -4,12 +4,12 @@ include("../config/connection.php");
 $sql = "SELECT role, COUNT(*) as count FROM user_master GROUP BY role";
 $result = $conn->query($sql);
 
-$roles = [];
+// $roles = [];
 $counts = [];
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $roles[] = $row["role"];
+        // $roles[] = $row["role"];
         $counts[] = $row["count"];
     }
 }
@@ -36,10 +36,10 @@ if ($id) {
 }
 
 if (isset($_POST['btn-adduser'])) {
-    if (!empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['role'])) {
+    if (!empty($_POST['username']) && !empty($_POST['password'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $role = $_POST['role'];
+        $role = "";
         $date = date('Y-m-d H:i:s');
 
         $check_query = "SELECT * FROM user_master WHERE username = ?" . ($id ? " AND id != ?" : "");
@@ -94,7 +94,7 @@ if (isset($_POST['btn-adduser'])) {
         }
         $conn->close();
     } else {
-        echo "All form fields are required.";
+      echo '<script>alert("Username and Password both fields are required.");</script>';
     }
 }
 ?>
@@ -120,12 +120,12 @@ if (isset($_POST['btn-adduser'])) {
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Add User</h1>
+      <h1>Manage Users</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">user-add</li>
+          <li class="breadcrumb-item">Admin</li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Add new</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -135,7 +135,7 @@ if (isset($_POST['btn-adduser'])) {
         <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Users Management</h5>
+              <h5 class="card-title"></h5>
               <form method="POST" action="">
                 <div class="row mb-3">
                   <label for="inputEmail" class="col-sm-2 col-form-label">Username</label>
@@ -149,7 +149,7 @@ if (isset($_POST['btn-adduser'])) {
                     <input type="text" name="password" class="form-control" value="<?php echo isset($user['password']) ? $user['password'] : ''; ?>">
                   </div>
                 </div>
-                <div class="row mb-3">
+                <!-- <div class="row mb-3">
                   <label class="col-sm-2 col-form-label">Select Role</label>
                   <div class="col-sm-10">
                     <select name="role" class="form-select" aria-label="Default select example">
@@ -159,7 +159,7 @@ if (isset($_POST['btn-adduser'])) {
                       <option value="Outward" <?php echo (isset($user['role']) && $user['role'] == 'Outward') ? 'selected' : ''; ?>>Outward</option>
                     </select>
                   </div>
-                </div>
+                </div> -->
                 <div class="row mb-3">
                   <div class="col-sm-10">
                     <button type="submit" name="btn-adduser" class="btn btn-primary">Save User</button>

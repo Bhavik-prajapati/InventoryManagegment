@@ -1,11 +1,24 @@
+<?php
+  if (isset($_POST['btnProcess'])) {
+    $_SESSION['role'] = "Process";
+    echo "<script>window.location = '../process/process-form.php';</script>";
+    
+  }
+
+  if (isset($_POST['btnOutward'])) {
+    $_SESSION['role'] = "Outward";
+    echo "<script>window.location = '../outward/outward-form.php';</script>";
+
+  }
+?>
+
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
   <i class="bi bi-list toggle-sidebar-btn" style="position:absolute; top:8px; right:-50px;"></i>
-  
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
+    
+  <ul class="sidebar-nav" id="sidebar-nav">
+    
     <img style="padding-bottom: 15px; border-bottom: 1px solid #ffffff1a;" src="../assets/img/logop.png" class="img-fluid mb-2" style="width:250px;height:80px;" alt="">
 
       <!-- <li class="nav-item">
@@ -31,5 +44,28 @@
       </li><!-- End inventory Nav -->
 
     </ul>
+  <form method="POST" action="">
+    <ul class="sidebar-nav" id="sidebar-nav" style="border-top: 1px solid #ffffff1a;">
+      <li class="nav-item active">
+        <a class="nav-link collapsed">
+          <i class="bi bi-caret-right-fill"></i>
+          <span style="color: #e88125 !important;">Inward</span>
+        </a>
+      </li>
 
+      <li class="nav-item active">
+        <button name="btnProcess" class="nav-link collapsed w-100">
+          <i class="bi bi-caret-right"></i>
+          <span>Process</span>
+        </button>
+      </li>
+
+      <li class="nav-item active">
+        <button name="btnOutward" class="nav-link collapsed w-100">
+          <i class="bi bi-caret-right"></i>
+          <span>Outward</span>
+        </button>
+      </li>
+    </ul>
+  </form>
   </aside><!-- End Sidebar-->

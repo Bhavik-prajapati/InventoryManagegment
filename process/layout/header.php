@@ -194,8 +194,8 @@ if (isset($_POST['btnSignout'])) {
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <i class="rounded-circle bi bi-person-circle"></i>
             <!-- <img src="" alt="Profile" class="rounded-circle"> -->
-            <span class="d-none d-md-block dropdown-toggle ps-2">
-            <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'username'; ?>
+            <span class="d-md-block dropdown-toggle ps-2">
+            Process
             </span>
           </a><!-- End Profile Iamge Icon -->
 

@@ -143,7 +143,7 @@
                     if ($in_result->num_rows > 0) {
                       while($in_row = $in_result->fetch_assoc()) {
                         ?>
-                        <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Date:".$in_row["date"] ?></option>
+                        <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"] ?></option>
                   <?php 
                       }
                     }
@@ -261,8 +261,11 @@
 <?php
 if (isset($_POST['btnSubmit'])) {
    // Collect and escape form data
+$product_name_id = $_POST['product_name'];
+$product_name_id_array = explode(",", $product_name_id);
+
 $date = mysqli_real_escape_string($conn, $_POST['date']);
-$product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+$product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
 $quality = mysqli_real_escape_string($conn, $_POST['quality']);
 $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
 $vehicle_number = mysqli_real_escape_string($conn, $_POST['vehicle_number']);
@@ -287,6 +290,13 @@ if ($conn->query($sql) === TRUE) {
         VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
     $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
     $stmt->execute();
+
+    // Delete from process_master using id
+    $stmt1 = $conn->prepare("DELETE FROM process_outward_master WHERE id = ?");
+    $stmt1->bind_param('i', $product_name_id_array[1]);
+    $stmt1->execute();
+    $stmt1->close();
+
 } else {
   echo "<script>alert('Form Not Submitted')</script>";
 

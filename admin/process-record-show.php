@@ -53,7 +53,7 @@ include("layout/aside.php");
                         <h5 class="card-title">Process Inward</h5>
 
                         <!-- Table with stripped rows -->
-                        <table class="table datatable">
+                        <table id="processInwardTable" class="table datatable">
                             <thead>
                               <tr>
                                 <th>Place</th>
@@ -94,6 +94,8 @@ include("layout/aside.php");
                                     <tbody>
                             </tbody>
                         </table>
+                        <button id="exportProcessInwardExcel" class="btn btn-dark"> Export to Excel</button>
+                        <button id="exportProcessInwardPDF" class="btn btn-dark"> Export to PDF</button>
                         <!-- End Table with stripped rows -->
                     </div>
                 </div>
@@ -110,7 +112,7 @@ include("layout/aside.php");
                         <h5 class="card-title">Process Outward</h5>
 
                         <!-- Table with stripped rows -->
-                        <table class="table datatable">
+                        <table id="processOutwardTable" class="table datatable">
                             <thead>
                               <tr>
                               <th>Product Name</th>
@@ -151,6 +153,8 @@ include("layout/aside.php");
                                     <tbody>
                             </tbody>
                         </table>
+                        <button id="exportProcessOutwardExcel" class="btn btn-dark"> Export to Excel</button>
+                        <button id="exportProcessOutwardPDF" class="btn btn-dark"> Export to PDF</button>
                         <!-- End Table with stripped rows -->
                     </div>
                 </div>
@@ -180,7 +184,107 @@ include("layout/aside.php");
 
 
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.72/vfs_fonts.js"></script>
 
+
+
+
+<script type="text/javascript">
+  function exportTableToPDF(tableId, baseFilename, orientationMode, pageSize) {
+      const table = document.getElementById(tableId);
+      const rows = table.querySelectorAll('tr');
+      let data = [];
+      let headers = [];
+
+      rows.forEach((row, rowIndex) => {
+          let rowData = [];
+          const cols = row.querySelectorAll('td, th');
+          cols.forEach((col) => {
+              rowData.push(col.innerText);
+          });
+          if (rowIndex === 0) {
+              headers = rowData;
+          } else {
+              data.push(rowData);
+          }
+      });
+
+      const docDefinition = {
+          content: [
+              {
+                  table: {
+                      headerRows: 1,
+                      widths: headers.map(() => 'auto'),
+                      body: [headers, ...data]
+                  },
+                  layout: {
+                      hLineColor: '#000000', // Horizontal line color
+                      vLineColor: '#000000', // Vertical line color
+                      hLineWidth: function(i, node) {
+                          return i === 0 ? 1 : 0.5; // Header row lines thicker
+                      },
+                      vLineWidth: function(i, node) {
+                          return 0.5; // All vertical lines
+                      },
+                      paddingLeft: function(i, node) {
+                          return 5; // Padding for left side of cell
+                      },
+                      paddingRight: function(i, node) {
+                          return 5; // Padding for right side of cell
+                      },
+                      paddingTop: function(i, node) {
+                          return 5; // Padding for top side of cell
+                      },
+                      paddingBottom: function(i, node) {
+                          return 5; // Padding for bottom side of cell
+                      }
+                  }
+              }
+          ],
+          pageSize: pageSize,
+          pageOrientation: orientationMode
+      };
+
+      const date = new Date();
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      const filename = `${baseFilename}${formattedDate}.pdf`;
+
+      pdfMake.createPdf(docDefinition).download(filename);
+  }
+
+  function exportTableToExcel(tableId, baseFilename) {
+    const table = document.getElementById(tableId);
+    const ws = XLSX.utils.table_to_sheet(table);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    const date = new Date();
+    const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    const filename = `${baseFilename}${formattedDate}.xlsx`;
+
+    XLSX.writeFile(wb, filename);
+}
+
+
+  document.getElementById('exportProcessInwardExcel').addEventListener('click', function() {
+    exportTableToExcel('processInwardTable', 'ProcessInward');
+  });
+  
+  document.getElementById('exportProcessOutwardExcel').addEventListener('click', function() {
+    exportTableToExcel('processOutwardTable', 'ProcessOutward');
+  });
+
+  document.getElementById('exportProcessInwardPDF').addEventListener('click', function() {
+    exportTableToPDF('processInwardTable', 'ProcessInward', 'portrait', 'A4');
+  });
+  
+  document.getElementById('exportProcessOutwardPDF').addEventListener('click', function() {
+    exportTableToPDF('processOutwardTable', 'ProcessOutward', 'portrait', 'A4');
+  });
+
+</script>
 </html>
 
 

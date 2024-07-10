@@ -12,26 +12,13 @@
     include("config/head-data.php");
     ?>
 
-<style>
-    /* Chrome, Safari, Edge, Opera */
-    input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    /* Firefox */
-    input[type=number] {
-      -moz-appearance: textfield;
-    }
 
-    .text-danger {
-      display: none;
-    }
 
-  </style>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 
     <script>
 
@@ -145,13 +132,13 @@
                 <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                 <div class="col-sm-10">
                   <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
-                  <select class="form-select" aria-label="Default select example" id="product_name" name="product_name">
+                  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
                       <option value="" selected disabled>- - Select Product - -</option>
                       <?php
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                        <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Date:".$in_row["date"] ?></option>
+                        <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"] ?></option>
                       <?php 
                           }
                         }
@@ -159,7 +146,16 @@
                     </select>
                     <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
                 </div>
+                <input type="hidden" id="used_total_kg" name="used_total_kg">
+                <input type="hidden" id="selected_product_name" name="selected_product_name">
               </div>
+
+              <script>
+                  $(document).ready(function() {
+                    $('#product_name').select2();
+                  });
+                </script>
+
               <div class="row mb-4">
                 <label for="quality" class="col-sm-2 col-form-label">Quality</label>
                 <div class="col-sm-10">
@@ -171,7 +167,7 @@
               <div class="row mb-4">
                 <label for="one_no" class="col-sm-2 col-form-label">1 no</label>
                 <div class="col-sm-10">
-                  <input type="text" placeholder="Enter 1 no." class="form-control" id="one_no" name="one_no">
+                  <input type="number" step="0.00000000001" placeholder="Enter 1 no." class="form-control" id="one_no" name="one_no">
                   <label id="one_no_validation" class="text-danger"><small>*Enter 1 no.</small></label>
                 </div>
               </div>
@@ -179,7 +175,7 @@
               <div class="row mb-4">
                 <label for="two_no" class="col-sm-2 col-form-label">2 no</label>
                 <div class="col-sm-10">
-                  <input type="text" placeholder="Enter 2 no." class="form-control" id="two_no" name="two_no">
+                  <input type="number" step="0.00000000001" placeholder="Enter 2 no." class="form-control" id="two_no" name="two_no">
                   <label id="two_no_validation" class="text-danger"><small>*Enter 2 no.</small></label>
                 </div>
               </div>
@@ -187,7 +183,7 @@
               <div class="row mb-4">
                 <label for="three_no" class="col-sm-2 col-form-label">3 no</label>
                 <div class="col-sm-10">
-                  <input type="text" placeholder="Enter 3 no." class="form-control" id="three_no" name="three_no">
+                  <input type="number" step="0.00000000001" placeholder="Enter 3 no." class="form-control" id="three_no" name="three_no">
                   <label id="three_no_validation" class="text-danger"><small>*Enter 3 no.</small></label>
                 </div>
               </div>
@@ -195,7 +191,7 @@
               <div class="row mb-4">
                 <label for="waste_product_weight" class="col-sm-2 col-form-label">Waste Product Weight</label>
                 <div class="col-sm-10">
-                  <input type="text" placeholder="Enter Waste Product Weight" class="form-control" id="waste_product_weight" name="waste_product_weight">
+                  <input type="number" step="0.00000000001" placeholder="Enter Waste Product Weight" class="form-control" id="waste_product_weight" name="waste_product_weight">
                   <label id="waste_product_weight_validation" class="text-danger"><small>*Enter Waste Product Weight</small></label>
                 </div>
               </div>
@@ -226,80 +222,27 @@
   </main><!-- End #main -->
 
   <script>
-          // $(document).ready(function(){
-          //     $('#product_name').change(function(){
-          //         var product_name = $(this).val();
-                  
-          //         // AJAX request to fetch data based on selected product_name
-          //         $.ajax({
-          //             url: 'fetch_bags.php',
-          //             type: 'post',
-          //             data: { product_name: product_name },
-          //             dataType: 'json',
-          //             success:function(response){
-          //                 var maxBags = response[0]['bags'];  // Assuming response contains the maximum number of bags
-          //                 $('#totalbags').val(maxBags);
-          //                 $('#bags_quantity').empty();
-          //                 $('#bags_quantity').append("<option selected disabled>- - Select Bags Quantity - -</option>");
-          //                 for(var i = 1; i <= maxBags; i++){
-          //                     $('#bags_quantity').append("<option value='"+i+"'>"+i+"</option>");
-          //                 }
-          //             }
-          //         });
-          //     });
-          // });
-          
+
           $(document).ready(function(){
             $('#product_name').change(function(){
                 var product_name = $(this).val();
                 
                 // AJAX request to fetch data based on selected product_name
                 $.ajax({
-                    url: 'fetch_bags.php',
+                    url: 'fetch_process_inward.php',
                     type: 'post',
                     data: { product_name: product_name },
                     dataType: 'json',
                     success:function(response){
                         var len = response.length;
                         
-                        $('#each_bag_weight').empty();
-                        $('#max_total_kg_1').text(response[0]['total_kg']);
-                        $('#max_total_kg_2').text(response[0]['total_kg']);
-                        // $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
-                        // for( var i = 0; i < len; i++){
-                        //     var each_bag_weight = response[i]['total_kg'];
-                            
-                        //     $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
-                        // }
+                        $('#used_total_kg').val(response[0]['total_kg']);
+                        $('#selected_product_name').val(response[0]['product_name']);
                     }
                 });
             });
         });
 
-    // $(document).ready(function(){
-    //     $('#bags_quantity').change(function(){
-    //         var bags_quantity = $(this).val();
-            
-    //         // AJAX request to fetch data based on selected bags_quantity
-    //         $.ajax({
-    //             url: 'fetch_each_bag_weight.php',
-    //             type: 'post',
-    //             data: { bags_quantity: bags_quantity },
-    //             dataType: 'json',
-    //             success:function(response){
-    //                 var len = response.length;
-                    
-    //                 $('#each_bag_weight').empty();
-    //                 $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
-    //                 for( var i = 0; i<len; i++){
-    //                     var each_bag_weight = response[i]['each_bag_weight'];
-                        
-    //                     $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
-    //                 }
-    //             }
-    //         });
-    //     });
-    // });
 
     </script>
 
@@ -324,6 +267,8 @@ if (isset($_POST['btnSubmit'])) {
     // Capture and sanitize form data
     $date = mysqli_real_escape_string($conn, $_POST['date']);
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+    $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
+    $used_total_kg = (float)$_POST['used_total_kg'];
     $quality = mysqli_real_escape_string($conn, $_POST['quality']);
     $one_no = mysqli_real_escape_string($conn, $_POST['one_no']);
     $two_no = mysqli_real_escape_string($conn, $_POST['two_no']);
@@ -331,28 +276,36 @@ if (isset($_POST['btnSubmit'])) {
     $waste_product_weight = mysqli_real_escape_string($conn, $_POST['waste_product_weight']);
     $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
 
-    // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssss", $date, $product_name, $quality, $one_no, $two_no, $three_no, $waste_product_weight, $remarks);
+    $sum_of_kg = (float)$one_no + (float)$two_no + (float)$three_no + (float)$waste_product_weight;
 
-    // Execute the statement
-    if ($stmt->execute()) {
-        echo "New record created successfully";
+    if ($sum_of_kg == $used_total_kg) {
+      // Prepare and bind
+      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("ssssssss", $date, $selected_product_name, $quality, $one_no, $two_no, $three_no, $waste_product_weight, $remarks);
+      
+      // Execute the statement
+      if ($stmt->execute()) {
+        echo "<script>alert('Form Submitted Successfully')</script>";
+
         $activity_details = "entered process outward record";
         
         $stmt = $conn->prepare("
-            INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-            VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+        INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
+        VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
         $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
         $stmt->execute();
-    } else {
+      } else {
         echo "Error: " . $stmt->error;
+      }
+      
+      // Close connections
+      $stmt->close();
+      $conn->close();
+      
+    } else {
+      echo "<script>alert('Form Not Submitted')</script>";
     }
-
-    // Close connections
-    $stmt->close();
-    $conn->close();
-
+      
   
 }
 ?>

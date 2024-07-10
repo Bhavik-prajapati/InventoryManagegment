@@ -653,7 +653,7 @@ if (isset($_POST['btnSubmit'])) {
   $stmt->bind_param("sssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
 
   if ($stmt->execute()) {
-    echo "New record created successfully";
+    echo "<script>alert('Form Submitted Successfully')</script>";
 
     $activity_details = "entered inward record";
 

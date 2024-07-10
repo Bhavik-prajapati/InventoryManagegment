@@ -15,6 +15,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  
 
   <style>
     .text-danger {
@@ -136,7 +137,7 @@
             <div class="row mb-4">
               <label for="product_name" class="col-sm-2 col-form-label">Product</label>
               <div class="col-sm-10">
-                <select class="form-select" aria-label="Default select example" id="product_name" name="product_name">
+                <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
                   <option value="" selected disabled>- - Select Product - -</option>
                   <?php
                     if ($in_result->num_rows > 0) {
@@ -152,6 +153,12 @@
               </div>
             </div>
             
+            <script>
+                  $(document).ready(function() {
+                    $('#product_name').select2();
+                  });
+                </script>
+
             <div class="row mb-4">
               <label for="quality" class="col-sm-2 col-form-label">Quality</label>
               <div class="col-sm-10">
@@ -271,7 +278,8 @@ $sql = "INSERT INTO outward_master (date, product, quality, buyer_name, vehicle_
 
 // Execute the query and handle errors
 if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
+    echo "<script>alert('Form Submitted Successfully')</script>";
+
     $activity_details = "entered outward record";
         
     $stmt = $conn->prepare("
@@ -280,7 +288,9 @@ if ($conn->query($sql) === TRUE) {
     $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
     $stmt->execute();
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+  echo "<script>alert('Form Not Submitted')</script>";
+
+    // echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 // Close the database connection

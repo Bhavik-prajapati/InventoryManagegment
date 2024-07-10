@@ -12,26 +12,12 @@
     include("config/head-data.php");
     ?>
 
-<style>
-    /* Chrome, Safari, Edge, Opera */
-    input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    /* Firefox */
-    input[type=number] {
-      -moz-appearance: textfield;
-    }
 
-    .text-danger {
-      display: none;
-    }
-
-  </style>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 
     <script>
   function validateForm() {
@@ -162,13 +148,13 @@
                 <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                 <div class="col-sm-10">
                   <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
-                  <select class="form-select" aria-label="Default select example" id="product_name" name="product_name">
+                  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
                       <option value="" selected disabled>- - Select Product - -</option>
                       <?php
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                      <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"] ?></option>
+                      <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"] ?></option>
                       <?php 
                           }
                         }
@@ -177,6 +163,13 @@
                     <label id="product_name_validation" class="text-danger"><small>*Enter Place</small></label>
                 </div>
               </div>
+
+              <script>
+                  $(document).ready(function() {
+                    $('#product_name').select2();
+                  });
+                </script>
+
               <div class="row mb-4">
                 <label for="weight_quality" class="col-sm-2 col-form-label">Weight Quality</label>
                 <div class="col-sm-10">
@@ -361,7 +354,7 @@ if (isset($_POST['btnSubmit'])) {
 
   // Execute the query
   if ($stmt->execute()) {
-      echo "New record created successfully";
+      echo "<script>alert('Form Submitted Successfully')</script>";
       $activity_details = "entered process inward record";
         
       $stmt = $conn->prepare("
@@ -370,7 +363,8 @@ if (isset($_POST['btnSubmit'])) {
       $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
       $stmt->execute();
   } else {
-      echo "Error: " . $stmt->error;
+      // echo "Error: " . $stmt->error;
+      echo "<script>alert('Form Not Submitted')</script>";
   }
   
   // Close the connection
@@ -381,11 +375,20 @@ if (isset($_POST['btnSubmit'])) {
   $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
  
   $kg = $available_kg - $total_kg;
- 
-  $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `total_kg` = ? WHERE `id` = ?");
-  $stmt->bind_param("si", $kg, $product_id);
-  $stmt->execute();
-  $stmt->close();
+
+  if ((float)$kg > 0) {
+    $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `total_kg` = ? WHERE `id` = ?");
+    $stmt->bind_param("si", $kg, $product_id);
+    $stmt->execute();
+    $stmt->close();
+  } else {
+    $stmt = $conn->prepare("DELETE from `inward_master_v2` WHERE `id` = ?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $stmt->close();
+  }
+  
+
   
   
   $conn->close();

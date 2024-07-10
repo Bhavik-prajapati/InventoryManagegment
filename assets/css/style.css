@@ -29,6 +29,13 @@
 
 }
 
+.sidebar .my-sidebar-btn{
+  position:absolute; 
+  top:8px;
+  right: 15px;
+  color: white !important;
+}
+
 
 /*--------------------------------------------------------------
 # General

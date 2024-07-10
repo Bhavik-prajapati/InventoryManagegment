@@ -42,11 +42,21 @@
   /**
    * Sidebar toggle
    */
-  if (select('.toggle-sidebar-btn')) {
-    on('click', '.toggle-sidebar-btn', function(e) {
-      select('body').classList.toggle('toggle-sidebar')
-    })
-  }
+  // if (select('.toggle-sidebar-btn')) {
+  //   on('click', '.toggle-sidebar-btn', function(e) {
+  //     select('body').classList.toggle('toggle-sidebar')
+  //   })
+  // }
+
+  const buttons = document.querySelectorAll('.toggle-sidebar-btn');
+
+buttons.forEach(button => {
+  button.addEventListener('click', function(e) {
+    document.body.classList.toggle('toggle-sidebar');
+  });
+});
+
+
 
   /**
    * Search bar toggle

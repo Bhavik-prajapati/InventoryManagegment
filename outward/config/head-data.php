@@ -3,7 +3,7 @@
 <meta content="" name="description">
 <meta content="" name="keywords">
 
-<title>Inward</title>
+<title>Outward</title>
 
 <!-- Favicons -->
 <link href="../assets/img/favicon.png" rel="icon">

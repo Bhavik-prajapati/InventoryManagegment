@@ -1,17 +1,10 @@
 <?php
-//   session_start(); // Start the session
 
-//   if(isset($_SESSION['role']) && isset($_SESSION['username'])) {
-//     if($_SESSION['role'] == "Process"){
-//       $user_type = $_SESSION['role'];
-//       $email = $_SESSION["username"];
-//     }   
-//     else{
-//       echo "<script>window.location = '../index.php';</script>";
-//     }
-// } else {
-//   echo "<script>window.location = '../index.php';</script>";
-// }
+  if(isset($_SESSION['adminuser'])) {
+    $email = $_SESSION["adminuser"];
+  } else {
+    echo "<script>window.location = '../index.php';</script>";
+  }
 
 if (isset($_POST['btnSignout'])) {
   session_destroy();
@@ -20,6 +13,7 @@ if (isset($_POST['btnSignout'])) {
 ?>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
+  <i class="bi bi-list toggle-sidebar-btn"></i>
 
     <!-- <div class="d-flex align-items-center justify-content-between">
       <a href="" class="logo d-flex align-items-center">
@@ -196,17 +190,17 @@ if (isset($_POST['btnSignout'])) {
             <i class="rounded-circle bi bi-person-circle"></i>
             <!-- <img src="" alt="Profile" class="rounded-circle"> -->
             <span class="d-none d-md-block dropdown-toggle ps-2">
-            <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'username'; ?>
+            Admin
             </span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6>
-            <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'username'; ?>
+            <?php echo isset($_SESSION['adminuser']) ? $_SESSION['adminuser'] : 'username'; ?>
             </h6>
         <!--       <span>
-            <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : 'username'; ?>
+            <?php echo isset($_SESSION['adminuser']) ? $_SESSION['adminuser'] : 'username'; ?>
               </span> -->
             </li>
             <li>

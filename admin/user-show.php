@@ -18,6 +18,12 @@ include("../config/connection.php");
   <?php
     include("config/head-data.php");
   ?>
+
+  <style>
+    .my-btn-edit:hover{
+      color:black !important;
+    }
+  </style>
   
 </head>
 
@@ -76,7 +82,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["password"] ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="user-add.php?id=<?php echo $row["id"] ?>" class="bi bi-pencil-square m-1" style="padding:10px 20px; background-color:#e881258d;"></a>
+                                                    <a href="user-add.php?id=<?php echo $row["id"] ?>" class="bi bi-pencil-square btn btn-light m-1 my-btn-edit" style="padding:10px 20px; color:white; background-color:#e88125;"></a>
                                                     <form action="" method="POST">
                                                       <input type="hidden" name="id" value="<?php echo $row["id"] ?>">
                                                       <button type="submit" name="deleteBtn" class="bi bi-trash btn btn-light m-1" style="padding:10px 20px;"></button>

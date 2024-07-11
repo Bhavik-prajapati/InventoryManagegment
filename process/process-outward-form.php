@@ -167,7 +167,7 @@
               <div class="row mb-4">
                 <label for="one_no" class="col-sm-2 col-form-label">1 no</label>
                 <div class="col-sm-10">
-                  <input type="number" step="0.00000000001" placeholder="Enter 1 no." class="form-control" id="one_no" name="one_no">
+                  <input type="number" step="0.00000000001" value="0" placeholder="Enter 1 no." class="form-control" id="one_no" name="one_no">
                   <label id="one_no_validation" class="text-danger"><small>*Enter 1 no.</small></label>
                 </div>
               </div>
@@ -175,7 +175,7 @@
               <div class="row mb-4">
                 <label for="two_no" class="col-sm-2 col-form-label">2 no</label>
                 <div class="col-sm-10">
-                  <input type="number" step="0.00000000001" placeholder="Enter 2 no." class="form-control" id="two_no" name="two_no">
+                  <input type="number" step="0.00000000001" value="0" placeholder="Enter 2 no." class="form-control" id="two_no" name="two_no">
                   <label id="two_no_validation" class="text-danger"><small>*Enter 2 no.</small></label>
                 </div>
               </div>
@@ -183,7 +183,7 @@
               <div class="row mb-4">
                 <label for="three_no" class="col-sm-2 col-form-label">3 no</label>
                 <div class="col-sm-10">
-                  <input type="number" step="0.00000000001" placeholder="Enter 3 no." class="form-control" id="three_no" name="three_no">
+                  <input type="number" step="0.00000000001" value="0" placeholder="Enter 3 no." class="form-control" id="three_no" name="three_no">
                   <label id="three_no_validation" class="text-danger"><small>*Enter 3 no.</small></label>
                 </div>
               </div>
@@ -191,7 +191,7 @@
               <div class="row mb-4">
                 <label for="waste_product_weight" class="col-sm-2 col-form-label">Waste Product Weight</label>
                 <div class="col-sm-10">
-                  <input type="number" step="0.00000000001" placeholder="Enter Waste Product Weight" class="form-control" id="waste_product_weight" name="waste_product_weight">
+                  <input type="number" step="0.00000000001" value="0" placeholder="Enter Waste Product Weight" class="form-control" id="waste_product_weight" name="waste_product_weight">
                   <label id="waste_product_weight_validation" class="text-danger"><small>*Enter Waste Product Weight</small></label>
                 </div>
               </div>
@@ -294,6 +294,14 @@ if (isset($_POST['btnSubmit'])) {
         VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
         $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
         $stmt->execute();
+
+        // Delete from process_master using id
+        $stmt1 = $conn->prepare("DELETE FROM process_master WHERE id = ?");
+        $stmt1->bind_param('i', $product_name);
+        $stmt1->execute();
+        $stmt1->close();
+
+
       } else {
         echo "Error: " . $stmt->error;
       }

@@ -1,6 +1,20 @@
 <?php
   include("../config/connection.php");
+
+  function getInwardMasterCount($conn) {
+    $sql = "SELECT COUNT(*) as count FROM inward_master";
+    $result = $conn->query($sql);
+
+    if ($result) {
+      $row = $result->fetch_assoc();
+      return $row['count'];
+    } else {
+      return 0;
+    }
+  }
+  $count = getInwardMasterCount($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,9 +101,6 @@
       validateForm(false);
     };
   });
-
-
-    
     return valid;
   }
 </script>
@@ -111,10 +122,15 @@
 
     <section class="section">
       <div class="row">
+        
         <div class="col-lg-12">
 
           <div class="card">
+          
             <div class="card-body">
+            <span class="mt-2">
+                # <?php echo $count; ?>
+            </span>
               <h5 class="card-title"></h5>
               <form  name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
               <div class="row mb-4">
@@ -660,6 +676,7 @@ if (isset($_POST['btnSubmit'])) {
     $stmt = $conn->prepare("INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details) VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
     $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
     $stmt->execute();
+    echo "<script>window.location = 'inward-form.php';</script>";
 
   } else {
       echo "Error: " . $stmt->error;

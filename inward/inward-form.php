@@ -128,10 +128,9 @@
           <div class="card">
           
             <div class="card-body">
-            <span class="mt-2">
-                # <?php echo $count; ?>
-            </span>
-              <h5 class="card-title"></h5>
+              <h5 class="card-title">
+              <?php echo "XX/DD-MM-YYYY/".$count; ?>
+              </h5>
               <form  name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
               <div class="row mb-4">
                 <label for="date" class="col-sm-2 col-form-label">Date</label>

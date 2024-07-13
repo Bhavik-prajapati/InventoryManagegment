@@ -157,18 +157,18 @@
                 </script>
 
               <div class="row mb-4">
-                <label for="quality" class="col-sm-2 col-form-label">Quality</label>
+                <label for="quality" class="col-sm-2 col-form-label">Quality FG</label>
                 <div class="col-sm-10">
-                  <input type="text" placeholder="Enter Quality" class="form-control" id="quality" name="quality">
-                  <label id="quality_validation" class="text-danger"><small>*Enter Quality</small></label>
+                  <input type="text" placeholder="Enter Quality FG" class="form-control" id="quality" name="quality">
+                  <label id="quality_validation" class="text-danger"><small>*Enter Quality FG</small></label>
                 </div>
               </div>
 
               <div class="row mb-4">
-                <label for="one_no" class="col-sm-2 col-form-label">1 no</label>
+                <label for="one_no" class="col-sm-2 col-form-label">Provided</label>
                 <div class="col-sm-10">
-                  <input type="number" step="0.00000000001" value="0" placeholder="Enter 1 no." class="form-control" id="one_no" name="one_no">
-                  <label id="one_no_validation" class="text-danger"><small>*Enter 1 no.</small></label>
+                  <input type="number" step="0.00000000001" value="0" placeholder="Enter Provided" class="form-control" id="one_no" name="one_no">
+                  <label id="one_no_validation" class="text-danger"><small>*Enter Provided</small></label>
                 </div>
               </div>
 

@@ -56,11 +56,13 @@ include("layout/aside.php");
                         <table id="processInwardTable" class="table datatable">
                             <thead>
                               <tr>
+                                <th>Lot No</th>
                                 <th>Place</th>
                                 <th>Process Name</th>
                                 <th>Foreign Buyer Name</th>
                                 <th>Product Name</th>
-                                <th>Weight Quality</th>
+                                <th>Product Quality</th>
+                                <th>Supplier Name</th>
                                 <th>Total Kg</th>
                                 <th>Remarks</th>
                                 <th>Date</th>
@@ -79,11 +81,13 @@ include("layout/aside.php");
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
+                                            <td><?php echo $row["lot_no"] ?></td>
                                             <td><?php echo $row["place"] ?></td>
                                             <td><?php echo $row["process_name"] ?></td>
                                             <td><?php echo $row["foreign_buyer_name"] ?></td>
                                             <td><?php echo $row["product_name"] ?></td>
                                             <td><?php echo $row["weight_quality"] ?></td>
+                                            <td><?php echo $row["supplier_name"] ?></td>
                                             <td><?php echo $row["total_kg"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
                                             <td><?php echo $row["date"] ?></td>
@@ -277,11 +281,11 @@ include("layout/aside.php");
   });
 
   document.getElementById('exportProcessInwardPDF').addEventListener('click', function() {
-    exportTableToPDF('processInwardTable', 'ProcessInward', 'portrait', 'A4');
+    exportTableToPDF('processInwardTable', 'ProcessInward', 'landscape', 'A3');
   });
   
   document.getElementById('exportProcessOutwardPDF').addEventListener('click', function() {
-    exportTableToPDF('processOutwardTable', 'ProcessOutward', 'portrait', 'A4');
+    exportTableToPDF('processOutwardTable', 'ProcessOutward', 'landscape', 'A3');
   });
 
 </script>

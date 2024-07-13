@@ -17,7 +17,7 @@ if ($result->num_rows > 0) {
 $user = [];
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 if ($id) {
-    $user_query = "SELECT * FROM user_master WHERE id = ?";
+    $user_query = "SELECT * FROM supplier_name_master WHERE id = ?";
     $user_stmt = $conn->prepare($user_query);
     if ($user_stmt) {
         $user_stmt->bind_param("i", $id);
@@ -26,7 +26,7 @@ if ($id) {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
         } else {
-            echo '<script>alert("User not found.");</script>';
+            echo '<script>alert("Supplier not found.");</script>';
         }
         echo "<script>console.log(".json_encode($user).")</script>";
         $user_stmt->close();
@@ -36,35 +36,32 @@ if ($id) {
 }
 
 if (isset($_POST['btn-adduser'])) {
-    if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $role = "";
-        $date = date('Y-m-d H:i:s');
+    if (!empty($_POST['name'])){
+        $name = $_POST['name'];
 
-        $check_query = "SELECT * FROM user_master WHERE username = ?" . ($id ? " AND id != ?" : "");
+        $check_query = "SELECT * FROM supplier_name_master WHERE `name` = ?" . ($id ? " AND id != ?" : "");
         $check_stmt = $conn->prepare($check_query);
         
         if ($check_stmt) {
             if ($id) {
-                $check_stmt->bind_param("si", $username, $id);
+                $check_stmt->bind_param("si", $name, $id);
             } else {
-                $check_stmt->bind_param("s", $username);
+                $check_stmt->bind_param("s", $name);
             }
             $check_stmt->execute();
             $check_stmt->store_result();
 
             if ($check_stmt->num_rows > 0) {
-                echo '<script>alert("Username already exists. Please choose a different username.");</script>';
+                echo '<script>alert("Supplier Name already exists.");</script>';
             } else {
                 if ($id) {
-                    $update_query = "UPDATE user_master SET username = ?, password = ?, role = ?, date = ? WHERE id = ?";
+                    $update_query = "UPDATE supplier_name_master SET `name` = ? WHERE id = ?";
                     $update_stmt = $conn->prepare($update_query);
                     if ($update_stmt) {
-                        $update_stmt->bind_param("ssssi", $username, $password, $role, $date, $id);
+                        $update_stmt->bind_param("si", $name, $id);
                         if ($update_stmt->execute()) {
-                            echo '<script>alert("User updated successfully!");</script>';
-                            echo '<script>window.location.href="user-show.php";</script>';
+                            echo '<script>alert("Supplier Name updated successfully!");</script>';
+                            echo '<script>window.location.href="supplier-show.php";</script>';
                         } else {
                             echo "Error executing statement: " . $update_stmt->error;
                         }
@@ -73,12 +70,12 @@ if (isset($_POST['btn-adduser'])) {
                         echo "Error preparing statement: " . $conn->error;
                     }
                 } else {
-                    $insert_query = "INSERT INTO user_master (username, password, role, date) VALUES (?, ?, ?, ?)";
+                    $insert_query = "INSERT INTO supplier_name_master (name) VALUES (?)";
                     $insert_stmt = $conn->prepare($insert_query);
                     if ($insert_stmt) {
-                        $insert_stmt->bind_param("ssss", $username, $password, $role, $date);
+                        $insert_stmt->bind_param("s", $name);
                         if ($insert_stmt->execute()) {
-                            echo '<script>alert("New user added successfully!");</script>';
+                            echo '<script>alert("New Supplier Name added successfully!");</script>';
                         } else {
                             echo "Error executing statement: " . $insert_stmt->error;
                         }
@@ -94,7 +91,7 @@ if (isset($_POST['btn-adduser'])) {
         }
         $conn->close();
     } else {
-      echo '<script>alert("Username and Password both fields are required.");</script>';
+      echo '<script>alert("Supplier Name field is required.");</script>';
     }
 }
 ?>
@@ -132,31 +129,14 @@ if (isset($_POST['btn-adduser'])) {
               <h5 class="card-title"></h5>
               <form method="POST" action="">
                 <div class="row mb-3">
-                  <label for="inputEmail" class="col-sm-2 col-form-label">Username</label>
+                  <label for="inputEmail" class="col-sm-2 col-form-label">Supplier Name</label>
                   <div class="col-sm-10">
-                    <input type="text" name="username" class="form-control" value="<?php echo isset($user['username']) ? $user['username'] : ''; ?>">
+                    <input type="text" name="name" class="form-control" value="<?php echo isset($user['name']) ? $user['name'] : ''; ?>">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                   <div class="col-sm-10">
-                    <input type="text" name="password" class="form-control" value="<?php echo isset($user['password']) ? $user['password'] : ''; ?>">
-                  </div>
-                </div>
-                <!-- <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label">Select Role</label>
-                  <div class="col-sm-10">
-                    <select name="role" class="form-select" aria-label="Default select example">
-                      <option value="">--Select Role--</option>
-                      <option value="Inward" <?php echo (isset($user['role']) && $user['role'] == 'Inward') ? 'selected' : ''; ?>>Inward</option>
-                      <option value="Process" <?php echo (isset($user['role']) && $user['role'] == 'Process') ? 'selected' : ''; ?>>Process</option>
-                      <option value="Outward" <?php echo (isset($user['role']) && $user['role'] == 'Outward') ? 'selected' : ''; ?>>Outward</option>
-                    </select>
-                  </div>
-                </div> -->
-                <div class="row mb-3">
-                  <div class="col-sm-10">
-                    <button type="submit" name="btn-adduser" class="btn btn-primary">Save User</button>
+                    <button type="submit" name="btn-adduser" class="btn btn-primary">Save Supplier Name</button>
                   </div>
                 </div>
               </form>

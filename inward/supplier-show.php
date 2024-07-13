@@ -1,10 +1,10 @@
 <?php
 
 include("../config/connection.php");
-  $tname = "user_master";
+  $tname = "supplier_name_master";
 
   // Perform SELECT query
-  $sql = "SELECT * FROM $tname order by id DESC";
+  $sql = "SELECT * FROM $tname";
   $result = $conn->query($sql);
 
 ?>
@@ -53,15 +53,14 @@ include("layout/aside.php");
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">
-                        <a href="user-add.php" class="btn btn-dark">Add New</a>
+                        <a href="supplier-add.php" class="btn btn-dark">Add New</a>
                         </h5>
 
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
                               <tr>
-                                <th>Username</th>
-                                <th>Password</th>
+                                <th>Name</th>
                                 <th style="display:inline-block"></th>
                                 </tr>
                             </thead>
@@ -72,11 +71,10 @@ include("layout/aside.php");
                                       while($row = $result->fetch_assoc()) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $row["username"] ?></td>
-                                            <td><?php echo $row["password"] ?></td>
+                                            <td><?php echo $row["name"] ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="user-add.php?id=<?php echo $row["id"] ?>" class="bi bi-pencil-square btn btn-light m-1 my-btn-edit" style="padding:10px 20px; color:white; background-color:#e88125;"></a>
+                                                    <a href="supplier-add.php?id=<?php echo $row["id"] ?>" class="bi bi-pencil-square btn btn-light m-1 my-btn-edit" style="padding:10px 20px; color:white; background-color:#e88125;"></a>
                                                     <form action="" method="POST">
                                                       <input type="hidden" name="id" value="<?php echo $row["id"] ?>">
                                                       <button type="submit" name="deleteBtn" class="bi bi-trash btn btn-light m-1" style="padding:10px 20px;"></button>
@@ -109,7 +107,7 @@ include("layout/aside.php");
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Record deleted successfully')</script>";
-        echo "<script>window.location.href = 'user-show.php';</script>";
+        echo "<script>window.location.href = 'supplier-show.php';</script>";
 
 
     } else {

@@ -72,6 +72,7 @@ include("layout/aside.php");
                                 <th>vehicle no</th>
                                 <th>container no</th>
                                 <th>date</th>
+                                <th>lot no</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -98,6 +99,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["vehicle_no"] ?></td>
                                             <td><?php echo $row["container_no"] ?></td>
                                             <td><?php echo $row["date"] ?></td>
+                                            <td><?php echo $row["lot_no"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -211,11 +213,13 @@ include("layout/aside.php");
                         <table class="table datatable">
                             <thead>
                               <tr>
+                                <th>Lot No</th>
                                 <th>Place</th>
                                 <th>Process Name</th>
                                 <th>Foreign Buyer Name</th>
                                 <th>Product Name</th>
-                                <th>Weight Quality</th>
+                                <th>Product Quality</th>
+                                <th>Supplier Name</th>
                                 <th>Total Kg</th>
                                 <th>Remarks</th>
                                 <th>Date</th>
@@ -234,11 +238,13 @@ include("layout/aside.php");
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
+                                            <td><?php echo $row["lot_no"] ?></td>
                                             <td><?php echo $row["place"] ?></td>
                                             <td><?php echo $row["process_name"] ?></td>
                                             <td><?php echo $row["foreign_buyer_name"] ?></td>
                                             <td><?php echo $row["product_name"] ?></td>
                                             <td><?php echo $row["weight_quality"] ?></td>
+                                            <td><?php echo $row["supplier_name"] ?></td>
                                             <td><?php echo $row["total_kg"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
                                             <td><?php echo $row["date"] ?></td>

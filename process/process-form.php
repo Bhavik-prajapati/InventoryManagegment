@@ -134,14 +134,14 @@
                 <label for="process_name" class="col-sm-2 col-form-label">Process Name</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Process Name" class="form-control" id="process_name" name="process_name">
-                  <label id="process_name_validation" class="text-danger"><small>*Enter Place</small></label>
+                  <label id="process_name_validation" class="text-danger"><small>*Enter Process Name</small></label>
                 </div>
               </div>
               <div class="row mb-4">
                 <label for="foreign_buyer_name" class="col-sm-2 col-form-label">Foreign Buyer Name</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Foreign Buyer Name" class="form-control" id="foreign_buyer_name" name="foreign_buyer_name">
-                  <label id="foreign_buyer_name_validation" class="text-danger"><small>*Enter Place</small></label>
+                  <label id="foreign_buyer_name_validation" class="text-danger"><small>*Enter Foreign Buyer Name</small></label>
                 </div>
               </div>
               <div class="row mb-4">
@@ -154,13 +154,13 @@
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                      <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"] ?></option>
+                      <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"] ?></option>
                       <?php 
                           }
                         }
                       ?>
                     </select>
-                    <label id="product_name_validation" class="text-danger"><small>*Enter Place</small></label>
+                    <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
                 </div>
               </div>
 
@@ -171,12 +171,20 @@
                 </script>
 
               <div class="row mb-4">
-                <label for="weight_quality" class="col-sm-2 col-form-label">Weight Quality</label>
+                <label for="weight_quality" class="col-sm-2 col-form-label">Product Quality</label>
                 <div class="col-sm-10">
-                  <input type="text" placeholder="Enter Weight Quality" class="form-control" id="weight_quality" name="weight_quality">
-                  <label id="weight_quality_validation" class="text-danger"><small>*Enter Place</small></label>
+                  <input type="text" placeholder="Enter Product Quality" class="form-control" id="weight_quality" name="weight_quality">
+                  <label id="weight_quality_validation" class="text-danger"><small>*Select Product Quality</small></label>
                 </div>
               </div>
+              <div class="row mb-4">
+                  <label class="col-sm-2 col-form-label">Supplier Name</label>
+                  <div class="col-sm-10">
+                    <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="supplier_name" name="supplier_name">
+                    <label class="col-sm-2 col-form-label" id="lbl_supplier_name"></label>
+                    <!-- <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label> -->
+                  </div>
+                </div>
               <!-- <div class="row mb-4">
                 <label for="bags_quantity" class="col-sm-2 col-form-label">Bags Quantity</label>
                 <div class="col-sm-10">
@@ -197,7 +205,7 @@
                   <input type="hidden" id="available_kg" name="available_kg">
                   <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight">
                 </div>
-                <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Place</small></label>
+                <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Total Kg</small></label>
                 <label id="total_kg_overflow_validation" class="text-danger"><small>*Weight exceeds the <span id="max_total_kg_2">0</span> limit.</small></label>
                   <!-- <select class="form-select" aria-label="Default select example" id="each_bag_weight" name="each_bag_weight">
                       <option selected disabled>- - Select Bags Quantity First - -</option>
@@ -214,10 +222,20 @@
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
-                  <label id="remarks_validation" class="text-danger"><small>*Enter Place</small></label>
+                  <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label>
 
                 </div>
               </div>
+
+              <div class="row mb-4">
+                  <label class="col-sm-2 col-form-label">Lot No</label>
+                  <div class="col-sm-10">
+                    <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="lot_no" name="lot_no">
+                    <label class="col-sm-2 col-form-label" id="lbl_lot_no"></label>
+                    <!-- <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label> -->
+                  </div>
+                </div>
+
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
@@ -277,6 +295,10 @@
                         $('#max_total_kg_2').text(response[0]['total_kg']);
                         $('#available_kg').val(response[0]['total_kg']);
                         $('#product_id').val(response[0]['id']);
+                        $('#lot_no').val(response[0]['lot_no']);
+                        $('#lbl_lot_no').text(response[0]['lot_no']);
+                        $('#supplier_name').val(response[0]['supplier_name']);
+                        $('#lbl_supplier_name').text(response[0]['supplier_name']);
                         // $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
                         // for( var i = 0; i < len; i++){
                         //     var each_bag_weight = response[i]['total_kg'];
@@ -343,14 +365,16 @@ if (isset($_POST['btnSubmit'])) {
   $total_kg = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
   $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
   $date = mysqli_real_escape_string($conn, $_POST['date']);
+  $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
+  $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
   
   // Prepare and bind
-  $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $stmt = $conn->prepare($sql);
   
   // Bind the parameters
-  $stmt->bind_param("sssssdss", $place, $process_name, $foreign_buyer_name, $product_name, $weight_quality, $total_kg, $remarks, $date);
+  $stmt->bind_param("ssssssssss", $place, $process_name, $foreign_buyer_name, $product_name, $weight_quality, $total_kg, $remarks, $date, $supplier_name, $lot_no);
 
   // Execute the query
   if ($stmt->execute()) {
@@ -374,7 +398,8 @@ if (isset($_POST['btnSubmit'])) {
   $available_kg = mysqli_real_escape_string($conn, $_POST['available_kg']);
   $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
  
-  $kg = $available_kg - $total_kg;
+  $kg = floatval($available_kg) - floatval($total_kg);
+
 
   if ((float)$kg > 0) {
     $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `total_kg` = ? WHERE `id` = ?");

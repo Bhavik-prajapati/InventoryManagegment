@@ -36,7 +36,7 @@
         </a>
       </li><!-- End inward Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#supplier-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-person"></i><span>Suppliers</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -52,7 +52,7 @@
             </a>
           </li>
         </ul>
-      </li><!-- End supplier Nav -->
+      </li> -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="inventory-show.php">

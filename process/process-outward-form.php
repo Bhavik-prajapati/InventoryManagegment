@@ -164,7 +164,7 @@
                 </div>
               </div>
 
-              <div class="row mb-4">
+            <!--   <div class="row mb-4">
                 <label for="one_no" class="col-sm-2 col-form-label">Provided</label>
                 <div class="col-sm-10">
                   <input type="number" step="0.00000000001" value="0" placeholder="Enter Provided" class="form-control" id="one_no" name="one_no">
@@ -195,7 +195,7 @@
                   <label id="waste_product_weight_validation" class="text-danger"><small>*Enter Waste Product Weight</small></label>
                 </div>
               </div>
-
+ -->
               <div class="row mb-4">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
@@ -281,7 +281,7 @@ if (isset($_POST['btnSubmit'])) {
     if ($sum_of_kg == $used_total_kg) {
       // Prepare and bind
       $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssssss", $date, $selected_product_name, $quality, $one_no, $two_no, $three_no, $waste_product_weight, $remarks);
+      $stmt->bind_param("ssssssss", $date, $selected_product_name, $quality,'','','','', $remarks);
       
       // Execute the statement
       if ($stmt->execute()) {

@@ -53,6 +53,11 @@
     checkField("supervisor_name", "supervisor_name_validation");
     checkField("gate_person_name", "gate_person_name_validation");
     checkField("remarks", "remarks_validation");
+    checkField("place", "place_validation");
+    checkField("bags_quantity", "bags_quantity_validation");
+    checkField("weighbridge_weight", "weighbridge_weight_validation");
+    checkField("invoice_bridge_weight", "invoice_bridge_weight_validation");
+    checkField("invoice", "invoice_validation");
 
     // Custom validation for numeric values
     // function checkNumericField(fieldName, labelId) {
@@ -73,9 +78,9 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-      "date", "product_name", "quality", "foreign_buyer_name",
+      "date", "place", "product_name", "quality", "bags_quantity", "foreign_buyer_name",
       "vehicle_number", "container_number", "quantity_per_kg",
-      "supervisor_name", "gate_person_name", "remarks"
+      "supervisor_name", "gate_person_name", "remarks", "weighbridge_weight", "invoice_bridge_weight", "invoice"
     ];
 
   formFields.forEach(fieldName => {
@@ -135,6 +140,14 @@
                 </script>
 
             <div class="row mb-4">
+              <label for="place" class="col-sm-2 col-form-label">Place</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Enter Place" class="form-control" id="place" name="place">
+                <label id="place_validation" class="text-danger"><small>*Please enter the place.</small></label>
+              </div>
+            </div>
+
+            <div class="row mb-4">
               <label for="product_name" class="col-sm-2 col-form-label">Product</label>
               <div class="col-sm-10">
                 <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
@@ -160,13 +173,21 @@
                 </script>
 
             <div class="row mb-4">
-              <label for="quality" class="col-sm-2 col-form-label">Quality</label>
+              <label for="quality" class="col-sm-2 col-form-label">Quality FG</label>
               <div class="col-sm-10">
-                <input type="text" placeholder="Enter Quality" class="form-control" id="quality" name="quality">
-                <label id="quality_validation" class="text-danger"><small>*Please enter the quality.</small></label>
+                <input type="text" placeholder="Enter Quality FG" class="form-control" id="quality" name="quality">
+                <label id="quality_validation" class="text-danger"><small>*Please enter the quality FG.</small></label>
               </div>
             </div>
             
+            <div class="row mb-4">
+              <label for="bags_quantity" class="col-sm-2 col-form-label">Bags Quantity</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Enter Bags Quantity" class="form-control" id="bags_quantity" name="bags_quantity">
+                <label id="bags_quantity_validation" class="text-danger"><small>*Please enter the Bags Quantity.</small></label>
+              </div>
+            </div>
+
             <div class="row mb-4">
               <label for="foreign_buyer_name" class="col-sm-2 col-form-label">Buyer Name</label>
               <div class="col-sm-10">
@@ -192,26 +213,118 @@
             </div>
             
             <div class="row mb-4">
-              <label for="quantity_per_kg" class="col-sm-2 col-form-label">Quantity per Kg</label>
+              <label for="quantity_per_kg" class="col-sm-2 col-form-label">Each Bag Weight</label>
               <div class="col-sm-10">
-                <input type="number" step="0.00000000001" placeholder="Enter Quantity per Kg" class="form-control" id="quantity_per_kg" name="quantity_per_kg">
-                <label id="quantity_per_kg_validation" class="text-danger"><small>*Please enter the quantity per kg.</small></label>
+                <input type="number" step="0.00000000001" placeholder="Enter Each Bag Weight" class="form-control" id="quantity_per_kg" name="quantity_per_kg">
+                <label id="quantity_per_kg_validation" class="text-danger"><small>*Please enter the Each Bag Weight.</small></label>
               </div>
             </div>
             
             <div class="row mb-4">
               <label for="supervisor_name" class="col-sm-2 col-form-label">Supervisor Name</label>
               <div class="col-sm-10">
-                <input type="text" placeholder="Enter Supervisor Name" class="form-control" id="supervisor_name" name="supervisor_name">
-                <label id="supervisor_name_validation" class="text-danger"><small>*Please enter the supervisor's name.</small></label>
+                <!-- <input type="text" placeholder="Enter Supervisor Name" class="form-control" id="supervisor_name" name="supervisor_name"> -->
+                <select class="form-select dropdown-class" aria-label="Default select example" id="supervisor_name" name="supervisor_name">
+                      <option value="" selected disabled>- - Select Supervisor Name - -</option>
+                      <option value="Jignesh Patel">Jignesh Patel</option>
+                      <option value="Kaushal Patel">Kaushal Patel</option>
+                      <option value="Dipesh Patel">Dipesh Patel</option>
+                      <option value="Rajesh Suthar">Rajesh Suthar</option>
+                      <option value="Karan Raval">Karan Raval</option>
+                      <option value="Kirti Chavda">Kirti Chavda</option>
+                      <option value="Riya Surti">Riya Surti</option>
+                      <option value="Dhruv Patel">Dhruv Patel</option>
+                      <option value="Rajnikant">Rajnikant</option>
+                      <option value="Ramesh Patel">Ramesh Patel</option>
+                      <option value="Divakarji">Divakarji</option>
+                      <option value="Paresh Lodha">Paresh Lodha</option>
+                      <option value="Krushn Damor">Krushn Damor</option>
+                      <option value="Meet Patel">Meet Patel</option>
+                      <option value="Binoy Prajapati">Binoy Prajapati</option>
+                      <option value="Prinjal Patel">Prinjal Patel</option>
+                      <option value="Jay Vyas">Jay Vyas</option>
+                      <option value="Hardik Panchal">Hardik Panchal</option>
+                      <option value="Ronak Patel">Ronak Patel</option>
+                      <option value="Shubh">Shubh</option>
+                      <option value="Manth Patel">Manth Patel</option>
+                      <option value="Vipul Patel">Vipul Patel</option>
+                      <option value="Vikram">Vikram</option>
+                      <option value="Rameshbhai">Rameshbhai</option>
+                    </select>
+                <label id="supervisor_name_validation" class="text-danger"><small>*Please select the supervisor's name.</small></label>
               </div>
             </div>
+
+            <script>
+                  $(document).ready(function() {
+                    $('#supervisor_name').select2();
+                  });
+                </script>
+
 
             <div class="row mb-4">
               <label for="gate_person_name" class="col-sm-2 col-form-label">Gate Person Name</label>
               <div class="col-sm-10">
-                <input type="text" placeholder="Enter Gate Person Name" class="form-control" id="gate_person_name" name="gate_person_name">
+                <!-- <input type="text" placeholder="Enter Gate Person Name" class="form-control" id="gate_person_name" name="gate_person_name"> -->
+                <select class="form-select dropdown-class" aria-label="Default select example" id="gate_person_name" name="gate_person_name">
+                      <option value="" selected disabled>- - Select Gate Person Name - -</option>
+                      <option value="Jignesh Patel">Jignesh Patel</option>
+                      <option value="Kaushal Patel">Kaushal Patel</option>
+                      <option value="Dipesh Patel">Dipesh Patel</option>
+                      <option value="Rajesh Suthar">Rajesh Suthar</option>
+                      <option value="Karan Raval">Karan Raval</option>
+                      <option value="Kirti Chavda">Kirti Chavda</option>
+                      <option value="Riya Surti">Riya Surti</option>
+                      <option value="Dhruv Patel">Dhruv Patel</option>
+                      <option value="Rajnikant">Rajnikant</option>
+                      <option value="Ramesh Patel">Ramesh Patel</option>
+                      <option value="Divakarji">Divakarji</option>
+                      <option value="Paresh Lodha">Paresh Lodha</option>
+                      <option value="Krushn Damor">Krushn Damor</option>
+                      <option value="Meet Patel">Meet Patel</option>
+                      <option value="Binoy Prajapati">Binoy Prajapati</option>
+                      <option value="Prinjal Patel">Prinjal Patel</option>
+                      <option value="Jay Vyas">Jay Vyas</option>
+                      <option value="Hardik Panchal">Hardik Panchal</option>
+                      <option value="Ronak Patel">Ronak Patel</option>
+                      <option value="Shubh">Shubh</option>
+                      <option value="Manth Patel">Manth Patel</option>
+                      <option value="Vipul Patel">Vipul Patel</option>
+                      <option value="Vikram">Vikram</option>
+                      <option value="Rameshbhai">Rameshbhai</option>
+                    </select>
                 <label id="gate_person_name_validation" class="text-danger"><small>*Please enter the gate person's name.</small></label>
+              </div>
+            </div>
+
+            <script>
+                  $(document).ready(function() {
+                    $('#gate_person_name').select2();
+                  });
+                </script>
+
+
+            <div class="row mb-4">
+              <label for="weighbridge_weight" class="col-sm-2 col-form-label">Weighbridge Weight</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Enter Weighbridge Weight" class="form-control" id="weighbridge_weight" name="weighbridge_weight">
+                <label id="weighbridge_weight_validation" class="text-danger"><small>*Please enter the Weighbridge Weight.</small></label>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <label for="invoice_bridge_weight" class="col-sm-2 col-form-label">Invoice Bridge Weight</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Enter Invoice Bridge Weight" class="form-control" id="invoice_bridge_weight" name="invoice_bridge_weight">
+                <label id="invoice_bridge_weight_validation" class="text-danger"><small>*Please enter the Invoice Bridge Weight.</small></label>
+              </div>
+            </div>
+            
+            <div class="row mb-4">
+              <label for="invoice" class="col-sm-2 col-form-label">Invoice</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Enter Invoice" class="form-control" id="invoice" name="invoice">
+                <label id="invoice_validation" class="text-danger"><small>*Please enter the Invoice.</small></label>
               </div>
             </div>
 
@@ -274,10 +387,15 @@ $quantity_per_kg = mysqli_real_escape_string($conn, $_POST['quantity_per_kg']);
 $supervisor_name = mysqli_real_escape_string($conn, $_POST['supervisor_name']);
 $gate_person_name = mysqli_real_escape_string($conn, $_POST['gate_person_name']);
 $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+$place = mysqli_real_escape_string($conn, $_POST['place']);
+$bags_quantity = mysqli_real_escape_string($conn, $_POST['bags_quantity']);
+$weighbridge_weight = mysqli_real_escape_string($conn, $_POST['weighbridge_weight']);
+$invoice_bridge_weight = mysqli_real_escape_string($conn, $_POST['invoice_bridge_weight']);
+$invoice = mysqli_real_escape_string($conn, $_POST['invoice']);
 
 // Prepare the SQL query to insert data into the `outward_master` table
-$sql = "INSERT INTO outward_master (date, product, quality, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks) 
-        VALUES ('$date', '$product_name', '$quality', '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks')";
+$sql = "INSERT INTO outward_master (date, product, quality, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks, place,	bags_quantity, weighbridge_weight, invoice_bridge_weight, invoice) 
+        VALUES ('$date', '$product_name', '$quality', '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks', '$place', '$bags_quantity', '$weighbridge_weight', '$invoice_bridge_weight', '$invoice')";
 
 // Execute the query and handle errors
 if ($conn->query($sql) === TRUE) {

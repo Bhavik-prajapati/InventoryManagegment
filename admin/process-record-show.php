@@ -121,10 +121,11 @@ include("layout/aside.php");
                               <tr>
                               <th>Product Name</th>
                               <th>Quality</th>
-                              <th>1 No</th>
+                              <th>Available Quantity</th>
+                              <!-- <th>1 No</th>
                               <th>2 No</th>
                               <th>3 No</th>
-                              <th>Waste Product Weight</th>
+                              <th>Waste Product Weight</th> -->
                               <th>Remarks</th>
                               <th>Date</th>
                               </tr>
@@ -144,10 +145,11 @@ include("layout/aside.php");
                                         <tr>
                                             <td><?php echo $row["product_name"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>
-                                            <td><?php echo $row["one_no"] ?></td>
+                                            <td><?php echo $row["available_quantity"] ?></td>
+                                            <!-- <td><?php echo $row["one_no"] ?></td>
                                             <td><?php echo $row["two_no"] ?></td>
                                             <td><?php echo $row["three_no"] ?></td>
-                                            <td><?php echo $row["waste_product_weight"] ?></td>
+                                            <td><?php echo $row["waste_product_weight"] ?></td> -->
                                             <td><?php echo $row["remarks"] ?></td>
                                             <td><?php echo $row["date"] ?></td>
                                         </tr>
@@ -285,7 +287,7 @@ include("layout/aside.php");
   });
   
   document.getElementById('exportProcessOutwardPDF').addEventListener('click', function() {
-    exportTableToPDF('processOutwardTable', 'ProcessOutward', 'landscape', 'A3');
+    exportTableToPDF('processOutwardTable', 'ProcessOutward', 'portrait', 'A4');
   });
 
 </script>

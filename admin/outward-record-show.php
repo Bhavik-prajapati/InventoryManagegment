@@ -57,16 +57,20 @@ include("layout/aside.php");
                         <table id="outwardRecordTable" class="table datatable">
                             <thead>
                               <tr>
-                                <th>product</th>
-                                <th>quality</th>
-                                <th>buyer_name</th>
-                                <th>vehicle_number</th>
-                                <th>container_number</th>
-                                <th>quantity_per_kg</th>
-                                <th>supervisor_name</th>
-                                <th>gate_person_name</th>
-                                <th>remarks</th>
-                                <th>date</th>
+                              <th>Place</th>
+                                <th>Product</th>
+                                <th>Quality FG</th>
+                                <th>Bags Quantity</th>
+                                <th>Buyer Name</th>
+                                <th>Vehicle Number</th>
+                                <th>Container Number</th>
+                                <th>Each Bag Weight</th>
+                                <th>Supervisor Name</th>
+                                <th>Gate Person Name</th>
+                                <th>Weighbridge Weight</th>
+                                <th>Invoice Bridge Weight</th>
+                                <th>Invoice</th>
+                                <th>Remarks</th>
 
                               </tr>
                             </thead>
@@ -83,16 +87,20 @@ include("layout/aside.php");
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
+                                        <td><?php echo $row["place"] ?></td>
                                             <td><?php echo $row["product"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>
+                                            <td><?php echo $row["bags_quantity"] ?></td>
                                             <td><?php echo $row["buyer_name"] ?></td>
                                             <td><?php echo $row["vehicle_number"] ?></td>
                                             <td><?php echo $row["container_number"] ?></td>
                                             <td><?php echo $row["quantity_per_kg"] ?></td>
                                             <td><?php echo $row["supervisor_name"] ?></td>
                                             <td><?php echo $row["gate_person_name"] ?></td>
+                                            <td><?php echo $row["weighbridge_weight"] ?></td>
+                                            <td><?php echo $row["invoice_bridge_weight"] ?></td>
+                                            <td><?php echo $row["invoice"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
-                                            <td><?php echo $row["date"] ?></td>
                                         </tr>
                                         <?php 
                                     }

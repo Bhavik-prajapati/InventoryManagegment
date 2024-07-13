@@ -270,10 +270,10 @@ if (isset($_POST['btnSubmit'])) {
     $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
     $used_total_kg = (float)$_POST['used_total_kg'];
     $quality = mysqli_real_escape_string($conn, $_POST['quality']);
-    $one_no = mysqli_real_escape_string($conn, $_POST['one_no']);
-    $two_no = mysqli_real_escape_string($conn, $_POST['two_no']);
-    $three_no = mysqli_real_escape_string($conn, $_POST['three_no']);
-    $waste_product_weight = mysqli_real_escape_string($conn, $_POST['waste_product_weight']);
+    $one_no =0;
+    $two_no = 0;
+    $three_no =0;
+    $waste_product_weight =0;
     $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
 
     $sum_of_kg = (float)$one_no + (float)$two_no + (float)$three_no + (float)$waste_product_weight;

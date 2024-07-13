@@ -55,24 +55,24 @@ include("layout/aside.php");
                         <table class="table datatable">
                             <thead>
                               <tr>
-                                <th>place</th>
-                                <th>supplier name</th>
-                                <th>product name</th>
-                                <th>quality</th>
-                                <th>bags</th>
-                                <th>total kg</th>
-                                <th>rate</th>
-                                <th>om exim weighbridge weight</th>
-                                <th>other weighbridge weight</th>
-                                <th>weight as per average bag weight</th>
-                                <th>bill weight</th>
-                                <th>weight supervisor name</th>
-                                <th>quality supervisor name</th>
-                                <th>remarks</th>
-                                <th>vehicle no</th>
-                                <th>container no</th>
-                                <th>date</th>
-                                <th>lot no</th>
+                              <th>Place</th>
+                              <th>Supplier Name</th>
+                              <th>Product Name</th>
+                              <th>Quality</th>
+                              <th>Bags</th>
+                              <th>Total KG</th>
+                              <th>Rate</th>
+                              <th>Om Exim Weighbridge Weight</th>
+                              <th>Other Weighbridge Weight</th>
+                              <th>Weight As Per Average Bag Weight</th>
+                              <th>Bill Weight</th>
+                              <th>Weight Supervisor Name</th>
+                              <th>Quality Supervisor Name</th>
+                              <th>Remarks</th>
+                              <th>Vehicle No</th>
+                              <th>Container No</th>
+                              <th>Date</th>
+                              <th>Lot No</th>
                               </tr>
                             </thead>
                             <tbody>

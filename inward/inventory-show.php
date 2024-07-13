@@ -72,6 +72,7 @@ include("layout/aside.php");
                                 <th>vehicle no</th>
                                 <th>container no</th>
                                 <th>date</th>
+                                <th>lot no</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -98,6 +99,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["vehicle_no"] ?></td>
                                             <td><?php echo $row["container_no"] ?></td>
                                             <td><?php echo $row["date"] ?></td>
+                                            <td><?php echo $row["lot_no"] ?></td>
                                         </tr>
                                         <?php 
                                     }

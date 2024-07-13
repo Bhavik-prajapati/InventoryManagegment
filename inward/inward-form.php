@@ -128,8 +128,12 @@
           <div class="card">
           
             <div class="card-body">
-              <h5 class="card-title">
-              <?php echo "XX/DD-MM-YYYY/".$count; ?>
+              <h5 class="card-title" style="border-bottom: 1px solid #daeeff; margin-bottom: 20px;">
+              <?php 
+                $date = date('Y/m/d');
+                $lot_no = "RM/".$date."/".$count;
+                echo $lot_no; 
+              ?>
               </h5>
               <form  name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
               <div class="row mb-4">
@@ -165,9 +169,34 @@
                   <label for="supplier_name" class="col-sm-2 col-form-label">Supplier Name</label>
                   <div class="col-sm-10">
                     <input type="text" placeholder="Enter Supplier Name" class="form-control" id="supplier_name" name="supplier_name">
+                    <!-- <select class="form-select dropdown-class" aria-label="Default select example" id="supplier_name" name="supplier_name">
+                      <option value="" selected disabled>- - Select Supplier Name - -</option>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);  
+                      ?>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                          // Output data of each row
+                          while($row = $result->fetch_assoc()) {  
+                      ?>
+                      <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                      <?php 
+                        }
+                      }
+                      ?>
+                    </select> -->
                     <label id="supplier_name_validation" class="text-danger"><small>*Enter Supplier Name</small></label>
                   </div>
                 </div>
+                <!-- <script>
+                  $(document).ready(function() {
+                    $('#supplier_name').select2();
+                  });
+                </script> -->
+
                 <div class="row mb-4">
                   <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                   <div class="col-sm-10">
@@ -586,6 +615,7 @@
                     <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label>
                   </div>
                 </div>
+
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label"></label>
                   <div class="col-sm-10">
@@ -664,8 +694,8 @@ if (isset($_POST['btnSubmit'])) {
     $container_no = mysqli_real_escape_string($conn, $_POST['container_no']);
 
   // Prepare and bind
-  $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("sssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
+  $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
 
   if ($stmt->execute()) {
     echo "<script>alert('Form Submitted Successfully')</script>";
@@ -675,7 +705,6 @@ if (isset($_POST['btnSubmit'])) {
     $stmt = $conn->prepare("INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details) VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
     $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
     $stmt->execute();
-    echo "<script>window.location = 'inward-form.php';</script>";
 
   } else {
       echo "Error: " . $stmt->error;
@@ -684,11 +713,13 @@ if (isset($_POST['btnSubmit'])) {
 $stmt->close();
 
       // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no);
+      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("sssssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
     
     $stmt->execute();
     $stmt->close();
     $conn->close(); 
+    echo "<script>window.location = 'inward-form.php';</script>";
+
 }
 ?>

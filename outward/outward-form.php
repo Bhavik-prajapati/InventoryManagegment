@@ -156,7 +156,7 @@
                     if ($in_result->num_rows > 0) {
                       while($in_row = $in_result->fetch_assoc()) {
                         ?>
-                        <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"] ?></option>
+                        <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
                   <?php 
                       }
                     }

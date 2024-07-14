@@ -12,7 +12,7 @@
       return 0;
     }
   }
-  $count = getInwardMasterCount($conn);
+  $count = getInwardMasterCount($conn) + 1;
 ?>
 
 

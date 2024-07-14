@@ -138,7 +138,7 @@
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                        <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"] ?></option>
+                        <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
                       <?php 
                           }
                         }
@@ -148,6 +148,8 @@
                 </div>
                 <input type="hidden" id="used_total_kg" name="used_total_kg">
                 <input type="hidden" id="selected_product_name" name="selected_product_name">
+                <input type="hidden" id="supplier_name" name="supplier_name">
+                <input type="hidden" id="lot_no" name="lot_no">
               </div>
 
               <script>
@@ -249,6 +251,8 @@
                         $('#available_quantity').val(response[0]['total_kg']);
                         $('#lbl_available_quantity').text(response[0]['total_kg']);
                         $('#selected_product_name').val(response[0]['product_name']);
+                        $('#supplier_name').val(response[0]['supplier_name']);
+                        $('#lot_no').val(response[0]['lot_no']);
                     }
                 });
             });
@@ -287,13 +291,15 @@ if (isset($_POST['btnSubmit'])) {
     $three_no =0;
     $waste_product_weight =0;
     $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+    $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
+    $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
 
     $sum_of_kg = (float)$one_no + (float)$two_no + (float)$three_no + (float)$waste_product_weight;
 
     if ($sum_of_kg == $used_total_kg) {
       // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks, available_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("sssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $available_quantity);
+      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks, available_quantity, supplier_name, lot_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("sssssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $available_quantity, $supplier_name, $lot_no);
       
       // Execute the statement
       if ($stmt->execute()) {

@@ -10,7 +10,7 @@ if(isset($_POST['product_name'])){
     
     // Prepare SQL query
     // $sql = "SELECT DISTINCT each_bag_weight FROM inward_master_v2 WHERE bags = '$bags_quantity'";
-      $sql = "SELECT total_kg, product_name FROM process_master WHERE id = '$product_id'";
+      $sql = "SELECT total_kg, product_name, supplier_name, lot_no FROM process_master WHERE id = '$product_id'";
 
     
     // Execute SQL query

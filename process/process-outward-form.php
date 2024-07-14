@@ -138,7 +138,7 @@
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                        <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"] ?></option>
+                        <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"] ?></option>
                       <?php 
                           }
                         }
@@ -163,6 +163,15 @@
                   <label id="quality_validation" class="text-danger"><small>*Enter Quality FG</small></label>
                 </div>
               </div>
+
+              <div class="row mb-4">
+                  <label class="col-sm-2 col-form-label">Available Quantity</label>
+                  <div class="col-sm-10">
+                    <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="available_quantity" name="available_quantity">
+                    <label class="col-sm-2 col-form-label" id="lbl_available_quantity"></label>
+                    <!-- <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label> -->
+                  </div>
+                </div>
 
             <!--   <div class="row mb-4">
                 <label for="one_no" class="col-sm-2 col-form-label">Provided</label>
@@ -237,6 +246,8 @@
                         var len = response.length;
                         
                         $('#used_total_kg').val(response[0]['total_kg']);
+                        $('#available_quantity').val(response[0]['total_kg']);
+                        $('#lbl_available_quantity').text(response[0]['total_kg']);
                         $('#selected_product_name').val(response[0]['product_name']);
                     }
                 });
@@ -268,7 +279,8 @@ if (isset($_POST['btnSubmit'])) {
     $date = mysqli_real_escape_string($conn, $_POST['date']);
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
     $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
-    $used_total_kg = (float)$_POST['used_total_kg'];
+    $available_quantity = (float)$_POST['used_total_kg'];
+    $used_total_kg = 0;
     $quality = mysqli_real_escape_string($conn, $_POST['quality']);
     $one_no =0;
     $two_no = 0;
@@ -280,8 +292,8 @@ if (isset($_POST['btnSubmit'])) {
 
     if ($sum_of_kg == $used_total_kg) {
       // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssssss", $date, $selected_product_name, $quality,'','','','', $remarks);
+      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks, available_quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("sssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $available_quantity);
       
       // Execute the statement
       if ($stmt->execute()) {

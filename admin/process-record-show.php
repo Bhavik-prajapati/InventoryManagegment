@@ -1,7 +1,13 @@
 <?php
 
 include("../config/connection.php");
-  
+$tname = "inward_master";
+
+// Perform SELECT query
+$sql = "SELECT * FROM $tname order by id DESC";
+$result = $conn->query($sql);
+
+
 
 
 
@@ -43,69 +49,85 @@ include("layout/aside.php");
       </nav>
     </div>
 
-
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
 
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
-                        <h5 class="card-title">Process Inward</h5>
+                        <h5 class="card-title">
+                        </h5>
 
                         <!-- Table with stripped rows -->
-                        <table id="processInwardTable" class="table datatable">
+                        <table id="inventoryTable" class="table datatable">
                             <thead>
-                              <tr>
-                                <th>Lot No</th>
-                                <th>Place</th>
-                                <th>Process Name</th>
-                                <th>Foreign Buyer Name</th>
-                                <th>Product Name</th>
-                                <th>Product Quality</th>
-                                <th>Supplier Name</th>
-                                <th>Total Kg</th>
-                                <th>Remarks</th>
-                                <th>Date</th>
+                              <tr> 
+                              <th>Place</th>
+                              <th>Supplier Name</th>
+                              <th>Product Name</th>
+                              <th>Quality</th>
+                              <th>Bags</th>
+                              <th>Total KG</th>
+                              <th>Rate</th>
+                              <th>Om Exim Weighbridge Weight</th>
+                              <th>Other Weighbridge Weight</th>
+                              <th>Weight As Per Average Bag Weight</th>
+                              <th>Bill Weight</th>
+                              <th>Weight Supervisor Name</th>
+                              <th>Quality Supervisor Name</th>
+                              <th>Remarks</th>
+                              <th>Vehicle No</th>
+                              <th>Container No</th>
+                              <th>Date</th>
+                              <th>Lot No</th>
                               </tr>
                             </thead>
                             <tbody>
                                     <?php
-                                        $sql2 = "SELECT * FROM process_master";
-
-                                        $result = $conn->query($sql2);
-
-                                        $data = array();
-                                        while ($row = $result->fetch_assoc()) {
-                                            $data[] = $row;
-                                        }
-                                        foreach ($data as $row) {
+                                    if ($result->num_rows > 0) {
+                                      // Output data of each row
+                                      while($row = $result->fetch_assoc()) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $row["lot_no"] ?></td>
                                             <td><?php echo $row["place"] ?></td>
-                                            <td><?php echo $row["process_name"] ?></td>
-                                            <td><?php echo $row["foreign_buyer_name"] ?></td>
-                                            <td><?php echo $row["product_name"] ?></td>
-                                            <td><?php echo $row["weight_quality"] ?></td>
                                             <td><?php echo $row["supplier_name"] ?></td>
+                                            <td><?php echo $row["product_name"] ?></td>
+                                            <td><?php echo $row["quality"] ?></td>
+                                            <td><?php echo $row["bags"] ?></td>
                                             <td><?php echo $row["total_kg"] ?></td>
+                                            <td><?php echo $row["rate"] ?></td>
+                                            <td><?php echo $row["om_exim_weighbridge_weight"] ?></td>
+                                            <td><?php echo $row["other_weighbridge_weight"] ?></td>
+                                            <td><?php echo $row["weight_as_per_average_bag_weight"] ?></td>
+                                            <td><?php echo $row["bill_weight"] ?></td>
+                                            <td><?php echo $row["weight_supervisor_name"] ?></td>
+                                            <td><?php echo $row["quality_supervisor_name"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
+                                            <td><?php echo $row["vehicle_no"] ?></td>
+                                            <td><?php echo $row["container_no"] ?></td>
                                             <td><?php echo $row["date"] ?></td>
+                                            <td><?php echo $row["lot_no"] ?></td>
                                         </tr>
                                         <?php 
                                     }
+                                  }
                                   ?>
                                     <tbody>
                             </tbody>
                         </table>
-                        <button id="exportProcessInwardExcel" class="btn btn-dark"> Export to Excel</button>
-                        <button id="exportProcessInwardPDF" class="btn btn-dark"> Export to PDF</button>
                         <!-- End Table with stripped rows -->
+                        <button id="exportInventoryExcel" class="btn btn-dark"> Export to Excel</button>
+                        <button id="exportInventoryPDF" class="btn btn-dark"> Export to PDF</button>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+
+
 
     <section class="section">
         <div class="row">
@@ -120,6 +142,7 @@ include("layout/aside.php");
                             <thead>
                               <tr>
                               <th>Product Name</th>
+                              <th>Place</th>
                               <th>Quality</th>
                               <th>Available Quantity</th>
                               <!-- <th>1 No</th>
@@ -144,6 +167,7 @@ include("layout/aside.php");
                                     ?>
                                         <tr>
                                             <td><?php echo $row["product_name"] ?></td>
+                                            <td><?php echo $row["place"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>
                                             <td><?php echo $row["available_quantity"] ?></td>
                                             <!-- <td><?php echo $row["one_no"] ?></td>

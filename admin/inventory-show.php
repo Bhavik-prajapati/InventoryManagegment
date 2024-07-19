@@ -274,19 +274,19 @@ include("layout/aside.php");
     XLSX.writeFile(wb, filename);
 }
 
-
-  document.getElementById('exportInventoryExcel').addEventListener('click', function() {
-    exportTableToExcel('inventoryTable', 'DatabaseInventory');
-  });
   
+  document.getElementById('exportProcessInwardExcel').addEventListener('click', function() {
+    exportTableToExcel('processInwardTable', 'ProcessInward');
+  });
+
   document.getElementById('exportAvailableInventoryExcel').addEventListener('click', function() {
     exportTableToExcel('availableStockTable', 'AvailableInventoryInward');
   });
-
-  document.getElementById('exportInventoryPDF').addEventListener('click', function() {
-    exportTableToPDF('inventoryTable', 'DatabaseInventory', 'landscape', 'A3');
-  });
   
+  document.getElementById('exportProcessInwardPDF').addEventListener('click', function() {
+    exportTableToPDF('processInwardTable', 'ProcessInward', 'landscape', 'A3');
+  });
+
   document.getElementById('exportAvailableInventoryPDF').addEventListener('click', function() {
     exportTableToPDF('availableStockTable', 'AvailableInventoryInward', 'portrait', 'A4');
   });

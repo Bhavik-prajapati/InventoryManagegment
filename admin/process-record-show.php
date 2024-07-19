@@ -298,16 +298,16 @@ include("layout/aside.php");
 }
 
 
-  document.getElementById('exportProcessInwardExcel').addEventListener('click', function() {
-    exportTableToExcel('processInwardTable', 'ProcessInward');
+  document.getElementById('exportInventoryExcel').addEventListener('click', function() {
+    exportTableToExcel('inventoryTable', 'DatabaseInventory');
   });
   
   document.getElementById('exportProcessOutwardExcel').addEventListener('click', function() {
     exportTableToExcel('processOutwardTable', 'ProcessOutward');
   });
 
-  document.getElementById('exportProcessInwardPDF').addEventListener('click', function() {
-    exportTableToPDF('processInwardTable', 'ProcessInward', 'landscape', 'A3');
+  document.getElementById('exportInventoryPDF').addEventListener('click', function() {
+    exportTableToPDF('inventoryTable', 'DatabaseInventory', 'landscape', 'A2');
   });
   
   document.getElementById('exportProcessOutwardPDF').addEventListener('click', function() {

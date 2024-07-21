@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 14, 2024 at 06:47 AM
+-- Generation Time: Jul 21, 2024 at 04:52 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.4.9
 
@@ -20,70 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `inventorydb`
 --
-
-DELIMITER $$
---
--- Procedures
---
-DROP PROCEDURE IF EXISTS `InsertAndUpdateProcess`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertAndUpdateProcess` (IN `p_place` TEXT, IN `p_process_name` TEXT, IN `p_foreign_buyer_name` TEXT, IN `p_product_name` TEXT, IN `p_weight_quality` TEXT, IN `p_bags_quantity` TEXT, IN `p_each_bag_weight` TEXT, IN `p_remarks` TEXT, IN `p_date` DATE)  BEGIN
-    DECLARE v_bags_quantity INT;
-    DECLARE v_each_bag_weight DECIMAL(10, 2);
-
-    -- Insert into process_master
-    INSERT INTO process_master (
-        place,
-        process_name,
-        foreign_buyer_name,
-        product_name,
-        weight_quality,
-        bags_quantity,
-        each_bag_weight,
-        remarks,
-        date
-    )
-    VALUES (
-        p_place,
-        p_process_name,
-        p_foreign_buyer_name,
-        p_product_name,
-        p_weight_quality,
-        p_bags_quantity,
-        p_each_bag_weight,
-        p_remarks,
-        p_date
-    );
-
-    -- Convert bags_quantity and each_bag_weight to numeric types
-    SET v_bags_quantity = CAST(p_bags_quantity AS UNSIGNED);
-    SET v_each_bag_weight = CAST(p_each_bag_weight AS DECIMAL(10, 2));
-
-    -- Update inward_master
-    UPDATE inward_master
-    SET 
-        bags = bags - v_bags_quantity,
-        each_bag_weight = each_bag_weight - v_each_bag_weight
-    WHERE
-        place = p_place AND product_name = p_product_name;
-END$$
-
-DROP PROCEDURE IF EXISTS `UpdateInwardMaster`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateInwardMaster` (IN `p_place` TEXT, IN `p_product_name` TEXT, IN `p_bags_quantity` TEXT, IN `p_each_bag_weight` TEXT)  BEGIN
-    DECLARE v_bags_quantity INT;
-    DECLARE v_each_bag_weight DECIMAL(10, 2);
-
-    SET v_bags_quantity = CAST(p_bags_quantity AS UNSIGNED);
-    SET v_each_bag_weight = CAST(p_each_bag_weight AS DECIMAL(10, 2));
-
-    UPDATE inward_master
-    SET 
-        bags = bags - v_bags_quantity,
-        each_bag_weight = each_bag_weight - v_each_bag_weight
-    WHERE
-        place = p_place AND product_name = p_product_name;
-END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -102,13 +38,27 @@ CREATE TABLE IF NOT EXISTS `activity_master` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=189 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=203 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `activity_master`
 --
 
 INSERT INTO `activity_master` (`id`, `user_id`, `email`, `user_type`, `activity_timestamp`, `activity_details`) VALUES
+(202, 24, 'user001', 'Outward', '2024-07-19 18:36:51', 'entered outward record'),
+(200, 24, 'user001', 'Inward', '2024-07-18 20:40:00', 'entered inward record'),
+(201, 24, 'user001', 'Process', '2024-07-19 18:36:29', 'logged in'),
+(199, 24, 'user001', 'Inward', '2024-07-18 16:08:12', 'logged in'),
+(198, 24, 'user001', 'Process', '2024-07-18 12:21:41', 'entered process outward record'),
+(197, 24, 'user001', 'Process', '2024-07-18 12:21:10', 'entered process inward record'),
+(196, 24, 'user001', 'Outward', '2024-07-18 11:47:00', 'entered outward record'),
+(195, 24, 'user001', 'Process', '2024-07-18 11:45:42', 'entered process outward record'),
+(194, 24, 'user001', 'Process', '2024-07-18 11:41:23', 'entered process inward record'),
+(192, 24, 'user001', 'Inward', '2024-07-18 11:18:22', 'entered inward record'),
+(193, 24, 'user001', 'Process', '2024-07-18 11:40:11', 'entered process inward record'),
+(191, 24, 'user001', 'Inward', '2024-07-18 11:17:49', 'entered inward record'),
+(189, 24, 'user001', 'Inward', '2024-07-14 10:02:54', 'logged in'),
+(190, 24, 'user001', 'Inward', '2024-07-18 11:10:48', 'logged in'),
 (188, 24, 'user001', 'Inward', '2024-07-14 06:42:00', 'entered inward record'),
 (187, 24, 'user001', 'Process', '2024-07-14 06:41:29', 'entered process inward record'),
 (186, 24, 'user001', 'Inward', '2024-07-14 06:40:59', 'entered inward record'),
@@ -170,7 +120,16 @@ CREATE TABLE IF NOT EXISTS `inward_master` (
   `container_no` text NOT NULL,
   `lot_no` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `inward_master`
+--
+
+INSERT INTO `inward_master` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES
+(48, 'asdasd', 'hello 1', 'Ajwain Seeds', 'asdasd', '100', '2000', '2000', '2000', '2000', '2000', '2000', 'Jignesh Patel', 'Jignesh Patel', 'huih', '2024-07-18', 'shhihui', 'iuhihui', 'RM/2024/07/18/1'),
+(50, 'asdasd', 'asdasd', 'product', 'asdasd', '234', '2342', '234', '234', '234', '234', '234', 'Dipesh Patel', 'Jignesh Patel', '234', '2024-07-19', '234', '234', 'RM/2024/07/18/3'),
+(49, 'asddkasjk', 'hello 2', 'Ajwain Seeds', '100', '1000', '1000', '1000', '1000', '1000', '1000', '1000', 'Kaushal Patel', 'Kaushal Patel', '100', '2024-07-18', '1000', '100', 'RM/2024/07/18/2');
 
 -- --------------------------------------------------------
 
@@ -201,7 +160,16 @@ CREATE TABLE IF NOT EXISTS `inward_master_v2` (
   `container_no` text NOT NULL,
   `lot_no` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `inward_master_v2`
+--
+
+INSERT INTO `inward_master_v2` (`id`, `place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES
+(27, 'asdasd', 'asdasd', 'product', 'asdasd', '234', '2342', '2342', '234', '234', '234', '234', '234', 'Dipesh Patel', 'Jignesh Patel', '234', '2024-07-19', '234', '234', 'RM/2024/07/18/3'),
+(26, 'asddkasjk', 'hello 2', 'Ajwain Seeds', '100', '1000', '1000', '1000', '1000', '1000', '1000', '1000', '1000', 'Kaushal Patel', 'Kaushal Patel', '100', '2024-07-18', '1000', '100', 'RM/2024/07/18/2'),
+(25, 'asdasd', 'hello 1', 'Ajwain Seeds', 'asdasd', '100', '1500', '2000', '2000', '2000', '2000', '2000', '2000', 'Jignesh Patel', 'Jignesh Patel', 'huih', '2024-07-18', 'shhihui', 'iuhihui', 'RM/2024/07/18/1');
 
 -- --------------------------------------------------------
 
@@ -228,7 +196,15 @@ CREATE TABLE IF NOT EXISTS `outward_master` (
   `invoice_bridge_weight` text,
   `invoice` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `outward_master`
+--
+
+INSERT INTO `outward_master` (`id`, `date`, `product`, `quality`, `buyer_name`, `vehicle_number`, `container_number`, `quantity_per_kg`, `supervisor_name`, `gate_person_name`, `remarks`, `place`, `bags_quantity`, `weighbridge_weight`, `invoice_bridge_weight`, `invoice`) VALUES
+(16, '2024-07-20', 'Ajwain Seeds', 'asd', 'asd', 'asd', 'asd', '324', 'Kaushal Patel', 'Kaushal Patel', 'asd', 'asdasd', 'asd', 'asd', 'asd', 'asd'),
+(15, '2024-07-18', 'Ajwain Seeds', 'werlkwmerlk`kwlet`', 'lrgkll', 'elfmglk', 'lkfgmkl', '234', 'Kaushal Patel', 'Rajesh Suthar', 'sdf', 'himmatnagar', 'lekrmmlk', 'zxcs', 'sdfsdf', 'sdf');
 
 -- --------------------------------------------------------
 
@@ -250,7 +226,14 @@ CREATE TABLE IF NOT EXISTS `process_master` (
   `supplier_name` text,
   `lot_no` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `process_master`
+--
+
+INSERT INTO `process_master` (`id`, `place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`) VALUES
+(49, 'ksdhjksdfh', 'hskdjksd', 'lkdjklsdf', '', 'ddjflskjfkl', '100', 'sdfsf', '2024-07-18', 'hello 1', 'RM/2024/07/18/1');
 
 -- --------------------------------------------------------
 
@@ -272,8 +255,9 @@ CREATE TABLE IF NOT EXISTS `process_outward_master` (
   `available_quantity` text,
   `supplier_name` text,
   `lot_no` text,
+  `place` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -286,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `supplier_name_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 

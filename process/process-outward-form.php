@@ -366,10 +366,6 @@ if (isset($_POST['btnSubmit'])) {
 
         foreach($selected_products as $product_id) {
 
-          // $stmt1 = $conn->prepare("DELETE FROM process_master WHERE id = ?");
-          // $stmt1->bind_param('i', $product_name);
-          // $stmt1->execute();
-          // $stmt1->close();
 
           $sql = "DELETE FROM process_master WHERE id = ?";
 

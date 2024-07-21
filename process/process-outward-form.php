@@ -44,6 +44,7 @@
     checkField("place", "place_validation");
     checkField("product_name", "product_name_validation");
     checkField("quality", "quality_validation");
+    checkField("f_product_name", "f_product_name_validation");
     // checkField("one_no", "one_no_validation");
     // checkField("two_no", "two_no_validation");
     // checkField("three_no", "three_no_validation");
@@ -71,7 +72,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-        "date", "place", "product_name", "quality", "remarks"
+        "date", "place", "product_name", "quality", "f_product_name", "remarks"
     ];
 
   formFields.forEach(fieldName => {
@@ -141,8 +142,8 @@
                 <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                 <div class="col-sm-10">
                   <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
-                  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
-                      <option value="" selected disabled>- - Select Product - -</option>
+                  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]" multiple>
+                      <!-- <option value="" selected disabled>- - Select Product - -</option> -->
                       <?php
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
@@ -174,15 +175,45 @@
                   <label id="quality_validation" class="text-danger"><small>*Enter Quality FG</small></label>
                 </div>
               </div>
-
               <div class="row mb-4">
+                  <label for="f_product_name" class="col-sm-2 col-form-label">Final Product Name</label>
+                  <div class="col-sm-10">
+                    <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="f_product_name" name="f_product_name"> -->
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="f_product_name" name="f_product_name">
+                      <option value="" selected disabled>- - Select Final Product Name - -</option>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);  
+                      ?>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                          // Output data of each row
+                          while($row = $result->fetch_assoc()) {  
+                      ?>
+                      <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                      <?php 
+                        }
+                      }
+                      ?>
+                    </select>
+                    <label id="f_product_name_validation" class="text-danger"><small>*Select Final sProduct Name</small></label>
+                  </div>
+                </div>
+
+                <script>
+                  $(document).ready(function() {
+                    $('#product_name').select2();
+                  });
+                </script>
+              <!-- <div class="row mb-4">
                   <label class="col-sm-2 col-form-label">Available Quantity</label>
                   <div class="col-sm-10">
                     <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="available_quantity" name="available_quantity">
                     <label class="col-sm-2 col-form-label" id="lbl_available_quantity"></label>
-                    <!-- <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label> -->
                   </div>
-                </div>
+                </div> -->
 
             <!--   <div class="row mb-4">
                 <label for="one_no" class="col-sm-2 col-form-label">Provided</label>
@@ -291,8 +322,10 @@ if (isset($_POST['btnSubmit'])) {
     // Capture and sanitize form data
     $date = mysqli_real_escape_string($conn, $_POST['date']);
     $place = mysqli_real_escape_string($conn, $_POST['place']);
-    $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
-    $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
+    // $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+    $product_name = "";
+    // $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
+    $selected_product_name = mysqli_real_escape_string($conn, $_POST['f_product_name']);
     $available_quantity = (float)$_POST['used_total_kg'];
     $used_total_kg = 0;
     $quality = mysqli_real_escape_string($conn, $_POST['quality']);
@@ -324,10 +357,38 @@ if (isset($_POST['btnSubmit'])) {
         $stmt->execute();
 
         // Delete from process_master using id
-        $stmt1 = $conn->prepare("DELETE FROM process_master WHERE id = ?");
-        $stmt1->bind_param('i', $product_name);
-        $stmt1->execute();
-        $stmt1->close();
+        // $stmt1 = $conn->prepare("DELETE FROM process_master WHERE id = ?");
+        // $stmt1->bind_param('i', $product_name);
+        // $stmt1->execute();
+        // $stmt1->close();
+
+        $selected_products = $_POST['product_name'];
+
+        foreach($selected_products as $product_id) {
+
+          // $stmt1 = $conn->prepare("DELETE FROM process_master WHERE id = ?");
+          // $stmt1->bind_param('i', $product_name);
+          // $stmt1->execute();
+          // $stmt1->close();
+
+          $sql = "DELETE FROM process_master WHERE id = ?";
+
+          $stmt1 = $conn->prepare($sql);
+          if ($stmt1) {
+              $stmt1->bind_param("i", $product_id);
+
+              // Execute the statement
+              if ($stmt1->execute()) {
+                  // echo "<script>alert('Deleted')</script>";
+                  // echo "Product ID " . htmlspecialchars($product_id) . " deleted successfully.<br>";
+              } else {
+                  // echo "<script>alert('Not Deleted')</script>";
+
+                  // echo "Error deleting product ID " . htmlspecialchars($product_id) . ": " . $stmt1->error . "<br>";
+              }
+          } 
+          $stmt1->close();
+        }
 
 
       } else {

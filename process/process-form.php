@@ -154,7 +154,7 @@
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                      <option value="<?php echo $in_row["product_name"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
+                      <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
                       <?php 
                           }
                         }
@@ -203,6 +203,7 @@
                   </span>
                   <input type="hidden" id="product_id" name="product_id">
                   <input type="hidden" id="available_kg" name="available_kg">
+                  <input type="hidden" id="only_product_name" name="only_product_name">
                   <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight">
                 </div>
                 <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Total Kg</small></label>
@@ -299,6 +300,7 @@
                         $('#lbl_lot_no').text(response[0]['lot_no']);
                         $('#supplier_name').val(response[0]['supplier_name']);
                         $('#lbl_supplier_name').text(response[0]['supplier_name']);
+                        $('#only_product_name').val(response[0]['product_name']);
                         // $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
                         // for( var i = 0; i < len; i++){
                         //     var each_bag_weight = response[i]['total_kg'];
@@ -367,6 +369,7 @@ if (isset($_POST['btnSubmit'])) {
   $date = mysqli_real_escape_string($conn, $_POST['date']);
   $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
   $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
+  $only_product_name = mysqli_real_escape_string($conn, $_POST['only_product_name']);
   
   // Prepare and bind
   $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -374,7 +377,7 @@ if (isset($_POST['btnSubmit'])) {
   $stmt = $conn->prepare($sql);
   
   // Bind the parameters
-  $stmt->bind_param("ssssssssss", $place, $process_name, $foreign_buyer_name, $product_name, $weight_quality, $total_kg, $remarks, $date, $supplier_name, $lot_no);
+  $stmt->bind_param("ssssssssss", $place, $process_name, $foreign_buyer_name, $only_product_name, $weight_quality, $total_kg, $remarks, $date, $supplier_name, $lot_no);
 
   // Execute the query
   if ($stmt->execute()) {

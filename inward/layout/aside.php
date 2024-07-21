@@ -36,23 +36,23 @@
         </a>
       </li><!-- End inward Nav -->
 
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#supplier-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-person"></i><span>Suppliers</span><i class="bi bi-chevron-down ms-auto"></i>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#product-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-box-seam"></i><span>Products</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="supplier-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="product-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="supplier-show.php">
+            <a href="product-show.php">
               <i class="bi bi-circle"></i><span>View All</span>
             </a>
           </li>
           <li>
-            <a href="supplier-add.php">
+            <a href="product-add.php">
               <i class="bi bi-circle"></i><span>Add New</span>
             </a>
           </li>
         </ul>
-      </li> -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="inventory-show.php">

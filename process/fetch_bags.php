@@ -9,7 +9,7 @@ if(isset($_POST['product_name'])){
   $product_name = $conn->real_escape_string($product_name);
   
   // Prepare SQL query
-  $sql = "SELECT id, total_kg, lot_no, supplier_name FROM inward_master_v2 WHERE product_name = '$product_name'";
+  $sql = "SELECT id, total_kg, lot_no, supplier_name, product_name FROM inward_master_v2 WHERE id = '$product_name'";
   
   // Execute SQL query
   $result = $conn->query($sql);

@@ -41,6 +41,7 @@
 
     // Validate each field
     // checkField("date", "date_validation");
+    checkField("place", "place_validation");
     checkField("product_name", "product_name_validation");
     checkField("quality", "quality_validation");
     // checkField("one_no", "one_no_validation");
@@ -70,7 +71,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-        "date", "product_name", "quality", "remarks"
+        "date", "place", "product_name", "quality", "remarks"
     ];
 
   formFields.forEach(fieldName => {
@@ -127,6 +128,14 @@
                 dateInput.value = currentDate;
             };
               </script>
+
+              <div class="row mb-4">
+                <label for="place" class="col-sm-2 col-form-label">Place</label>
+                <div class="col-sm-10">
+                  <input type="text" placeholder="Enter Place" class="form-control" id="place" name="place">
+                  <label id="place_validation" class="text-danger"><small>*Enter Place</small></label>
+                </div>
+              </div>
 
               <div class="row mb-4">
                 <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
@@ -281,6 +290,7 @@ if (isset($_POST['btnSubmit'])) {
 
     // Capture and sanitize form data
     $date = mysqli_real_escape_string($conn, $_POST['date']);
+    $place = mysqli_real_escape_string($conn, $_POST['place']);
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
     $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
     $available_quantity = (float)$_POST['used_total_kg'];
@@ -298,8 +308,8 @@ if (isset($_POST['btnSubmit'])) {
 
     if ($sum_of_kg == $used_total_kg) {
       // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks, available_quantity, supplier_name, lot_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("sssssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $available_quantity, $supplier_name, $lot_no);
+      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks, available_quantity, supplier_name, lot_no, place) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt->bind_param("ssssssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $available_quantity, $supplier_name, $lot_no, $place);
       
       // Execute the statement
       if ($stmt->execute()) {

@@ -167,6 +167,7 @@ include("layout/aside.php");
                                 <th>Invoice Bridge Weight</th>
                                 <th>Invoice</th>
                                 <th>Remarks</th>
+                                <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -196,6 +197,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["invoice_bridge_weight"] ?></td>
                                             <td><?php echo $row["invoice"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
+                                            <td><?php echo $row["date"] ?></td>
     
                                         </tr>
                                         <?php 

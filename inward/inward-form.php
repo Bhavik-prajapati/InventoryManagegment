@@ -445,6 +445,22 @@
                       <option value="Saffola Gold Edible">Saffola Gold Edible</option>
                       <option value="Bambino Vermicelli Raw">Bambino Vermicelli Raw</option>
                       <option value="Bambino Vermicelli Roasted">Bambino Vermicelli Roasted</option>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);  
+                      ?>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                          // Output data of each row
+                          while($row = $result->fetch_assoc()) {  
+                      ?>
+                      <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                      <?php 
+                        }
+                      }
+                      ?>
                     </select>
                     <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
                   </div>

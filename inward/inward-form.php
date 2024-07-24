@@ -203,7 +203,7 @@
                     <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
                     <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
                       <option value="" selected disabled>- - Select Product - -</option>
-                      <option value="Ajwain Seeds">Ajwain Seeds</option>
+                      <!-- <option value="Ajwain Seeds">Ajwain Seeds</option>
                       <option value="AjinoMoto (MSG)">AjinoMoto (MSG)</option>
                       <option value="Amchur Powder">Amchur Powder</option>
                       <option value="Anardana Powder">Anardana Powder</option>
@@ -444,7 +444,7 @@
                       <option value="Saffola Veggie Twist Oats">Saffola Veggie Twist Oats</option>
                       <option value="Saffola Gold Edible">Saffola Gold Edible</option>
                       <option value="Bambino Vermicelli Raw">Bambino Vermicelli Raw</option>
-                      <option value="Bambino Vermicelli Roasted">Bambino Vermicelli Roasted</option>
+                      <option value="Bambino Vermicelli Roasted">Bambino Vermicelli Roasted</option> -->
                       <?php
                         $sql = "SELECT * FROM supplier_name_master";
                         $result = $conn->query($sql);  

@@ -51,13 +51,13 @@ include("layout/aside.php");
 
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
-                        <h5 class="card-title"></h5>
+                        <h5 class="card-title">Outward Record</h5>
 
                         <!-- Table with stripped rows -->
                         <table id="outwardRecordTable" class="table datatable">
                             <thead>
                               <tr>
-                              <th>Place</th>
+                                <th>Date</th>
                                 <th>Product</th>
                                 <th>Quality FG</th>
                                 <th>Bags Quantity</th>
@@ -71,7 +71,7 @@ include("layout/aside.php");
                                 <th>Invoice Bridge Weight</th>
                                 <th>Invoice</th>
                                 <th>Remarks</th>
-                                <th>Date</th>
+                                <th>Place</th>
 
                               </tr>
                             </thead>
@@ -88,21 +88,21 @@ include("layout/aside.php");
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
-                                        <td><?php echo $row["place"] ?></td>
-                                            <td><?php echo $row["product"] ?></td>
-                                            <td><?php echo $row["quality"] ?></td>
-                                            <td><?php echo $row["bags_quantity"] ?></td>
-                                            <td><?php echo $row["buyer_name"] ?></td>
-                                            <td><?php echo $row["vehicle_number"] ?></td>
-                                            <td><?php echo $row["container_number"] ?></td>
-                                            <td><?php echo $row["quantity_per_kg"] ?></td>
-                                            <td><?php echo $row["supervisor_name"] ?></td>
-                                            <td><?php echo $row["gate_person_name"] ?></td>
-                                            <td><?php echo $row["weighbridge_weight"] ?></td>
-                                            <td><?php echo $row["invoice_bridge_weight"] ?></td>
-                                            <td><?php echo $row["invoice"] ?></td>
-                                            <td><?php echo $row["remarks"] ?></td>
-                                            <td><?php echo $row["date"] ?></td>
+                                          <td><?php echo $row["date"] ?></td>
+                                          <td><?php echo $row["product"] ?></td>
+                                          <td><?php echo $row["quality"] ?></td>
+                                          <td><?php echo $row["bags_quantity"] ?></td>
+                                          <td><?php echo $row["buyer_name"] ?></td>
+                                          <td><?php echo $row["vehicle_number"] ?></td>
+                                          <td><?php echo $row["container_number"] ?></td>
+                                          <td><?php echo $row["quantity_per_kg"] ?></td>
+                                          <td><?php echo $row["supervisor_name"] ?></td>
+                                          <td><?php echo $row["gate_person_name"] ?></td>
+                                          <td><?php echo $row["weighbridge_weight"] ?></td>
+                                          <td><?php echo $row["invoice_bridge_weight"] ?></td>
+                                          <td><?php echo $row["invoice"] ?></td>
+                                          <td><?php echo $row["remarks"] ?></td>
+                                          <td><?php echo $row["place"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -229,7 +229,7 @@ include("layout/aside.php");
   });
   
   document.getElementById('exportOutwardRecordPDF').addEventListener('click', function() {
-    exportTableToPDF('outwardRecordTable', 'OutwardRecord', 'landscape', 'A3');
+    exportTableToPDF('outwardRecordTable', 'OutwardRecord', 'landscape', 'A2');
   });
   
 

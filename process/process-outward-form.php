@@ -45,6 +45,8 @@
     checkField("product_name", "product_name_validation");
     checkField("quality", "quality_validation");
     checkField("f_product_name", "f_product_name_validation");
+    checkField("quantity_fg", "quantity_fg_validation");
+    checkField("lot", "lot_validation");
     // checkField("one_no", "one_no_validation");
     // checkField("two_no", "two_no_validation");
     // checkField("three_no", "three_no_validation");
@@ -72,7 +74,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-        "date", "place", "product_name", "quality", "f_product_name", "remarks"
+        "date", "place", "product_name", "quality", "f_product_name", "quantity_fg", "lot", "remarks"
     ];
 
   formFields.forEach(fieldName => {
@@ -247,14 +249,31 @@
                 </div>
               </div>
  -->
+
+              <div class="row mb-4">
+                <label for="quantity_fg" class="col-sm-2 col-form-label">Quantity FG</label>
+                <div class="col-sm-10">
+                  <input type="text" placeholder="Enter Quantity FG" class="form-control" id="quantity_fg" name="quantity_fg">
+                  <label id="quantity_fg_validation" class="text-danger"><small>*Enter Quantity FG</small></label>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <label for="lot" class="col-sm-2 col-form-label">Lot No</label>
+                <div class="col-sm-10">
+                  <input type="text" placeholder="Enter Lot No" class="form-control" id="lot" name="lot">
+                  <label id="lot_validation" class="text-danger"><small>*Enter Lot No</small></label>
+                </div>
+              </div>
+
               <div class="row mb-4">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
                   <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label>
-
                 </div>
               </div>
+
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
@@ -336,13 +355,16 @@ if (isset($_POST['btnSubmit'])) {
     $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
     $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
     $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
-
+    $quantity_fg = mysqli_real_escape_string($conn, $_POST['quantity_fg']);
+    $lot = mysqli_real_escape_string($conn, $_POST['lot']);
+    
+    
     $sum_of_kg = (float)$one_no + (float)$two_no + (float)$three_no + (float)$waste_product_weight;
 
     if ($sum_of_kg == $used_total_kg) {
       // Prepare and bind
       $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks, available_quantity, supplier_name, lot_no, place) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $available_quantity, $supplier_name, $lot_no, $place);
+      $stmt->bind_param("ssssssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $quantity_fg, $supplier_name, $lot, $place);
       
       // Execute the statement
       if ($stmt->execute()) {

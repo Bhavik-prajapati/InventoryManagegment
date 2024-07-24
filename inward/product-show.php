@@ -42,7 +42,7 @@ include("layout/aside.php");
 
 
   <div class="pagetitle">
-        <h1>Suppliers</h1>
+        <h1>Products</h1>
 
     </div>
     <!-- End Page Title -->

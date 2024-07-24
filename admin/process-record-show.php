@@ -55,31 +55,30 @@ include("layout/aside.php");
 
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
-                        <h5 class="card-title">
-                        </h5>
+                        <h5 class="card-title">Database Inventory</h5>
 
                         <!-- Table with stripped rows -->
                         <table id="inventoryTable" class="table datatable">
                             <thead>
                               <tr> 
-                              <th>Place</th>
-                              <th>Supplier Name</th>
-                              <th>Product Name</th>
-                              <th>Quality</th>
-                              <th>Bags</th>
-                              <th>Total KG</th>
-                              <th>Rate</th>
-                              <th>Om Exim Weighbridge Weight</th>
-                              <th>Other Weighbridge Weight</th>
-                              <th>Weight As Per Average Bag Weight</th>
-                              <th>Bill Weight</th>
-                              <th>Weight Supervisor Name</th>
+                                <th>Date</th>
+                                <th>Supplier Name</th>
+                                <th>Product Name</th>
+                                <th>Quality</th>
+                                <th>Bags</th>
+                                <th>Total KG</th>
+                                <th>Rate</th>
+                                <th>Om Exim Weighbridge Weight</th>
+                                <th>Other Weighbridge Weight</th>
+                                <th>Weight As Per Average Bag Weight</th>
+                                <th>Bill Weight</th>
+                                <th>Weight Supervisor Name</th>
                               <th>Quality Supervisor Name</th>
                               <th>Remarks</th>
                               <th>Vehicle No</th>
                               <th>Container No</th>
-                              <th>Date</th>
                               <th>Lot No</th>
+                              <th>Place</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -89,10 +88,10 @@ include("layout/aside.php");
                                       while($row = $result->fetch_assoc()) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $row["place"] ?></td>
-                                            <td><?php echo $row["supplier_name"] ?></td>
-                                            <td><?php echo $row["product_name"] ?></td>
-                                            <td><?php echo $row["quality"] ?></td>
+                                          <td><?php echo $row["date"] ?></td>
+                                          <td><?php echo $row["supplier_name"] ?></td>
+                                          <td><?php echo $row["product_name"] ?></td>
+                                          <td><?php echo $row["quality"] ?></td>
                                             <td><?php echo $row["bags"] ?></td>
                                             <td><?php echo $row["total_kg"] ?></td>
                                             <td><?php echo $row["rate"] ?></td>
@@ -105,8 +104,8 @@ include("layout/aside.php");
                                             <td><?php echo $row["remarks"] ?></td>
                                             <td><?php echo $row["vehicle_no"] ?></td>
                                             <td><?php echo $row["container_no"] ?></td>
-                                            <td><?php echo $row["date"] ?></td>
                                             <td><?php echo $row["lot_no"] ?></td>
+                                            <td><?php echo $row["place"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -141,16 +140,16 @@ include("layout/aside.php");
                         <table id="processOutwardTable" class="table datatable">
                             <thead>
                               <tr>
-                              <th>Product Name</th>
-                              <th>Place</th>
-                              <th>Quality</th>
-                              <!-- <th>Available Quantity</th> -->
-                              <!-- <th>1 No</th>
-                              <th>2 No</th>
-                              <th>3 No</th>
-                              <th>Waste Product Weight</th> -->
-                              <th>Remarks</th>
-                              <th>Date</th>
+                                <th>Date</th>
+                                <th>Final Product Name</th>
+                                <th>Quality FG</th>
+                                <th>Quantity FG</th>
+                                <th>Lot No</th>
+                                <!-- <th>2 No</th>
+                                <th>3 No</th>
+                                <th>Waste Product Weight</th> -->
+                                <th>Remarks</th>
+                                <th>Place</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -166,16 +165,16 @@ include("layout/aside.php");
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $row["product_name"] ?></td>
-                                            <td><?php echo $row["place"] ?></td>
-                                            <td><?php echo $row["quality"] ?></td>
-                                            <!-- <td><?php echo $row["available_quantity"] ?></td> -->
-                                            <!-- <td><?php echo $row["one_no"] ?></td>
-                                            <td><?php echo $row["two_no"] ?></td>
-                                            <td><?php echo $row["three_no"] ?></td>
-                                            <td><?php echo $row["waste_product_weight"] ?></td> -->
-                                            <td><?php echo $row["remarks"] ?></td>
-                                            <td><?php echo $row["date"] ?></td>
+                                          <td><?php echo $row["date"] ?></td>
+                                          <td><?php echo $row["product_name"] ?></td>
+                                          <td><?php echo $row["quality"] ?></td>
+                                          <td><?php echo $row["available_quantity"] ?></td>
+                                          <td><?php echo $row["lot_no"] ?></td>
+                                          <!-- <td><?php echo $row["two_no"] ?></td>
+                                          <td><?php echo $row["three_no"] ?></td>
+                                          <td><?php echo $row["waste_product_weight"] ?></td> -->
+                                          <td><?php echo $row["remarks"] ?></td>
+                                          <td><?php echo $row["place"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -311,7 +310,7 @@ include("layout/aside.php");
   });
   
   document.getElementById('exportProcessOutwardPDF').addEventListener('click', function() {
-    exportTableToPDF('processOutwardTable', 'ProcessOutward', 'portrait', 'A4');
+    exportTableToPDF('processOutwardTable', 'ProcessOutward', 'portrait', 'A2');
   });
 
 </script>

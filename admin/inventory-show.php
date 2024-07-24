@@ -59,14 +59,14 @@ include("layout/aside.php");
                         <table id="availableStockTable" class="table datatable">
                             <thead>
                               <tr>
+                                <th>Date</th>
                               <th>Product Name</th>
                               <th>Supplier Name</th>
                               <th>Quality</th>
                               <th>Rate</th>
-                              <th>Place</th>
                               <th>Total Kg</th>
                               <th>Available Kg</th>
-                              <th>Date</th>
+                              <th>Place</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -82,14 +82,14 @@ include("layout/aside.php");
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
+                                          <td><?php echo $row["date"] ?></td>
                                             <td><?php echo $row["product_name"] ?></td>
                                             <td><?php echo $row["supplier_name"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>
                                             <td><?php echo $row["rate"] ?></td>
-                                            <td><?php echo $row["place"] ?></td>
                                             <td><?php echo $row["main_kg"] ?></td>
                                             <td><?php echo $row["total_kg"] ?></td>
-                                            <td><?php echo $row["date"] ?></td>
+                                            <td><?php echo $row["place"] ?></td>
                                         </tr>
                                         <?php 
                                     }
@@ -118,8 +118,8 @@ include("layout/aside.php");
                         <table id="processInwardTable" class="table datatable">
                             <thead>
                               <tr>
+                                <th>Date</th>
                                 <th>Lot No</th>
-                                <th>Place</th>
                                 <th>Process Name</th>
                                 <th>Foreign Buyer Name</th>
                                 <th>Product Name</th>
@@ -127,7 +127,7 @@ include("layout/aside.php");
                                 <th>Supplier Name</th>
                                 <th>Total Kg</th>
                                 <th>Remarks</th>
-                                <th>Date</th>
+                                <th>Place</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -284,11 +284,11 @@ include("layout/aside.php");
   });
   
   document.getElementById('exportProcessInwardPDF').addEventListener('click', function() {
-    exportTableToPDF('processInwardTable', 'ProcessInward', 'landscape', 'A3');
+    exportTableToPDF('processInwardTable', 'ProcessInward', 'landscape', 'A2');
   });
 
   document.getElementById('exportAvailableInventoryPDF').addEventListener('click', function() {
-    exportTableToPDF('availableStockTable', 'AvailableInventoryInward', 'portrait', 'A4');
+    exportTableToPDF('availableStockTable', 'AvailableInventoryInward', 'portrait', 'A2');
   });
 
 </script>

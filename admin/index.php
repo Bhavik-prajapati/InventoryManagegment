@@ -39,6 +39,92 @@
       echo "<script>window.location = 'index.php';</script>";
     }
   }
+  
+  
+  if (isset($_POST['sendMail'])) {
+
+	$otp = rand(1000, 9999);
+	$_SESSION['userotp'] = $otp;
+	$otpmessage = "
+	<html>
+	<head>
+			<title>Your OTP for Verification</title>
+			<style>
+					*{
+						margin:0;
+						padding:0;
+					}
+					body {
+							font-family: Arial, sans-serif;
+							background-color: #f5f5f5;
+							color: #333;
+							line-height: 1.6;
+							margin: 0;
+							padding: 20px;
+					}
+					.container {
+							max-width: 600px;
+							margin: 0 auto;
+							background-color: #fff;
+							padding: 20px;
+							border: 1px solid #ddd;
+							border-radius: 5px;
+					}
+					h2 {
+							color: #007bff;
+					}
+					.otp-code {
+					    width: 134px;
+    					letter-spacing: 4px;
+    					text-align: center;
+    					padding: 8px 0;
+    					margin: 26px auto;
+							font-size: 24px;
+							background-color: #2d3436;
+							color: #fff;
+							border-radius: 5px;
+					}
+					.footer {
+							margin-top: 20px;
+							color: #666;
+					}
+			</style>
+	</head>
+	<body>
+			<div class='container'>
+					<h2 style='margin-bottom: 16px;'>Your OTP for Verification</h2>
+					<p>Here is your OTP (One-Time Password) for verification:</p>
+					<div class='otp-code'>$otp</div>
+					<p>Please use this OTP to proceed with your verification process.</p>
+					<p>This OTP is valid for a single use and expires in a short time.</p>
+					<p class='footer'>Thank you</p>
+			</div>
+	</body>
+	</html>
+";
+
+
+	$to = "psohum15501@gmail.com";
+	$subject = "Verify Your OM EXIM Corporation Admin Account";
+	$message = $otpmessage;
+	$headers = "From: admin@omeximcorporation.com\r\n" .
+						 "Reply-To: admin@omeximcorporation.com\r\n" .
+						 "Content-type: text/html; charset=UTF-8\r\n".
+						 "X-Mailer: PHP/" . phpversion();
+
+	if (mail($to, $subject, $message, $headers)) {
+		echo "<script>location.href='verification.php'</script>";
+
+	} else {
+		echo "<script>alert('Failed to send email.')</script>";
+	}
+
+	
+
+}
+
+  
+  
 ?>
 
 <!DOCTYPE html>
@@ -127,10 +213,13 @@
                     <div class="col-12">
                       <button name="login-btn" class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
-                    <div class="col-12">
-                      <p class="small mb-0"><a href="verification.php">Forgot Password</a></p>
-                    </div>
                   </form>
+                  <form method="POST" action="">
+                    <div class="col-12">
+                        <button class="small mb-0 text-primary" style="margin-top:10px; background-color:#00000000; border:none; outline:none;" name="sendMail">Forgot Password</button>
+                      <!--<p class="small mb-0"><a href="verification.php"></a></p>-->
+                    </div>
+                </form>   
 
                 </div>
               </div>

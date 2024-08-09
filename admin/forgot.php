@@ -1,5 +1,5 @@
 <?php
-  session_start();
+  include("../config/connection.php");
   // if($_SESSION['otpstatus'] != "active"){
   //   echo "<script>window.location.href = 'login.php';</script>";
   // }  
@@ -175,7 +175,7 @@
 
 if (isset($_POST['btnSubmit'])) {
 
-	include("connection.php");
+
 
 	$pass1 = $_POST['pass1'];
 	$pass2 = $_POST['pass2'];
@@ -187,7 +187,7 @@ if (isset($_POST['btnSubmit'])) {
 
       if ($conn->query($sql) === TRUE) {
 				$_SESSION['otpstatus'] = "";  
-        echo "<script>window.location.href = 'login.php';</script>";
+        echo "<script>window.location.href = 'index.php';</script>";
       } 
     }
     else{

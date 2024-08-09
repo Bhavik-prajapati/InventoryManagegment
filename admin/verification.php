@@ -69,7 +69,7 @@ session_start();
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Forgot your password</h5>
                     <!-- <p class="text-center small">Enter your username & password to login</p> -->
-                  <p class="text-center small text-muted">We've sent an OTP to <b>temp@email.com</b>. </p>
+                  <p class="text-center small text-muted">We've sent an OTP to <b>psohum15501@gmail.com</b>. </p>
                   </div>
 
                   <form action="" method="post" class="row g-3" novalidate>
@@ -95,7 +95,7 @@ session_start();
                   <div class="col-12">
                     <p  class="small text-muted">Please check your inbox (and spam/junk folder, just in case) for an email from us.</p>
                   
-                  <p class="small mb-0"><a href="pages-register.html"></a></p>
+                  <p class="small mb-0"><a href=""></a></p>
                 </div>
                   </form>
 

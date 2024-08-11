@@ -47,6 +47,25 @@ include("layout/aside.php");
 
       
 
+    <?php
+   $startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+   $endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+   
+   $sql2 = "SELECT * FROM inward_master_v2";
+   
+   if ($startDate && $endDate) {
+       $startDate = $conn->real_escape_string($startDate);
+       $endDate = $conn->real_escape_string($endDate);
+       
+       $sql2 .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+   }
+     $result = $conn->query($sql2);
+
+     $data = array();
+     while ($row = $result->fetch_assoc()) {
+         $data[] = $row;
+     }
+     ?>
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -54,6 +73,21 @@ include("layout/aside.php");
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">Available Stock Inward</h5>
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
 
                         <!-- Table with stripped rows -->
                         <table id="availableStockTable" class="table datatable">
@@ -71,14 +105,14 @@ include("layout/aside.php");
                             </thead>
                             <tbody>
                                     <?php
-                                        $sql2 = "SELECT * FROM inward_master_v2";
+                                       /*  $sql2 = "SELECT * FROM inward_master_v2";
 
                                         $result = $conn->query($sql2);
 
                                         $data = array();
                                         while ($row = $result->fetch_assoc()) {
                                             $data[] = $row;
-                                        }
+                                        } */
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>
@@ -106,6 +140,30 @@ include("layout/aside.php");
         </div>
     </section>
 
+    <?php
+
+$startDate1 = isset($_POST['start_date1']) ? $_POST['start_date1'] : '';
+$endDate1 = isset($_POST['end_date1']) ? $_POST['end_date1'] : '';
+
+// Prepare the SQL query with date filtering
+$sql2 = "SELECT * FROM process_master";
+
+if ($startDate1 && $endDate1) {
+    $startDate1 = $conn->real_escape_string($startDate1);
+    $endDate1 = $conn->real_escape_string($endDate1);
+    
+    $sql2 .= " WHERE date BETWEEN '$startDate1' AND '$endDate1'";
+}
+
+
+$result = $conn->query($sql2);
+
+$data = array();
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+}
+
+?>
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -113,6 +171,22 @@ include("layout/aside.php");
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">Process Inward</h5>
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
 
                         <!-- Table with stripped rows -->
                         <table id="processInwardTable" class="table datatable">
@@ -132,14 +206,14 @@ include("layout/aside.php");
                             </thead>
                             <tbody>
                                     <?php
-                                        $sql2 = "SELECT * FROM process_master";
+                                     /*    $sql2 = "SELECT * FROM process_master";
 
                                         $result = $conn->query($sql2);
 
                                         $data = array();
                                         while ($row = $result->fetch_assoc()) {
                                             $data[] = $row;
-                                        }
+                                        } */
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>

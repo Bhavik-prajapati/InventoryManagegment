@@ -42,6 +42,25 @@ include("layout/aside.php");
     </div>
     <!-- End Page Title -->
 
+    <?php
+
+      $data = array();
+
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          $start_date = $_POST['start_date1'];
+          $end_date = $_POST['end_date1'];
+
+          $sql2 = "SELECT * FROM outward_master WHERE date BETWEEN '$start_date' AND '$end_date'";
+      } else {
+          $sql2 = "SELECT * FROM outward_master";
+      }
+
+      $result = $conn->query($sql2);
+
+      while ($row = $result->fetch_assoc()) {
+          $data[] = $row;
+      }
+    ?>
       
 
 
@@ -52,6 +71,22 @@ include("layout/aside.php");
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">Outward Record</h5>
+                        
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
 
                         <!-- Table with stripped rows -->
                         <table id="outwardRecordTable" class="table datatable">
@@ -77,14 +112,14 @@ include("layout/aside.php");
                             </thead>
                             <tbody>
                                     <?php
-                                        $sql2 = "SELECT * FROM outward_master";
+                                      /*   $sql2 = "SELECT * FROM outward_master";
 
                                         $result = $conn->query($sql2);
 
                                         $data = array();
                                         while ($row = $result->fetch_assoc()) {
                                             $data[] = $row;
-                                        }
+                                        } */
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>

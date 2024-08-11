@@ -3,13 +3,21 @@
 include("../config/connection.php");
 $tname = "inward_master";
 
-// Perform SELECT query
-$sql = "SELECT * FROM $tname order by id DESC";
+$startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+$endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+
+$sql = "SELECT * FROM $tname";
+
+if ($startDate && $endDate) {
+    $startDate = $conn->real_escape_string($startDate);
+    $endDate = $conn->real_escape_string($endDate);
+    
+    $sql .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+}
+
+$sql .= " ORDER BY id DESC";
+
 $result = $conn->query($sql);
-
-
-
-
 
 ?>
 
@@ -57,6 +65,23 @@ include("layout/aside.php");
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">Database Inventory</h5>
 
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
+
                         <!-- Table with stripped rows -->
                         <table id="inventoryTable" class="table datatable">
                             <thead>
@@ -84,7 +109,6 @@ include("layout/aside.php");
                             <tbody>
                                     <?php
                                     if ($result->num_rows > 0) {
-                                      // Output data of each row
                                       while($row = $result->fetch_assoc()) {
                                     ?>
                                         <tr>
@@ -127,7 +151,27 @@ include("layout/aside.php");
 
 
 
+<?php
 
+
+$startDate_1 = isset($_POST['start_date1']) ? $_POST['start_date1'] : '';
+$endDate_1 = isset($_POST['end_date1']) ? $_POST['end_date1'] : '';
+
+$sql2 = "SELECT * FROM process_outward_master";
+if ($startDate_1 && $endDate_1) {
+    $sql2 .= " WHERE date BETWEEN '$startDate_1' AND '$endDate_1'";
+}
+
+$result = $conn->query($sql2);
+
+$data = array();
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+} 
+
+
+?>
+    
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -135,6 +179,23 @@ include("layout/aside.php");
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">Process Outward</h5>
+
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
 
                         <!-- Table with stripped rows -->
                         <table id="processOutwardTable" class="table datatable">
@@ -154,14 +215,14 @@ include("layout/aside.php");
                             </thead>
                             <tbody>
                                     <?php
-                                        $sql2 = "SELECT * FROM process_outward_master";
+                                       /*  $sql2 = "SELECT * FROM process_outward_master";
 
                                         $result = $conn->query($sql2);
 
                                         $data = array();
                                         while ($row = $result->fetch_assoc()) {
                                             $data[] = $row;
-                                        }
+                                        } */
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>

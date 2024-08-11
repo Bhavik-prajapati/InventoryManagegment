@@ -170,19 +170,57 @@ include("layout/aside.php");
 <!-- 
       </div>
     </div> -->
+    <?php
+// Ensure you have a database connection established
+// Example: $conn = new mysqli("localhost", "username", "password", "database");
 
-    <section class="section">
-        <div class="row">
-            <div class="col-lg-12">
+$startDate = isset($_GET['startDate_1']) ? $_GET['startDate_1'] : '';
+$endDate = isset($_GET['endDate_1']) ? $_GET['endDate_1'] : '';
 
-                <div class="card">
-                    <div class="card-body overflow-x-scroll">
-                        <h5 class="card-title">Outward Record</h5>
+// Prepare the SQL query with date filtering
+$sql2 = "SELECT * FROM outward_master";
 
-                        <!-- Table with stripped rows -->
-                        <table id="tb2" class="table datatable">
-                            <thead>
-                              <tr>
+if ($startDate && $endDate) {
+    $startDate = $conn->real_escape_string($startDate);
+    $endDate = $conn->real_escape_string($endDate);
+    
+    $sql2 .= " WHERE date BETWEEN '$startDate' AND '$endDate'";
+}
+
+$result = $conn->query($sql2);
+$data = array();
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+}
+?>
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body overflow-x-scroll">
+                    <h5 class="card-title">Outward Record</h5>
+
+                    <form method="GET" action="" class="mb-2">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="startDate_1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>  
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="endDate_1" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>  
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Table with stripped rows -->
+                    <table id="tb2" class="table datatable">
+                        <thead>
+                            <tr>
                                 <th>Date</th>
                                 <th>Product</th>
                                 <th>Quality FG</th>
@@ -198,52 +236,42 @@ include("layout/aside.php");
                                 <th>Invoice</th>
                                 <th>Remarks</th>
                                 <th>Place</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                    <?php
-                                      /*   $sql2 = "SELECT * FROM outward_master";
-
-                                        $result = $conn->query($sql2);
-
-                                        $data = array();
-                                        while ($row = $result->fetch_assoc()) {
-                                            $data[] = $row;
-                                        } */
-                                        foreach ($data as $row) {
-                                    ?>
-                                        <tr>
-                                          <td><?php echo $row["date"] ?></td>
-                                          <td><?php echo $row["product"] ?></td>
-                                          <td><?php echo $row["quality"] ?></td>
-                                          <td><?php echo $row["bags_quantity"] ?></td>
-                                          <td><?php echo $row["buyer_name"] ?></td>
-                                          <td><?php echo $row["vehicle_number"] ?></td>
-                                          <td><?php echo $row["container_number"] ?></td>
-                                          <td><?php echo $row["quantity_per_kg"] ?></td>
-                                          <td><?php echo $row["supervisor_name"] ?></td>
-                                          <td><?php echo $row["gate_person_name"] ?></td>
-                                          <td><?php echo $row["weighbridge_weight"] ?></td>
-                                          <td><?php echo $row["invoice_bridge_weight"] ?></td>
-                                          <td><?php echo $row["invoice"] ?></td>
-                                          <td><?php echo $row["remarks"] ?></td>
-                                          <td><?php echo $row["place"] ?></td>
-    
-                                        </tr>
-                                        <?php 
-                                    }
-                                  ?>
-                                    <tbody>
-                            </tbody>
-                        </table>
-                        <button id="export2Excel" class="btn btn-dark"> Export to Excel</button>
-                        <button id="export2PDF" class="btn btn-dark"> Export to PDF</button>
-                        <!-- End Table with stripped rows -->
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($data as $row) {
+                            ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row["date"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["product"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["quality"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["bags_quantity"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["buyer_name"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["vehicle_number"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["container_number"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["quantity_per_kg"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["supervisor_name"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["gate_person_name"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["weighbridge_weight"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["invoice_bridge_weight"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["invoice"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["remarks"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["place"]); ?></td>
+                                </tr>
+                            <?php 
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <button id="export2Excel" class="btn btn-dark"> Export to Excel</button>
+                    <button id="export2PDF" class="btn btn-dark"> Export to PDF</button>
+                    <!-- End Table with stripped rows -->
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
   </main><!-- End #main -->
 

@@ -3,9 +3,41 @@
 include("../config/connection.php");
   $tname = "inward_master";
 
-  // Perform SELECT query
-  $sql = "SELECT * FROM $tname order by id DESC";
-  $result = $conn->query($sql);
+// Check if filter dates are provided
+$start_date = isset($_POST['start_date']) ? $_POST['start_date'] : null;
+$end_date = isset($_POST['end_date']) ? $_POST['end_date'] : null;
+
+// Adjust query based on the provided date range
+if ($start_date && $end_date) {
+    $sql = "SELECT * FROM $tname WHERE date BETWEEN '$start_date' AND '$end_date' ORDER BY id DESC";
+} else {
+    $sql = "SELECT * FROM $tname ORDER BY id DESC";
+}
+
+$result = $conn->query($sql);
+
+
+
+
+// $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : '';
+// $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : '';
+
+// // Initialize the SQL query
+// $sql2 = "SELECT * FROM process_master";
+
+// // Append the WHERE clause if dates are provided
+// if ($start_date && $end_date) {
+//     $sql2 .= " WHERE date BETWEEN '$start_date' AND '$end_date'";
+// }
+
+// // Execute the query
+// $result = $conn->query($sql2);
+
+// // Fetch data
+// $data = array();
+// while ($row = $result->fetch_assoc()) {
+//     $data[] = $row;
+// }
 
 
 
@@ -44,12 +76,28 @@ include("layout/aside.php");
     <!-- End Page Title -->
     <section class="section">
         <div class="row">
+
             <div class="col-lg-12">
 
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">
                         </h5>
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
 
                         <!-- Table with stripped rows -->
                         <table id="tb1" class="table datatable">
@@ -153,6 +201,22 @@ include("layout/aside.php");
                 <div class="card">
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">Available Stock</h5>
+
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
 
                         <!-- Table with stripped rows -->
                         <table id="tb2" class="table datatable">

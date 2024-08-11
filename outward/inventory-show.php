@@ -1,12 +1,24 @@
 <?php
-
 include("../config/connection.php");
-  $tname = "inward_master";
+$tname = "inward_master";
 
-  // Perform SELECT query
-  $sql = "SELECT * FROM $tname order by id DESC";
-  $result = $conn->query($sql);
+// Initialize variables
+$start_date = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+$end_date = isset($_POST['end_date']) ? $_POST['end_date'] : '';
 
+// Build SQL query
+$sql = "SELECT * FROM $tname WHERE 1";
+
+// Add date range filtering if dates are provided
+if (!empty($start_date) && !empty($end_date)) {
+    $sql .= " AND date BETWEEN '$start_date' AND '$end_date'";
+}
+
+// Order results
+$sql .= " ORDER BY id DESC";
+
+// Execute query
+$result = $conn->query($sql);
 ?>
 
 
@@ -47,6 +59,22 @@ include("layout/aside.php");
                     <div class="card-body overflow-x-scroll">
                         <h5 class="card-title">
                         </h5>
+
+                        <form method="POST" action="" class="mb-2">
+                    <div class="row">
+                            <div class="col-md-5">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" name="start_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="end_date">End Date</label>
+                                <input type="date" name="end_date" class="form-control" max="<?php echo date('Y-m-d'); ?>" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary" style="height: 38px;display:flex;justify-content:center;align-items:center">Filter</button>
+                            </div>
+                        </div>
+                    </form>
 
                         <!-- Table with stripped rows -->
                         <table id="tb1" class="table datatable">
@@ -174,14 +202,14 @@ include("layout/aside.php");
                             </thead>
                             <tbody>
                                     <?php
-                                        $sql2 = "SELECT * FROM outward_master";
+                                      /*   $sql2 = "SELECT * FROM outward_master";
 
                                         $result = $conn->query($sql2);
 
                                         $data = array();
                                         while ($row = $result->fetch_assoc()) {
                                             $data[] = $row;
-                                        }
+                                        } */
                                         foreach ($data as $row) {
                                     ?>
                                         <tr>

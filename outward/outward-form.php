@@ -1,6 +1,6 @@
 <?php
   include("../config/connection.php");
-  $in_sql = "SELECT * FROM process_outward_master";
+  $in_sql = "SELECT * FROM inward_master_v2";
   $in_result = $conn->query($in_sql);
 ?>
 
@@ -411,7 +411,7 @@ if ($conn->query($sql) === TRUE) {
     $stmt->execute();
 
     // Delete from process_master using id
-    $stmt1 = $conn->prepare("DELETE FROM process_outward_master WHERE id = ?");
+    $stmt1 = $conn->prepare("DELETE FROM inward_master_v2 WHERE id = ?");
     $stmt1->bind_param('i', $product_name_id_array[1]);
     $stmt1->execute();
     $stmt1->close();

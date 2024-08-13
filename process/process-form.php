@@ -1,7 +1,5 @@
 <?php
   include("../config/connection.php");
-  $in_sql = "SELECT * FROM inward_master_v2";
-  $in_result = $conn->query($in_sql);
 ?>
 
 <!DOCTYPE html>
@@ -39,9 +37,9 @@
     checkField("place", "place_validation");
     checkField("process_name", "process_name_validation");
     checkField("foreign_buyer_name", "foreign_buyer_name_validation");
-    checkField("product_name", "product_name_validation");
-    checkField("weight_quality", "weight_quality_validation");
-    checkField("each_bag_weight", "each_bag_weight_validation");
+    // checkField("product_name", "product_name_validation");
+    // checkField("weight_quality", "weight_quality_validation");
+    // checkField("each_bag_weight", "each_bag_weight_validation");
     checkField("remarks", "remarks_validation");
 
     function checkNumericField(fieldName, labelId) {
@@ -64,8 +62,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-    "place", "process_name", "foreign_buyer_name", "product_name", 
-    "weight_quality", "each_bag_weight", "remarks"
+    "place", "process_name", "foreign_buyer_name", "remarks"
   ];
 
   formFields.forEach(fieldName => {
@@ -144,81 +141,89 @@
                   <label id="foreign_buyer_name_validation" class="text-danger"><small>*Enter Foreign Buyer Name</small></label>
                 </div>
               </div>
-              <div class="row mb-4">
-                <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
-                <div class="col-sm-10">
-                  <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
-                  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
-                      <option value="" selected disabled>- - Select Product - -</option>
-                      <?php
-                        if ($in_result->num_rows > 0) {
-                          while($in_row = $in_result->fetch_assoc()) {
-                      ?>
-                      <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
-                      <?php 
-                          }
-                        }
-                      ?>
-                    </select>
-                    <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
-                </div>
-              </div>
 
-              <script>
-                  $(document).ready(function() {
-                    $('#product_name').select2();
-                  });
-                </script>
+              <div id="form-container">
+  <section class="dynamic-section">
+  <div class="row mb-4">
+  <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
+  <div class="col-sm-10">
+  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]">
+      <option value="" selected disabled>- - Select Product - -</option>
+      <?php
+        $in_sql = "SELECT * FROM inward_master_v2";
+        $in_result = $conn->query($in_sql);
+        if ($in_result->num_rows > 0) {
+          while($in_row = $in_result->fetch_assoc()) {
+      ?>
+      <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
+      <?php 
+          }
+        }
+      ?>
+    </select>
+    <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
+  </div>
+</div>
 
-              <div class="row mb-4">
-                <label for="weight_quality" class="col-sm-2 col-form-label">Product Quality</label>
-                <div class="col-sm-10">
-                  <input type="text" placeholder="Enter Product Quality" class="form-control" id="weight_quality" name="weight_quality">
-                  <label id="weight_quality_validation" class="text-danger"><small>*Select Product Quality</small></label>
-                </div>
-              </div>
-              <div class="row mb-4">
-                  <label class="col-sm-2 col-form-label">Supplier Name</label>
-                  <div class="col-sm-10">
-                    <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="supplier_name" name="supplier_name">
-                    <label class="col-sm-2 col-form-label" id="lbl_supplier_name"></label>
-                    <!-- <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label> -->
-                  </div>
-                </div>
-              <!-- <div class="row mb-4">
-                <label for="bags_quantity" class="col-sm-2 col-form-label">Bags Quantity</label>
-                <div class="col-sm-10">
-                  <input type="hidden" class="form-control" id="totalbags" name="totalbags">
-                  <select class="form-select" aria-label="Default select example" id="bags_quantity" name="bags_quantity">
-                      <option selected disabled>- - Select Product First - -</option>
-                    </select>
-                </div>
-              </div> -->
-              <div class="row mb-4">
-                <label for="each_bag_weight" class="col-sm-2 col-form-label">Total Kg</label>
-                <div class="col-sm-10">
-                <div class="input-group">
-                  <span class="input-group-text">
-                    <label>Available: <span id="max_total_kg_1">0</span>kg</label>
-                  </span>
-                  <input type="hidden" id="product_id" name="product_id">
-                  <input type="hidden" id="available_kg" name="available_kg">
-                  <input type="hidden" id="only_product_name" name="only_product_name">
-                  <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight">
-                </div>
-                <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Total Kg</small></label>
-                <label id="total_kg_overflow_validation" class="text-danger"><small>*Weight exceeds the <span id="max_total_kg_2">0</span> limit.</small></label>
-                  <!-- <select class="form-select" aria-label="Default select example" id="each_bag_weight" name="each_bag_weight">
-                      <option selected disabled>- - Select Bags Quantity First - -</option>
-                    </select> -->
+<script>
+  $(document).ready(function() {
+    // Initialize Select2 for all elements with the class 'product-name-select'
+    $('.product-name-select').select2();
+  });
+</script>
 
-                    <!-- <input type="number" class="form-control" placeholder="Enter Each Bag Weight" list="each_bag_weight" name="each_bag_weight" id="input-datalist">
-                    <datalist id="each_bag_weight">
-                        <option>- - Select Product First - -</option>
-                    </datalist>  -->
 
-                </div>
-              </div>
+    <div class="row mb-4">
+      <label for="weight_quality" class="col-sm-2 col-form-label">Product Quality</label>
+      <div class="col-sm-10">
+        <input type="text" placeholder="Enter Product Quality" class="form-control" id="weight_quality" name="weight_quality[]">
+        <label id="weight_quality_validation" class="text-danger"><small>*Select Product Quality</small></label>
+      </div>
+    </div>
+    
+    <div class="row mb-4">
+      <label class="col-sm-2 col-form-label">Supplier Name</label>
+      <div class="col-sm-10">
+        <input type="hidden" class="form-control supplier_name" style="background-color:white !important; border:none !important;" id="supplier_name" name="supplier_name[]">
+        <label class="col-sm-2 col-form-label" id="lbl_supplier_name"></label>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <label for="each_bag_weight" class="col-sm-2 col-form-label">Total Kg</label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <span class="input-group-text">
+            <label>Available: <span class="max_total_kg_1" id="max_total_kg_1">0</span>kg</label>
+          </span>
+          <input type="hidden" class="product_id" id="product_id" name="product_id[]">
+          <input type="hidden" class="available_kg" id="available_kg" name="available_kg[]">
+          <input type="hidden" class="only_product_name" id="only_product_name" name="only_product_name[]">
+          <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight[]">
+        </div>
+        <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Total Kg</small></label>
+        <label id="total_kg_overflow_validation" class="text-danger"><small>*Weight exceeds the <span class="max_total_kg_2" id="max_total_kg_2">0</span> limit.</small></label>
+      </div>
+    </div>
+  </section>
+</div>
+
+<button type="button" id="add-section" class="btn btn-primary">+</button>
+
+
+
+<script>
+// $(document).ready(function() {
+//     $('#add-section').click(function() {
+//       var newSection = $('.dynamic-section:first').clone();
+//       newSection.find('input').val('');
+//       newSection.find('select').val('').trigger('change');
+//       $('#form-container').append(newSection);
+//       newSection.find('.dynamic-section').select2();  // Reinitialize select2 for the new select element
+//     });
+//   });
+</script>
+
               <div class="row mb-4">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
@@ -228,12 +233,11 @@
                 </div>
               </div>
 
-              <div class="row mb-4">
+              <div hidden class="row mb-4">
                   <label class="col-sm-2 col-form-label">Lot No</label>
                   <div class="col-sm-10">
                     <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="lot_no" name="lot_no">
                     <label class="col-sm-2 col-form-label" id="lbl_lot_no"></label>
-                    <!-- <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label> -->
                   </div>
                 </div>
 
@@ -255,87 +259,82 @@
   </main><!-- End #main -->
 
   <script>
-          // $(document).ready(function(){
-          //     $('#product_name').change(function(){
-          //         var product_name = $(this).val();
-                  
-          //         // AJAX request to fetch data based on selected product_name
-          //         $.ajax({
-          //             url: 'fetch_bags.php',
-          //             type: 'post',
-          //             data: { product_name: product_name },
-          //             dataType: 'json',
-          //             success:function(response){
-          //                 var maxBags = response[0]['bags'];  // Assuming response contains the maximum number of bags
-          //                 $('#totalbags').val(maxBags);
-          //                 $('#bags_quantity').empty();
-          //                 $('#bags_quantity').append("<option selected disabled>- - Select Bags Quantity - -</option>");
-          //                 for(var i = 1; i <= maxBags; i++){
-          //                     $('#bags_quantity').append("<option value='"+i+"'>"+i+"</option>");
-          //                 }
-          //             }
-          //         });
-          //     });
-          // });
-          
-          $(document).ready(function(){
-            $('#product_name').change(function(){
-                var product_name = $(this).val();
+
+        //   $(document).ready(function(){
+        //     $('#product_name').change(function(){
+        //         var product_name = $(this).val();
                 
-                // AJAX request to fetch data based on selected product_name
-                $.ajax({
-                    url: 'fetch_bags.php',
-                    type: 'post',
-                    data: { product_name: product_name },
-                    dataType: 'json',
-                    success:function(response){
-                        var len = response.length;
+        //         $.ajax({
+        //             url: 'fetch_bags.php',
+        //             type: 'post',
+        //             data: { product_name: product_name },
+        //             dataType: 'json',
+        //             success:function(response){
+        //                 var len = response.length;
                         
-                        $('#each_bag_weight').empty();
-                        $('#max_total_kg_1').text(response[0]['total_kg']);
-                        $('#max_total_kg_2').text(response[0]['total_kg']);
-                        $('#available_kg').val(response[0]['total_kg']);
-                        $('#product_id').val(response[0]['id']);
-                        $('#lot_no').val(response[0]['lot_no']);
-                        $('#lbl_lot_no').text(response[0]['lot_no']);
-                        $('#supplier_name').val(response[0]['supplier_name']);
-                        $('#lbl_supplier_name').text(response[0]['supplier_name']);
-                        $('#only_product_name').val(response[0]['product_name']);
-                        // $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
-                        // for( var i = 0; i < len; i++){
-                        //     var each_bag_weight = response[i]['total_kg'];
-                            
-                        //     $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
-                        // }
-                    }
-                });
+        //                 $('#each_bag_weight').empty();
+        //                 $('#max_total_kg_1').text(response[0]['total_kg']);
+        //                 $('#max_total_kg_2').text(response[0]['total_kg']);
+        //                 $('#available_kg').val(response[0]['total_kg']);
+        //                 $('#product_id').val(response[0]['id']);
+        //                 $('#lot_no').val(response[0]['lot_no']);
+        //                 $('#lbl_lot_no').text(response[0]['lot_no']);
+        //                 $('#supplier_name').val(response[0]['supplier_name']);
+        //                 $('#lbl_supplier_name').text(response[0]['supplier_name']);
+        //                 $('#only_product_name').val(response[0]['product_name']);
+        //             }
+        //         });
+        //     });
+        // });
+
+
+        $(document).ready(function() {
+    function initializeSection(section) {
+        // Initialize Select2 for the specific section
+        section.find('.product-name-select').select2();
+
+        // Handle change event for the specific product_name dropdown within the section
+        section.find('#product_name').change(function() {
+            var product_name = $(this).val();
+            var section = $(this).closest('.dynamic-section'); // Get the specific section
+
+            $.ajax({
+                url: 'fetch_bags.php',
+                type: 'post',
+                data: { product_name: product_name },
+                dataType: 'json',
+                success: function(response) {
+                    section.find('#each_bag_weight').empty();
+                    section.find('#max_total_kg_1').text(response[0]['total_kg']);
+                    section.find('#max_total_kg_2').text(response[0]['total_kg']);
+                    section.find('#available_kg').val(response[0]['total_kg']);
+                    section.find('#product_id').val(response[0]['id']);
+                    section.find('#lot_no').val(response[0]['lot_no']);
+                    section.find('#lbl_lot_no').text(response[0]['lot_no']);
+                    section.find('#supplier_name').val(response[0]['supplier_name']);
+                    section.find('#lbl_supplier_name').text(response[0]['supplier_name']);
+                    section.find('#only_product_name').val(response[0]['product_name']);
+                }
             });
         });
+    }
 
-    // $(document).ready(function(){
-    //     $('#bags_quantity').change(function(){
-    //         var bags_quantity = $(this).val();
-            
-    //         // AJAX request to fetch data based on selected bags_quantity
-    //         $.ajax({
-    //             url: 'fetch_each_bag_weight.php',
-    //             type: 'post',
-    //             data: { bags_quantity: bags_quantity },
-    //             dataType: 'json',
-    //             success:function(response){
-    //                 var len = response.length;
-                    
-    //                 $('#each_bag_weight').empty();
-    //                 $('#each_bag_weight').append("<option selected disabled>- - Select Each Bag Weight - -</option>");
-    //                 for( var i = 0; i<len; i++){
-    //                     var each_bag_weight = response[i]['each_bag_weight'];
-                        
-    //                     $('#each_bag_weight').append("<option value='"+each_bag_weight+"'>"+each_bag_weight+"</option>");
-    //                 }
-    //             }
-    //         });
-    //     });
-    // });
+    // Initialize the first section
+    initializeSection($('.dynamic-section:first'));
+
+    // Handle adding new sections
+    $('#add-section').click(function() {
+        var newSection = $('.dynamic-section:first').clone();
+        newSection.find('input').val('');
+        newSection.find('select').val('').trigger('change');
+        $('#form-container').append(newSection);
+
+        // Initialize the new section
+        initializeSection(newSection);
+    });
+});
+
+
 
     </script>
 
@@ -357,7 +356,6 @@
 <?php
 if (isset($_POST['btnSubmit'])) {
 
-  // Capture form data
 
   $place = mysqli_real_escape_string($conn, $_POST['place']);
   $process_name = mysqli_real_escape_string($conn, $_POST['process_name']);
@@ -371,15 +369,12 @@ if (isset($_POST['btnSubmit'])) {
   $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
   $only_product_name = mysqli_real_escape_string($conn, $_POST['only_product_name']);
   
-  // Prepare and bind
   $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $stmt = $conn->prepare($sql);
   
-  // Bind the parameters
   $stmt->bind_param("ssssssssss", $place, $process_name, $foreign_buyer_name, $only_product_name, $weight_quality, $total_kg, $remarks, $date, $supplier_name, $lot_no);
 
-  // Execute the query
   if ($stmt->execute()) {
       echo "<script>alert('Form Submitted Successfully')</script>";
       $activity_details = "entered process inward record";
@@ -390,11 +385,9 @@ if (isset($_POST['btnSubmit'])) {
       $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
       $stmt->execute();
   } else {
-      // echo "Error: " . $stmt->error;
       echo "<script>alert('Form Not Submitted')</script>";
   }
   
-  // Close the connection
   $stmt->close();
 
   
@@ -423,4 +416,10 @@ if (isset($_POST['btnSubmit'])) {
 
   
 }
+
+
+
+
+
+
 ?>

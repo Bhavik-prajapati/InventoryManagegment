@@ -360,54 +360,112 @@ if (isset($_POST['btnSubmit'])) {
   $place = mysqli_real_escape_string($conn, $_POST['place']);
   $process_name = mysqli_real_escape_string($conn, $_POST['process_name']);
   $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
-  $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
-  $weight_quality = mysqli_real_escape_string($conn, $_POST['weight_quality']);
-  $total_kg = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
-  $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
   $date = mysqli_real_escape_string($conn, $_POST['date']);
-  $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
+
+  // $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);  
+  // $weight_quality = mysqli_real_escape_string($conn, $_POST['weight_quality']);
+  // $total_kg = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
+  // $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+  // $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
+  // $only_product_name = mysqli_real_escape_string($conn, $_POST['only_product_name']);
+  
   $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
-  $only_product_name = mysqli_real_escape_string($conn, $_POST['only_product_name']);
+  $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
   
-  $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-  $stmt = $conn->prepare($sql);
-  
-  $stmt->bind_param("ssssssssss", $place, $process_name, $foreign_buyer_name, $only_product_name, $weight_quality, $total_kg, $remarks, $date, $supplier_name, $lot_no);
-
-  if ($stmt->execute()) {
-      echo "<script>alert('Form Submitted Successfully')</script>";
-      $activity_details = "entered process inward record";
-        
-      $stmt = $conn->prepare("
-          INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-          VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-      $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
-      $stmt->execute();
-  } else {
-      echo "<script>alert('Form Not Submitted')</script>";
+  $product_name = $_POST['product_name'];  
+  $sanitized_product_name = [];
+  foreach ($product_name as $product_name) {
+    $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
   }
-  
-  $stmt->close();
 
-  
-  $available_kg = mysqli_real_escape_string($conn, $_POST['available_kg']);
-  $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
- 
-  $kg = floatval($available_kg) - floatval($total_kg);
-
-
-  if ((float)$kg > 0) {
-    $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `total_kg` = ? WHERE `id` = ?");
-    $stmt->bind_param("si", $kg, $product_id);
-    $stmt->execute();
-    $stmt->close();
-  } else {
-    $stmt = $conn->prepare("DELETE from `inward_master_v2` WHERE `id` = ?");
-    $stmt->bind_param("i", $product_id);
-    $stmt->execute();
-    $stmt->close();
+  $weight_quality = $_POST['weight_quality'];
+  $sanitized_weight_quality = [];
+  foreach ($weight_quality as $weight_quality) {
+    $sanitized_weight_quality[] = mysqli_real_escape_string($conn, $weight_quality);
   }
+
+  $total_kg = $_POST['each_bag_weight'];
+  $sanitized_total_kg = [];
+  foreach ($total_kg as $total_kg) {
+    $sanitized_total_kg[] = mysqli_real_escape_string($conn, $total_kg);
+  }
+
+  $supplier_name = $_POST['supplier_name'];
+    $sanitized_supplier_name = [];
+  foreach ($supplier_name as $supplier_name) {
+    $sanitized_supplier_name[] = mysqli_real_escape_string($conn, $supplier_name);
+  }
+
+  $only_product_name = $_POST['only_product_name'];
+  $sanitized_only_product_name = [];
+  foreach ($only_product_name as $only_product_name) {
+    $sanitized_only_product_name[] = mysqli_real_escape_string($conn, $only_product_name);
+  }
+
+  $available_kg = $_POST['available_kg'];
+  $sanitized_available_kg = [];
+  foreach ($available_kg as $available_kg) {
+    $sanitized_available_kg[] = mysqli_real_escape_string($conn, $available_kg);
+  }
+
+  $product_id = $_POST['product_id'];
+  $sanitized_product_id = [];
+  foreach ($product_id as $product_id) {
+    $sanitized_product_id[] = mysqli_real_escape_string($conn, $product_id);
+  }
+
+
+  // echo "<script>alert('$sanitized_product_names[0]')</script>";
+
+  for ($i = 0; $i < count($sanitized_only_product_name); $i++) {
+    // echo $sanitized_only_product_name[$i] . "<br>";
+
+      $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+      $stmt = $conn->prepare($sql);
+      
+      $stmt->bind_param("ssssssssss", $place, $process_name, $foreign_buyer_name, $sanitized_only_product_name[$i], $sanitized_weight_quality[$i], $sanitized_total_kg[$i], $remarks, $date, $sanitized_supplier_name[$i], $lot_no);
+
+      if ($stmt->execute()) {
+          echo "<script>alert('Form Submitted Successfully')</script>";
+          $activity_details = "entered process inward record";
+            
+          $stmt = $conn->prepare("
+              INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
+              VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+          $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
+          $stmt->execute();
+      } else {
+          echo "<script>alert('Form Not Submitted')</script>";
+      }
+      
+      $stmt->close();
+
+      
+      // $available_kg = mysqli_real_escape_string($conn, $_POST['available_kg']);
+      // $product_id = mysqli_real_escape_string($conn, $_POST['product_id']);
+
+
+    
+      $kg = floatval($sanitized_available_kg[$i]) - floatval($sanitized_total_kg[$i]);
+
+
+      if ((float)$kg > 0) {
+        $stmt = $conn->prepare("UPDATE `inward_master_v2` SET `total_kg` = ? WHERE `id` = ?");
+        $stmt->bind_param("si", $kg, $sanitized_product_id[$i]);
+        $stmt->execute();
+        $stmt->close();
+      } else {
+        $stmt = $conn->prepare("DELETE from `inward_master_v2` WHERE `id` = ?");
+        $stmt->bind_param("i", $sanitized_product_id[$i]);
+        $stmt->execute();
+        $stmt->close();
+      }
+
+  }
+
+  
+
   
 
   

@@ -40,6 +40,7 @@
     // checkField("product_name", "product_name_validation");
     // checkField("weight_quality", "weight_quality_validation");
     // checkField("each_bag_weight", "each_bag_weight_validation");
+    checkField("f_product_name", "f_product_name_validation");
     checkField("remarks", "remarks_validation");
 
     function checkNumericField(fieldName, labelId) {
@@ -62,7 +63,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-    "place", "process_name", "foreign_buyer_name", "remarks"
+    "place", "process_name", "foreign_buyer_name", "remarks", "f_product_name"
   ];
 
   formFields.forEach(fieldName => {
@@ -224,6 +225,34 @@
 //   });
 </script>
 
+<div class="row mb-4">
+                  <label for="f_product_name" class="col-sm-2 col-form-label">Final Product Name</label>
+                  <div class="col-sm-10">
+                    <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="f_product_name" name="f_product_name"> -->
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="f_product_name" name="f_product_name">
+                      <option value="" selected disabled>- - Select Final Product Name - -</option>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);  
+                      ?>
+                      <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                          // Output data of each row
+                          while($row = $result->fetch_assoc()) {  
+                      ?>
+                      <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                      <?php 
+                        }
+                      }
+                      ?>
+                    </select>
+                    <label id="f_product_name_validation" class="text-danger"><small>*Select Final sProduct Name</small></label>
+                  </div>
+                </div>
+
+
               <div class="row mb-4">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
@@ -361,6 +390,7 @@ if (isset($_POST['btnSubmit'])) {
   $process_name = mysqli_real_escape_string($conn, $_POST['process_name']);
   $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
   $date = mysqli_real_escape_string($conn, $_POST['date']);
+  $selected_product_name = mysqli_real_escape_string($conn, $_POST['f_product_name']);
 
   // $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);  
   // $weight_quality = mysqli_real_escape_string($conn, $_POST['weight_quality']);
@@ -420,11 +450,11 @@ if (isset($_POST['btnSubmit'])) {
   for ($i = 0; $i < count($sanitized_only_product_name); $i++) {
     // echo $sanitized_only_product_name[$i] . "<br>";
 
-      $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO `process_master`(`place`, `process_name`, `foreign_buyer_name`, `product_name`, `weight_quality`, `total_kg`, `remarks`, `date`, `supplier_name`, `lot_no`, `final_product`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
       $stmt = $conn->prepare($sql);
       
-      $stmt->bind_param("ssssssssss", $place, $process_name, $foreign_buyer_name, $sanitized_only_product_name[$i], $sanitized_weight_quality[$i], $sanitized_total_kg[$i], $remarks, $date, $sanitized_supplier_name[$i], $lot_no);
+      $stmt->bind_param("sssssssssss", $place, $process_name, $foreign_buyer_name, $sanitized_only_product_name[$i], $sanitized_weight_quality[$i], $sanitized_total_kg[$i], $remarks, $date, $sanitized_supplier_name[$i], $lot_no, $selected_product_name);
 
       if ($stmt->execute()) {
           echo "<script>alert('Form Submitted Successfully')</script>";

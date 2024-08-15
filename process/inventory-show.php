@@ -344,6 +344,7 @@ include("layout/aside.php");
                                 <th>Product Quality</th>
                                 <th>Supplier Name</th>
                                 <th>Total Kg</th>
+                                <th>Final Product Name</th>
                                 <th>Remarks</th>
                                 <th>Place</th>
                               </tr>
@@ -369,6 +370,7 @@ include("layout/aside.php");
                                             <td><?php echo $row["weight_quality"] ?></td>
                                             <td><?php echo $row["supplier_name"] ?></td>
                                             <td><?php echo $row["total_kg"] ?></td>
+                                            <td><?php echo $row["final_product"] ?></td>
                                             <td><?php echo $row["remarks"] ?></td>
                                             <td><?php echo $row["place"] ?></td>
                                         </tr>

@@ -1,6 +1,8 @@
 <?php
   include("../config/connection.php");
-  $in_sql = "SELECT * FROM process_master";
+  // $in_sql = "SELECT * FROM process_master";
+  $in_sql = "SELECT final_product, COUNT(*) as total_count FROM process_master GROUP BY final_product";
+
   $in_result = $conn->query($in_sql);
 ?>
 
@@ -47,7 +49,7 @@
     checkField("f_product_name", "f_product_name_validation");
     checkField("quantity_fg", "quantity_fg_validation");
     checkField("lot", "lot_validation");
-    // checkField("one_no", "one_no_validation");
+    checkField("total_kg", "total_kg_validation");
     // checkField("two_no", "two_no_validation");
     // checkField("three_no", "three_no_validation");
     // checkField("waste_product_weight", "waste_product_weight_validation");
@@ -74,7 +76,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-        "date", "place", "product_name", "quality", "f_product_name", "quantity_fg", "lot", "remarks"
+        "date", "place", "product_name", "quality", "f_product_name", "quantity_fg", "lot", "total_kg", "remarks"
     ];
 
   formFields.forEach(fieldName => {
@@ -147,10 +149,20 @@
                   <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]" multiple>
                       <!-- <option value="" selected disabled>- - Select Product - -</option> -->
                       <?php
+                        // if ($in_result->num_rows > 0) {
+                        //   while($in_row = $in_result->fetch_assoc()) {
+                      ?>
+                        <!-- <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option> -->
+                      <?php 
+                        //   }
+                        // }
+                      ?> 
+
+                      <?php
                         if ($in_result->num_rows > 0) {
                           while($in_row = $in_result->fetch_assoc()) {
                       ?>
-                        <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
+                        <option value="<?php echo $in_row["final_product"] ?>"><?php echo $in_row["final_product"] ?></option>
                       <?php 
                           }
                         }
@@ -171,12 +183,69 @@
                 </script>
 
               <div class="row mb-4">
+                  <label class="col-sm-2 col-form-label">Total kg</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" placeholder="Enter Total kg" id="total_kg" name="total_kg">
+                    <label class="text-danger" id="total_kg_validation"><small>*Enter Total kg</small></label>
+                  </div>
+                </div>
+
+                <div id="formContainer"></div>
+
+                
+                <script>
+
+$(document).ready(function() {
+    $('#addButton').on('click', function() {
+        var newFormSection = `
+        <div>
+            <div class="row mb-4">
+                <label for="w_product_name" class="col-sm-2 col-form-label">Product Name</label>
+                <div class="col-sm-10">
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="w_product_name" name="w_product_name">
+                        <option value="" selected disabled>- - Select Product Name - -</option>
+                        <?php
+                        $sql = "SELECT * FROM supplier_name_master";
+                        $result = $conn->query($sql);
+                        if ($result->num_rows > 0) {
+                            while($row = $result->fetch_assoc()) {
+                        ?>
+                        <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+                        <?php 
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <label class="col-sm-2 col-form-label">Enter kg</label>
+                <div class="col-sm-10">
+                    <input class="form-control" placeholder="Enter kg" id="kg" name="kg">
+                </div>
+            </div>
+        </div>
+        `;
+        $('#formContainer').append(newFormSection);
+
+        // Reinitialize the Select2 plugin for the newly added select element
+        $('.dropdown-class').select2();
+    });
+});
+
+
+                </script>
+                <button id="addButton" class="btn btn-primary">+</button>
+
+              <div class="row mb-4">
                 <label for="quality" class="col-sm-2 col-form-label">Quality FG</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Quality FG" class="form-control" id="quality" name="quality">
                   <label id="quality_validation" class="text-danger"><small>*Enter Quality FG</small></label>
                 </div>
               </div>
+
               <div class="row mb-4">
                   <label for="f_product_name" class="col-sm-2 col-form-label">Final Product Name</label>
                   <div class="col-sm-10">
@@ -209,13 +278,8 @@
                     $('#product_name').select2();
                   });
                 </script>
-              <!-- <div class="row mb-4">
-                  <label class="col-sm-2 col-form-label">Available Quantity</label>
-                  <div class="col-sm-10">
-                    <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="available_quantity" name="available_quantity">
-                    <label class="col-sm-2 col-form-label" id="lbl_available_quantity"></label>
-                  </div>
-                </div> -->
+
+
 
             <!--   <div class="row mb-4">
                 <label for="one_no" class="col-sm-2 col-form-label">Provided</label>

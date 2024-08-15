@@ -58,6 +58,7 @@
     checkField("weighbridge_weight", "weighbridge_weight_validation");
     checkField("invoice_bridge_weight", "invoice_bridge_weight_validation");
     checkField("invoice", "invoice_validation");
+    checkField("total_kg", "total_kg_validation");
 
     // Custom validation for numeric values
     // function checkNumericField(fieldName, labelId) {
@@ -80,7 +81,7 @@
     const formFields = [
       "date", "place", "product_name", "quality", "bags_quantity", "foreign_buyer_name",
       "vehicle_number", "container_number", "quantity_per_kg",
-      "supervisor_name", "gate_person_name", "remarks", "weighbridge_weight", "invoice_bridge_weight", "invoice"
+      "supervisor_name", "gate_person_name", "remarks", "weighbridge_weight", "invoice_bridge_weight", "invoice", "total_kg"
     ];
 
   formFields.forEach(fieldName => {
@@ -150,8 +151,8 @@
             <div class="row mb-4">
               <label for="product_name" class="col-sm-2 col-form-label">Product</label>
               <div class="col-sm-10">
-                <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
-                  <option value="" selected disabled>- - Select Product - -</option>
+                <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name" multiple>
+                  
                   <?php
                     if ($in_result->num_rows > 0) {
                       while($in_row = $in_result->fetch_assoc()) {
@@ -172,6 +173,15 @@
                     $('#product_name').select2();
                   });
                 </script>
+
+
+<div class="row mb-4">
+                  <label class="col-sm-2 col-form-label">Total kg</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" placeholder="Enter Total kg" id="total_kg" name="total_kg">
+                    <label class="text-danger" id="total_kg_validation"><small>*Enter Total kg</small></label>
+                  </div>
+                </div>
 
             <div class="row mb-4">
               <label for="quality" class="col-sm-2 col-form-label">Quality FG</label>

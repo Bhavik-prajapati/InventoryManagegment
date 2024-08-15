@@ -201,8 +201,8 @@
                   <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                   <div class="col-sm-10">
                     <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
-                    <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name">
-                      <option value="" selected disabled>- - Select Product - -</option>
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]" multiple>
+                      <!-- <option value="" selected disabled>- - Select Product - -</option> -->
                       <!-- <option value="Ajwain Seeds">Ajwain Seeds</option>
                       <option value="AjinoMoto (MSG)">AjinoMoto (MSG)</option>
                       <option value="Amchur Powder">Amchur Powder</option>
@@ -693,7 +693,13 @@ if (isset($_POST['btnSubmit'])) {
     // Capture form data
     $place = mysqli_real_escape_string($conn, $_POST['place']);
     $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
-    $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+    // $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
+    $product_name = $_POST['product_name'];  
+    $sanitized_product_name = [];
+    foreach ($product_name as $product_name) {
+      $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
+    }
+  
     $quality = mysqli_real_escape_string($conn, $_POST['quality']);
     $bags = mysqli_real_escape_string($conn, $_POST['bags']);
     $each_bag_weight = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
@@ -710,8 +716,10 @@ if (isset($_POST['btnSubmit'])) {
     $container_no = mysqli_real_escape_string($conn, $_POST['container_no']);
 
   // Prepare and bind
+  for ($i = 0; $i < count($sanitized_product_name); $i++) {
+
   $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
+  $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $sanitized_total_kg[$i], $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
 
   if ($stmt->execute()) {
     echo "<script>alert('Form Submitted Successfully')</script>";
@@ -730,7 +738,7 @@ $stmt->close();
 
       // Prepare and bind
       $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("sssssssssssssssssss", $place, $supplier_name, $product_name, $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
+      $stmt->bind_param("sssssssssssssssssss", $place, $supplier_name, $sanitized_total_kg[$i], $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
     
     $stmt->execute();
     $stmt->close();
@@ -738,4 +746,6 @@ $stmt->close();
     echo "<script>window.location = 'inward-form.php';</script>";
 
 }
+}
+
 ?>

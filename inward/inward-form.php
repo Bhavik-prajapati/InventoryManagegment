@@ -718,34 +718,36 @@ if (isset($_POST['btnSubmit'])) {
   // Prepare and bind
   for ($i = 0; $i < count($sanitized_product_name); $i++) {
 
-  $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-  $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $sanitized_total_kg[$i], $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
+    $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
 
-  if ($stmt->execute()) {
-    echo "<script>alert('Form Submitted Successfully')</script>";
+    if ($stmt->execute()) {
 
-    $activity_details = "entered inward record";
+      $activity_details = "entered inward record";
 
-    $stmt = $conn->prepare("INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details) VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-    $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
-    $stmt->execute();
+      $stmt = $conn->prepare("INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details) VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+      $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
+      $stmt->execute();
 
-  } else {
-      echo "Error: " . $stmt->error;
-  }
+    } else {
+        echo "Error: " . $stmt->error;
+    }
 
-$stmt->close();
+  $stmt->close();
 
-      // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("sssssssssssssssssss", $place, $supplier_name, $sanitized_total_kg[$i], $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
-    
-    $stmt->execute();
-    $stmt->close();
+        // Prepare and bind
+        $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssssssssssssss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
+      
+      $stmt->execute();
+      $stmt->close();
+      
+      
+    }
     $conn->close(); 
-    echo "<script>window.location = 'inward-form.php';</script>";
+echo "<script>alert('Form Submitted Successfully')</script>";
 
-}
+echo "<script>window.location = 'inward-form.php';</script>";
 }
 
 ?>

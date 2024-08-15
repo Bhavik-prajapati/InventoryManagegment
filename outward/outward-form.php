@@ -151,7 +151,7 @@
             <div class="row mb-4">
               <label for="product_name" class="col-sm-2 col-form-label">Product</label>
               <div class="col-sm-10">
-                <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name" multiple>
+                <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]" multiple>
                   
                   <?php
                     if ($in_result->num_rows > 0) {
@@ -389,8 +389,14 @@ $product_name_id = $_POST['product_name'];
 $product_name_id_array = explode(",", $product_name_id);
 
 $date = mysqli_real_escape_string($conn, $_POST['date']);
-$product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
+// $product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
+  $product_name = $_POST['product_name'];  
+  $sanitized_product_name = [];
+  foreach ($product_name as $product_name) {
+    $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
+  }
 $quality = mysqli_real_escape_string($conn, $_POST['quality']);
+$totalkg = mysqli_real_escape_string($conn, $_POST['totalkg']);
 $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
 $vehicle_number = mysqli_real_escape_string($conn, $_POST['vehicle_number']);
 $container_number = mysqli_real_escape_string($conn, $_POST['container_number']);
@@ -405,12 +411,12 @@ $invoice_bridge_weight = mysqli_real_escape_string($conn, $_POST['invoice_bridge
 $invoice = mysqli_real_escape_string($conn, $_POST['invoice']);
 
 // Prepare the SQL query to insert data into the `outward_master` table
-$sql = "INSERT INTO outward_master (date, product, quality, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks, place,	bags_quantity, weighbridge_weight, invoice_bridge_weight, invoice) 
-        VALUES ('$date', '$product_name', '$quality', '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks', '$place', '$bags_quantity', '$weighbridge_weight', '$invoice_bridge_weight', '$invoice')";
+for ($i = 0; $i < count($sanitized_product_name); $i++) {
 
-// Execute the query and handle errors
+$sql = "INSERT INTO outward_master (date, product, quality,totalkg, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks, place,	bags_quantity, weighbridge_weight, invoice_bridge_weight, invoice) 
+        VALUES ('$date', '$sanitized_product_name[$i]', '$quality',$totalkg, '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks', '$place', '$bags_quantity', '$weighbridge_weight', '$invoice_bridge_weight', '$invoice')";
+
 if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('Form Submitted Successfully')</script>";
 
     $activity_details = "entered outward record";
         
@@ -424,6 +430,9 @@ if ($conn->query($sql) === TRUE) {
     $stmt1 = $conn->prepare("DELETE FROM inward_master_v2 WHERE id = ?");
     $stmt1->bind_param('i', $product_name_id_array[1]);
     $stmt1->execute();
+}
+
+   echo "<script>alert('Form Submitted Successfully')</script>";
     $stmt1->close();
 
 } else {

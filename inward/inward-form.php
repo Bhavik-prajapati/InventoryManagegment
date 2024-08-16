@@ -225,12 +225,13 @@
     </div>
   </div>
 
-  <div class="row mb-4">
+  
+</div>
+<div class="row mb-4">
     <div class="col-sm-10 offset-sm-2">
       <button type="button" class="btn btn-primary" id="add-product-weight">+</button>
     </div>
   </div>
-</div>
 
 
                 <script>

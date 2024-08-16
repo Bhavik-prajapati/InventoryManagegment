@@ -196,8 +196,6 @@
                     $('#supplier_name').select2();
                   });
                 </script> -->
-             
-
                 <div id="product-weight-container">
   <div class="row mb-4 product-weight-group">
     <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
@@ -207,9 +205,9 @@
           $sql = "SELECT * FROM supplier_name_master";
           $result = $conn->query($sql);
           if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
+            while ($row = $result->fetch_assoc()) {
         ?>
-        <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
+        <option value="<?php echo $row["name"]; ?>"><?php echo $row["name"]; ?></option>
         <?php 
             }
           }
@@ -218,6 +216,7 @@
       <label class="text-danger"><small>*Select Product Name</small></label>
     </div>
   </div>
+  
   <div class="row mb-4 product-weight-group">
     <label for="each_bag_weight" class="col-sm-2 col-form-label">Total KG</label>
     <div class="col-sm-10">
@@ -225,14 +224,14 @@
       <label class="text-danger"><small>*Enter Total KG</small></label>
     </div>
   </div>
-</div>
 
-<div class="row mb-4">
-  <div class="col-sm-10 offset-sm-2">
-    <button type="button" class="btn btn-primary" id="add-product-weight">+</button>
+  <div class="row mb-4">
+    <div class="col-sm-10 offset-sm-2">
+      <button type="button" class="btn btn-primary" id="add-product-weight">+</button>
+    </div>
   </div>
 </div>
-</div>
+
 
                 <script>
                   $(document).ready(function() {

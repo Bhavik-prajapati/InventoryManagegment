@@ -254,13 +254,13 @@
                     <label id="bags_validation" class="text-danger"><small>*Enter Bags</small></label>
                   </div>
                 </div>
-                <div class="row mb-4">
+                <!-- <div class="row mb-4">
                   <label for="each_bag_weight" class="col-sm-2 col-form-label">Total KG</label>
                   <div class="col-sm-10">
                     <input type="number" step="0.00000000001" placeholder="Enter Total KG" class="form-control" id="each_bag_weight" name="each_bag_weight">
                     <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Total KG</small></label>
                   </div>
-                </div>
+                </div> -->
                 <div class="row mb-4">
                   <label for="rate" class="col-sm-2 col-form-label">Rate</label>
                   <div class="col-sm-10">
@@ -470,7 +470,14 @@ if (isset($_POST['btnSubmit'])) {
   
     $quality = mysqli_real_escape_string($conn, $_POST['quality']);
     $bags = mysqli_real_escape_string($conn, $_POST['bags']);
-    $each_bag_weight = mysqli_real_escape_string($conn, $_POST['each_bag_weight']);
+    
+    
+    $each_bag_weight = $_POST['each_bag_weight'];  
+    $sanitized_each_bag_weight = [];
+  foreach ($each_bag_weight as $each_bag_weight) {
+    $sanitized_each_bag_weight[] = mysqli_real_escape_string($conn, $each_bag_weight);
+  }
+
     $rate = mysqli_real_escape_string($conn, $_POST['rate']);
     $om_exim_weighbridge_weight = mysqli_real_escape_string($conn, $_POST['om_exim_weighbridge_weight']);
     $other_weighbridge_weight = mysqli_real_escape_string($conn, $_POST['other_weighbridge_weight']);
@@ -487,7 +494,7 @@ if (isset($_POST['btnSubmit'])) {
   for ($i = 0; $i < count($sanitized_product_name); $i++) {
 
     $stmt = $conn->prepare("INSERT INTO `inward_master`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $bags, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
+    $stmt->bind_param("ssssssssssssssssss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $bags, $sanitized_each_bag_weight[$i], $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
 
     if ($stmt->execute()) {
 
@@ -505,7 +512,7 @@ if (isset($_POST['btnSubmit'])) {
 
         // Prepare and bind
         $stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `bags`, `total_kg`, `main_kg`, `rate`, `om_exim_weighbridge_weight`, `other_weighbridge_weight`, `weight_as_per_average_bag_weight`, `bill_weight`, `weight_supervisor_name`, `quality_supervisor_name`, `remarks`, `date`, `vehicle_no`, `container_no`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssssssssssssss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $bags, $each_bag_weight, $each_bag_weight, $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
+        $stmt->bind_param("sssssssssssssssssss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $bags, $sanitized_each_bag_weight[$i], $sanitized_each_bag_weight[$i], $rate, $om_exim_weighbridge_weight, $other_weighbridge_weight, $weight_as_per_average_bag_weight, $bill_weight, $weight_supervisor_name, $quality_supervisor_name, $remarks, $date, $vehicle_no, $container_no, $lot_no);
       
       $stmt->execute();
       $stmt->close();

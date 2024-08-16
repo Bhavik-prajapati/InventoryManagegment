@@ -223,6 +223,7 @@ while ($row = $result->fetch_assoc()) {
                             <tr>
                                 <th>Date</th>
                                 <th>Product</th>
+                                <th>Total kg</th>
                                 <th>Quality FG</th>
                                 <th>Bags Quantity</th>
                                 <th>Buyer Name</th>
@@ -245,6 +246,7 @@ while ($row = $result->fetch_assoc()) {
                                 <tr>
                                     <td><?php echo htmlspecialchars($row["date"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["product"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["totalkg"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["quality"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["bags_quantity"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["buyer_name"]); ?></td>

@@ -1,7 +1,6 @@
 <?php
   include("../config/connection.php");
-  $in_sql = "SELECT * FROM inward_master_v2";
-  $in_result = $conn->query($in_sql);
+  
 ?>
 
 <!DOCTYPE html>
@@ -155,6 +154,8 @@
       <div class="col-sm-10">
         <select class="form-select dropdown-class" aria-label="Default select example" id="product_name_1" name="product_name[]">
           <?php
+          $in_sql = "SELECT * FROM inward_master_v2";
+          $in_result = $conn->query($in_sql);
             if ($in_result->num_rows > 0) {
               while ($in_row = $in_result->fetch_assoc()) {
                 ?>
@@ -396,15 +397,14 @@ if (isset($_POST['btnSubmit'])) {
     // $product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
     
     
-    // $product_name = $product_name_id_array[0];  
-    // $sanitized_product_name = [];
-    // foreach ($product_name as $product_name) {
-      //   $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
-  // }
+    $totalkg = $_POST['totalkg'];  
+    $sanitized_totalkg = [];
+    foreach ($totalkg as $totalkg) {
+        $sanitized_totalkg[] = mysqli_real_escape_string($conn, $totalkg);
+  }
 
   $date = mysqli_real_escape_string($conn, $_POST['date']);
 $quality = mysqli_real_escape_string($conn, $_POST['quality']);
-$totalkg = mysqli_real_escape_string($conn, $_POST['totalkg']);
 $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
 $vehicle_number = mysqli_real_escape_string($conn, $_POST['vehicle_number']);
 $container_number = mysqli_real_escape_string($conn, $_POST['container_number']);
@@ -418,17 +418,21 @@ $weighbridge_weight = mysqli_real_escape_string($conn, $_POST['weighbridge_weigh
 $invoice_bridge_weight = mysqli_real_escape_string($conn, $_POST['invoice_bridge_weight']);
 $invoice = mysqli_real_escape_string($conn, $_POST['invoice']);
 
+
 // Prepare the SQL query to insert data into the `outward_master` table
 for ($i = 0; $i < count($sanitized_product_name_id); $i++) {
+  
+  echo "<script>alert('$sanitized_product_name_id[$i]')</script>";
 
-  $product_name_id_array = explode(",", $product_name_id);
+  $product_array = explode(",", $sanitized_product_name_id[$i]);
 
   
-    $product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
+    $product_name = mysqli_real_escape_string($conn, $product_array[0]);
+    $product_id_inner = mysqli_real_escape_string($conn, $product_array[1]);
   
 
   $sql = "INSERT INTO outward_master (date, product, quality,totalkg, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks, place,	bags_quantity, weighbridge_weight, invoice_bridge_weight, invoice) 
-        VALUES ('$date', '$product_name', '$quality',$totalkg, '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks', '$place', '$bags_quantity', '$weighbridge_weight', '$invoice_bridge_weight', '$invoice')";
+        VALUES ('$date', '$product_name', '$quality','$sanitized_totalkg[$i]', '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks', '$place', '$bags_quantity', '$weighbridge_weight', '$invoice_bridge_weight', '$invoice')";
 
   if ($conn->query($sql) === TRUE) {
 
@@ -442,11 +446,12 @@ for ($i = 0; $i < count($sanitized_product_name_id); $i++) {
 
       // Delete from process_master using id
 
-      // $stmt1 = $conn->prepare("DELETE FROM inward_master_v2 WHERE id = ?");
-      // $stmt1->bind_param('i', $product_name_id_array[1]);
-      // $stmt1->execute();
-      // $stmt1->close();
-  }
+      $stmt1 = $conn->prepare("DELETE FROM inward_master_v2 WHERE id = ?");
+      $stmt1->bind_param('i', $product_id_inner);
+      $stmt1->execute();
+      $stmt1->close();
+
+    }
 
   
 }
@@ -494,7 +499,21 @@ document.addEventListener('DOMContentLoaded', () => {
         <label for="product_name_${fieldSetCount}" class="col-sm-2 col-form-label">Product</label>
         <div class="col-sm-10">
           <select class="form-select dropdown-class" aria-label="Default select example" id="product_name_${fieldSetCount}" name="product_name[]">
-            ${productOptions.map(option => `<option value="${option.value}">${option.text}</option>`).join('')}
+
+
+          <?php
+          $in_sql = "SELECT * FROM inward_master_v2";
+          $in_result = $conn->query($in_sql);
+            if ($in_result->num_rows > 0) {
+              while ($in_row = $in_result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
+                <?php
+              }
+            }
+          ?>
+
+
           </select>
           <label id="product_name_${fieldSetCount}_validation" class="text-danger"><small>*Please select a product.</small></label>
         </div>

@@ -147,41 +147,39 @@
                 <label id="place_validation" class="text-danger"><small>*Please enter the place.</small></label>
               </div>
             </div>
+<!-- Container to hold the fields and dynamically added fields -->
+<div id="fieldsContainer">
+  <div class="field-set" id="field-set-1">
+    <div class="row mb-4">
+      <label for="product_name_1" class="col-sm-2 col-form-label">Product</label>
+      <div class="col-sm-10">
+        <select class="form-select dropdown-class" aria-label="Default select example" id="product_name_1" name="product_name[]">
+          <?php
+            if ($in_result->num_rows > 0) {
+              while ($in_row = $in_result->fetch_assoc()) {
+                ?>
+                <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
+                <?php
+              }
+            }
+          ?>
+        </select>
+        <label id="product_name_1_validation" class="text-danger"><small>*Please select a product.</small></label>
+      </div>
+    </div>
 
-            <div class="row mb-4">
-              <label for="product_name" class="col-sm-2 col-form-label">Product</label>
-              <div class="col-sm-10">
-                <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]" multiple>
-                  
-                  <?php
-                    if ($in_result->num_rows > 0) {
-                      while($in_row = $in_result->fetch_assoc()) {
-                        ?>
-                        <!-- <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option> -->
-                        <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
-                  <?php 
-                      }
-                    }
-                    ?>
-                </select>
-                <label id="product_name_validation" class="text-danger"><small>*Please select a product.</small></label>
-              </div>
-            </div>
-            
-            <script>
-                  $(document).ready(function() {
-                    $('#product_name').select2();
-                  });
-                </script>
+    <div class="row mb-4">
+      <label class="col-sm-2 col-form-label">Total kg</label>
+      <div class="col-sm-10">
+        <input class="form-control" placeholder="Enter Total kg" id="totalkg_1" name="totalkg[]">
+        <label class="text-danger" id="totalkg_1_validation"><small>*Enter Total kg</small></label>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-<div class="row mb-4">
-                  <label class="col-sm-2 col-form-label">Total kg</label>
-                  <div class="col-sm-10">
-                    <input class="form-control" placeholder="Enter Total kg" id="totalkg" name="totalkg">
-                    <label class="text-danger" id="totalkg_validation"><small>*Enter Total kg</small></label>
-                  </div>
-                </div>
+<!-- Button to add more fields -->
+<button type="button" id="addFieldsButton" class="btn btn-primary">+</button>
 
             <div class="row mb-4">
               <label for="quality" class="col-sm-2 col-form-label">Quality FG</label>
@@ -459,3 +457,71 @@ $conn->close();
 }
 ?>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const addFieldsButton = document.getElementById('addFieldsButton');
+  const fieldsContainer = document.getElementById('fieldsContainer');
+  let fieldSetCount = 1; // Initial field set count
+
+  // Function to fetch product options
+  async function fetchProductOptions() {
+    try {
+      const response = await fetch('fetch_products.php');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Fetch error:', error);
+      return [];
+    }
+  }
+
+  // Function to create a new set of fields
+  async function createFields() {
+    fieldSetCount++; // Increment field set count
+
+    // Create a new container for the fields
+    const fieldSetContainer = document.createElement('div');
+    fieldSetContainer.className = 'field-set';
+    fieldSetContainer.id = `field-set-${fieldSetCount}`;
+
+    // Fetch product options
+    const productOptions = await fetchProductOptions();
+
+    // Set the inner HTML for the new field set
+    fieldSetContainer.innerHTML = `
+      <div class="row mb-4">
+        <label for="product_name_${fieldSetCount}" class="col-sm-2 col-form-label">Product</label>
+        <div class="col-sm-10">
+          <select class="form-select dropdown-class" aria-label="Default select example" id="product_name_${fieldSetCount}" name="product_name[]">
+            ${productOptions.map(option => `<option value="${option.value}">${option.text}</option>`).join('')}
+          </select>
+          <label id="product_name_${fieldSetCount}_validation" class="text-danger"><small>*Please select a product.</small></label>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <label class="col-sm-2 col-form-label">Total kg</label>
+        <div class="col-sm-10">
+          <input class="form-control" placeholder="Enter Total kg" id="totalkg_${fieldSetCount}" name="totalkg[]">
+          <label class="text-danger" id="totalkg_${fieldSetCount}_validation"><small>*Enter Total kg</small></label>
+        </div>
+      </div>
+    `;
+
+    // Append the new field set container to the fields container
+    fieldsContainer.appendChild(fieldSetContainer);
+
+    // Re-initialize select2 for newly added select elements
+    const newSelects = fieldsContainer.querySelectorAll(`select[id^="product_name_"]`);
+    newSelects.forEach(select => {
+      if (!$(select).data('select2')) {
+        $(select).select2();
+      }
+    });
+  }
+
+  // Attach the event listener to the button
+  addFieldsButton.addEventListener('click', createFields);
+});
+</script>

@@ -58,7 +58,7 @@
     checkField("weighbridge_weight", "weighbridge_weight_validation");
     checkField("invoice_bridge_weight", "invoice_bridge_weight_validation");
     checkField("invoice", "invoice_validation");
-    checkField("total_kg", "total_kg_validation");
+    checkField("totalkg", "totalkg_validation");
 
     // Custom validation for numeric values
     // function checkNumericField(fieldName, labelId) {
@@ -81,7 +81,7 @@
     const formFields = [
       "date", "place", "product_name", "quality", "bags_quantity", "foreign_buyer_name",
       "vehicle_number", "container_number", "quantity_per_kg",
-      "supervisor_name", "gate_person_name", "remarks", "weighbridge_weight", "invoice_bridge_weight", "invoice", "total_kg"
+      "supervisor_name", "gate_person_name", "remarks", "weighbridge_weight", "invoice_bridge_weight", "invoice", "totalkg"
     ];
 
   formFields.forEach(fieldName => {
@@ -178,8 +178,8 @@
 <div class="row mb-4">
                   <label class="col-sm-2 col-form-label">Total kg</label>
                   <div class="col-sm-10">
-                    <input class="form-control" placeholder="Enter Total kg" id="total_kg" name="total_kg">
-                    <label class="text-danger" id="total_kg_validation"><small>*Enter Total kg</small></label>
+                    <input class="form-control" placeholder="Enter Total kg" id="totalkg" name="totalkg">
+                    <label class="text-danger" id="totalkg_validation"><small>*Enter Total kg</small></label>
                   </div>
                 </div>
 
@@ -385,16 +385,26 @@
 <?php
 if (isset($_POST['btnSubmit'])) {
    // Collect and escape form data
-$product_name_id = $_POST['product_name'];
-$product_name_id_array = explode(",", $product_name_id);
 
-$date = mysqli_real_escape_string($conn, $_POST['date']);
-// $product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
-  $product_name = $_POST['product_name'];  
-  $sanitized_product_name = [];
-  foreach ($product_name as $product_name) {
-    $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
-  }
+   $product_name_id = $_POST['product_name'];   
+   $sanitized_product_name_id = [];
+   foreach ($product_name_id as $product_name_id) {
+     $sanitized_product_name_id[] = mysqli_real_escape_string($conn, $product_name_id);
+    }
+    
+    // $product_name_id_array = explode(",", $product_name_id);
+    
+    
+    // $product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
+    
+    
+    // $product_name = $product_name_id_array[0];  
+    // $sanitized_product_name = [];
+    // foreach ($product_name as $product_name) {
+      //   $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
+  // }
+
+  $date = mysqli_real_escape_string($conn, $_POST['date']);
 $quality = mysqli_real_escape_string($conn, $_POST['quality']);
 $totalkg = mysqli_real_escape_string($conn, $_POST['totalkg']);
 $foreign_buyer_name = mysqli_real_escape_string($conn, $_POST['foreign_buyer_name']);
@@ -411,37 +421,41 @@ $invoice_bridge_weight = mysqli_real_escape_string($conn, $_POST['invoice_bridge
 $invoice = mysqli_real_escape_string($conn, $_POST['invoice']);
 
 // Prepare the SQL query to insert data into the `outward_master` table
-for ($i = 0; $i < count($sanitized_product_name); $i++) {
+for ($i = 0; $i < count($sanitized_product_name_id); $i++) {
 
-$sql = "INSERT INTO outward_master (date, product, quality,totalkg, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks, place,	bags_quantity, weighbridge_weight, invoice_bridge_weight, invoice) 
-        VALUES ('$date', '$sanitized_product_name[$i]', '$quality',$totalkg, '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks', '$place', '$bags_quantity', '$weighbridge_weight', '$invoice_bridge_weight', '$invoice')";
+  $product_name_id_array = explode(",", $product_name_id);
 
-if ($conn->query($sql) === TRUE) {
+  
+    $product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
+  
 
-    $activity_details = "entered outward record";
-        
-    $stmt = $conn->prepare("
-        INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-        VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-    $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
-    $stmt->execute();
+  $sql = "INSERT INTO outward_master (date, product, quality,totalkg, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks, place,	bags_quantity, weighbridge_weight, invoice_bridge_weight, invoice) 
+        VALUES ('$date', '$product_name', '$quality',$totalkg, '$foreign_buyer_name', '$vehicle_number', '$container_number', '$quantity_per_kg', '$supervisor_name', '$gate_person_name', '$remarks', '$place', '$bags_quantity', '$weighbridge_weight', '$invoice_bridge_weight', '$invoice')";
 
-    // Delete from process_master using id
-    $stmt1 = $conn->prepare("DELETE FROM inward_master_v2 WHERE id = ?");
-    $stmt1->bind_param('i', $product_name_id_array[1]);
-    $stmt1->execute();
+  if ($conn->query($sql) === TRUE) {
+
+      $activity_details = "entered outward record";
+          
+      $stmt = $conn->prepare("
+          INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
+          VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+      $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
+      $stmt->execute();
+
+      // Delete from process_master using id
+
+      // $stmt1 = $conn->prepare("DELETE FROM inward_master_v2 WHERE id = ?");
+      // $stmt1->bind_param('i', $product_name_id_array[1]);
+      // $stmt1->execute();
+      // $stmt1->close();
+  }
+
+  
 }
 
-   echo "<script>alert('Form Submitted Successfully')</script>";
-    $stmt1->close();
-
-} else {
-  echo "<script>alert('Form Not Submitted')</script>";
-
-    // echo "Error: " . $sql . "<br>" . $conn->error;
-}
-
+echo "<script>alert('Form Submitted Successfully')</script>";
 // Close the database connection
 $conn->close();
 }
 ?>
+

@@ -236,7 +236,7 @@ $(document).ready(function() {
 
 
                 </script>
-                <button id="addButton" class="btn btn-primary">+</button>
+                <a id="addButton" class="btn btn-primary">+</a>
 
               <div class="row mb-4">
                 <label for="quality" class="col-sm-2 col-form-label">Quality FG</label>

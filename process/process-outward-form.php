@@ -198,6 +198,7 @@
                 </div>
                 <input type="hidden" id="used_total_kg" name="used_total_kg">
                 <input type="hidden" id="selected_product_name" name="selected_product_name">
+                <input type="hidden" id="selected_product_id" name="selected_product_id">
                 <!-- <input type="hidden" id="supplier_name" name="supplier_name"> -->
                 <input type="hidden" id="lot_no" name="lot_no">
               </div>
@@ -415,6 +416,7 @@ $(document).ready(function() {
                         $('#available_quantity').val(response[0]['total_kg']);
                         $('#lbl_available_quantity').text(response[0]['total_kg']);
                         $('#selected_product_name').val(response[0]['product_name']);
+                        $('#selected_product_id').val(response[0]['product_id']);
                         $('#lot_no').val(response[0]['lot_no']);
                     }
                 });
@@ -480,38 +482,49 @@ if (isset($_POST['btnSubmit'])) {
 
   for ($i = 0; $i < count($sanitized_product_name); $i++) {
 
-    
-// Prepare the first statement to insert into inward_master_v2
-$stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `total_kg`, `main_kg`, `rate`, `date`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssssddsss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $sanitized_total_kg[$i], $sanitized_total_kg[$i], $rate, $date, $lot_no);
+        
+    // Prepare the first statement to insert into inward_master_v2
+    $stmt = $conn->prepare("INSERT INTO `inward_master_v2` (`place`, `supplier_name`, `product_name`, `quality`, `total_kg`, `main_kg`, `rate`, `date`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssddsss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $sanitized_total_kg[$i], $sanitized_total_kg[$i], $rate, $date, $lot_no);
 
-// Execute the first statement
-if ($stmt->execute()) {
-    echo "<script>alert('working')</script>";
+    // Execute the first statement
+    if ($stmt->execute()) {
 
-    // Record the activity in the activity_master table
-    $activity_details = "entered process outward record";
-    $stmt1 = $conn->prepare("
-    INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-    VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-    $stmt1->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
-    $stmt1->execute();
-    $stmt1->close();
-}
+        // Record the activity in the activity_master table
+        $activity_details = "entered process outward record";
+        $stmt1 = $conn->prepare("
+        INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
+        VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+        $stmt1->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
+        $stmt1->execute();
+        $stmt1->close();
+    }
 
-// Close the statement
-$stmt->close();
-
+    // Close the statement
+    $stmt->close();
     
   }
-  // $novalue = "";
-  // $stmtlot = $conn->prepare("
-  // INSERT INTO outward_lot_master (lot_no)
-  // VALUES (?)");
-  // $stmtlot->bind_param('s', $novalue);
-  // $stmtlot->execute();
 
-  // echo "<script>alert('Form Submitted Successfully')</script>";
+
+  $sqldel = "DELETE FROM process_master WHERE final_product = ?";
+
+  $stmtdel = $conn->prepare($sqldel);
+  if ($stmtdel) {
+      $stmtdel->bind_param("s", $sanitized_product_name[0]);
+      $stmtdel->execute();
+  } 
+  $stmtdel->close();
+
+  
+
+  $novalue = "";
+  $stmtlot = $conn->prepare("
+  INSERT INTO outward_lot_master (lot_no)
+  VALUES (?)");
+  $stmtlot->bind_param('s', $novalue);
+  $stmtlot->execute();
+
+  echo "<script>alert('Form Submitted Successfully')</script>";
 
 
 

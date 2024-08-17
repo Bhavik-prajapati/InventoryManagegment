@@ -244,6 +244,7 @@ include("layout/aside.php");
                             <thead>
                               <tr>
                                 <th>Date</th>
+                                <th>Lot No</th>
                                 <th>Product Name</th>
                                 <th>Supplier Name</th>
                                 <th>Quality</th>
@@ -267,6 +268,7 @@ include("layout/aside.php");
                                     ?>
                                         <tr>
                                             <td><?php echo $row["date"] ?></td>
+                                            <td><?php echo $row["lot_no"] ?></td>
                                             <td><?php echo $row["product_name"] ?></td>
                                             <td><?php echo $row["supplier_name"] ?></td>
                                             <td><?php echo $row["quality"] ?></td>

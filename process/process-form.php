@@ -199,6 +199,7 @@
           </span>
           <input type="hidden" class="product_id" id="product_id" name="product_id[]">
           <input type="hidden" class="available_kg" id="available_kg" name="available_kg[]">
+          <input type="hidden" class="lot_no" id="lot_no" name="lot_no[]">
           <input type="hidden" class="only_product_name" id="only_product_name" name="only_product_name[]">
           <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight[]">
         </div>
@@ -262,13 +263,13 @@
                 </div>
               </div>
 
-              <div hidden class="row mb-4">
+              <!-- <div class="row mb-4">
                   <label class="col-sm-2 col-form-label">Lot No</label>
                   <div class="col-sm-10">
                     <input type="hidden" class="form-control" style="background-color:white !important; border:none !important;" id="lot_no" name="lot_no">
                     <label class="col-sm-2 col-form-label" id="lbl_lot_no"></label>
                   </div>
-                </div>
+                </div> -->
 
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"></label>
@@ -399,13 +400,19 @@ if (isset($_POST['btnSubmit'])) {
   // $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
   // $only_product_name = mysqli_real_escape_string($conn, $_POST['only_product_name']);
   
-  $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
+  // $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
   $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
   
   $product_name = $_POST['product_name'];  
   $sanitized_product_name = [];
   foreach ($product_name as $product_name) {
     $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
+  }
+
+  $lot_no = $_POST['lot_no'];  
+  $sanitized_lot_no = [];
+  foreach ($lot_no as $lot_no) {
+    $sanitized_lot_no[] = mysqli_real_escape_string($conn, $lot_no);
   }
 
   $weight_quality = $_POST['weight_quality'];
@@ -454,7 +461,7 @@ if (isset($_POST['btnSubmit'])) {
 
       $stmt = $conn->prepare($sql);
       
-      $stmt->bind_param("sssssssssss", $place, $process_name, $foreign_buyer_name, $sanitized_only_product_name[$i], $sanitized_weight_quality[$i], $sanitized_total_kg[$i], $remarks, $date, $sanitized_supplier_name[$i], $lot_no, $selected_product_name);
+      $stmt->bind_param("sssssssssss", $place, $process_name, $foreign_buyer_name, $sanitized_only_product_name[$i], $sanitized_weight_quality[$i], $sanitized_total_kg[$i], $remarks, $date, $sanitized_supplier_name[$i], $sanitized_lot_no[$i], $selected_product_name);
 
       if ($stmt->execute()) {
           echo "<script>alert('Form Submitted Successfully')</script>";

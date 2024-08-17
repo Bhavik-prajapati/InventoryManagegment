@@ -43,7 +43,7 @@
 
     // Validate each field
     checkField("date", "date_validation");
-    checkField("product_name", "product_name_validation");
+    // checkField("product_name", "product_name_validation");
     checkField("quality", "quality_validation");
     checkField("foreign_buyer_name", "foreign_buyer_name_validation");
     checkField("vehicle_number", "vehicle_number_validation");
@@ -57,7 +57,20 @@
     checkField("weighbridge_weight", "weighbridge_weight_validation");
     checkField("invoice_bridge_weight", "invoice_bridge_weight_validation");
     checkField("invoice", "invoice_validation");
-    checkField("totalkg", "totalkg_validation");
+    // checkField("totalkg", "totalkg_validation");
+
+    function checkNumericField(fieldName, labelId) {
+      let field = form[fieldName].value;
+      if (field > parseFloat(document.getElementById("max_total_kg_1").innerText)) {
+        document.getElementById(labelId).style.display = 'block';
+        valid = false;
+      }
+      else{
+        document.getElementById(labelId).style.display = 'none';
+      }
+    }
+
+    checkNumericField("each_bag_weight", "total_kg_overflow_validation");
 
     // Custom validation for numeric values
     // function checkNumericField(fieldName, labelId) {
@@ -78,9 +91,9 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-      "date", "place", "product_name", "quality", "bags_quantity", "foreign_buyer_name",
+      "date", "place", "quality", "bags_quantity", "foreign_buyer_name",
       "vehicle_number", "container_number", "quantity_per_kg",
-      "supervisor_name", "gate_person_name", "remarks", "weighbridge_weight", "invoice_bridge_weight", "invoice", "totalkg"
+      "supervisor_name", "gate_person_name", "remarks", "weighbridge_weight", "invoice_bridge_weight", "invoice"
     ];
 
   formFields.forEach(fieldName => {
@@ -147,40 +160,59 @@
               </div>
             </div>
 <!-- Container to hold the fields and dynamically added fields -->
-<div id="fieldsContainer">
-  <div class="field-set" id="field-set-1">
-    <div class="row mb-4">
-      <label for="product_name_1" class="col-sm-2 col-form-label">Product</label>
-      <div class="col-sm-10">
-        <select class="form-select dropdown-class" aria-label="Default select example" id="product_name_1" name="product_name[]">
-          <?php
-          $in_sql = "SELECT * FROM inward_master_v2";
-          $in_result = $conn->query($in_sql);
-            if ($in_result->num_rows > 0) {
-              while ($in_row = $in_result->fetch_assoc()) {
-                ?>
-                <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
-                <?php
-              }
-            }
-          ?>
-        </select>
-        <label id="product_name_1_validation" class="text-danger"><small>*Please select a product.</small></label>
-      </div>
-    </div>
 
-    <div class="row mb-4">
-      <label class="col-sm-2 col-form-label">Total kg</label>
-      <div class="col-sm-10">
-        <input class="form-control" placeholder="Enter Total kg" id="totalkg_1" name="totalkg[]">
-        <label class="text-danger" id="totalkg_1_validation"><small>*Enter Total kg</small></label>
-      </div>
-    </div>
+
+<div id="form-container">
+  <section class="dynamic-section">
+  <div class="row mb-4">
+  <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
+  <div class="col-sm-10">
+  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]">
+      <option value="" selected disabled>- - Select Product - -</option>
+      <?php
+        $in_sql = "SELECT * FROM inward_master_v2";
+        $in_result = $conn->query($in_sql);
+        if ($in_result->num_rows > 0) {
+          while($in_row = $in_result->fetch_assoc()) {
+      ?>
+      <option value="<?php echo $in_row["id"] ?>"><?php echo $in_row["product_name"].", Supplier Name: ".$in_row["supplier_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
+      <?php 
+          }
+        }
+      ?>
+    </select>
+    <label id="product_name_validation" class="text-danger"><small>*Select Product Name</small></label>
   </div>
 </div>
 
-<!-- Button to add more fields -->
-<button type="button" id="addFieldsButton" class="btn btn-primary">+</button>
+<script>
+  $(document).ready(function() {
+    // Initialize Select2 for all elements with the class 'product-name-select'
+    $('.product-name-select').select2();
+  });
+</script>
+
+    <div class="row mb-4">
+      <label for="each_bag_weight" class="col-sm-2 col-form-label">Total Kg</label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <span class="input-group-text">
+            <label>Available: <span class="max_total_kg_1" id="max_total_kg_1">0</span>kg</label>
+          </span>
+          <input type="hidden" class="product_id" id="product_id" name="product_id[]">
+          <input type="hidden" class="available_kg" id="available_kg" name="available_kg[]">
+          <input type="hidden" class="only_product_name" id="only_product_name" name="only_product_name[]">
+          <input type="number" step="0.00000000001" placeholder="Enter Kg" class="form-control" id="each_bag_weight" name="each_bag_weight[]">
+        </div>
+        <label id="each_bag_weight_validation" class="text-danger"><small>*Enter Total Kg</small></label>
+        <label id="total_kg_overflow_validation" class="text-danger"><small>*Weight exceeds the <span class="max_total_kg_2" id="max_total_kg_2">0</span> limit.</small></label>
+      </div>
+    </div>
+  </section>
+</div>
+
+<button type="button" id="add-section" class="btn btn-primary">+</button>
+
 
             <div class="row mb-4">
               <label for="quality" class="col-sm-2 col-form-label">Quality FG</label>
@@ -397,11 +429,32 @@ if (isset($_POST['btnSubmit'])) {
     // $product_name = mysqli_real_escape_string($conn, $product_name_id_array[0]);
     
     
-    $totalkg = $_POST['totalkg'];  
+    $totalkg = $_POST['each_bag_weight'];  
     $sanitized_totalkg = [];
     foreach ($totalkg as $totalkg) {
         $sanitized_totalkg[] = mysqli_real_escape_string($conn, $totalkg);
   }
+
+  $available_kg = $_POST['available_kg'];
+  $sanitized_available_kg = [];
+  foreach ($available_kg as $available_kg) {
+    $sanitized_available_kg[] = mysqli_real_escape_string($conn, $available_kg);
+  }
+
+  $product_id = $_POST['product_id'];
+  $sanitized_product_id = [];
+  foreach ($product_id as $product_id) {
+    $sanitized_product_id[] = mysqli_real_escape_string($conn, $product_id);
+  }
+
+
+  
+  $only_product_name = $_POST['only_product_name'];
+  $sanitized_only_product_name = [];
+  foreach ($only_product_name as $only_product_name) {
+    $sanitized_only_product_name[] = mysqli_real_escape_string($conn, $only_product_name);
+  }
+
 
   $date = mysqli_real_escape_string($conn, $_POST['date']);
 $quality = mysqli_real_escape_string($conn, $_POST['quality']);
@@ -418,17 +471,15 @@ $weighbridge_weight = mysqli_real_escape_string($conn, $_POST['weighbridge_weigh
 $invoice_bridge_weight = mysqli_real_escape_string($conn, $_POST['invoice_bridge_weight']);
 $invoice = mysqli_real_escape_string($conn, $_POST['invoice']);
 
-
-// Prepare the SQL query to insert data into the `outward_master` table
 for ($i = 0; $i < count($sanitized_product_name_id); $i++) {
   
-  echo "<script>alert('$sanitized_product_name_id[$i]')</script>";
+  // echo "<script>alert('$sanitized_product_name_id[$i]')</script>";
 
-  $product_array = explode(",", $sanitized_product_name_id[$i]);
+  // $product_array = explode(",", $sanitized_product_name_id[$i]);
 
   
-    $product_name = mysqli_real_escape_string($conn, $product_array[0]);
-    $product_id_inner = mysqli_real_escape_string($conn, $product_array[1]);
+    $product_name = $sanitized_only_product_name[$i];
+    $product_id_inner = $sanitized_product_name_id[$i];
   
 
   $sql = "INSERT INTO outward_master (date, product, quality,totalkg, buyer_name, vehicle_number, container_number, quantity_per_kg, supervisor_name, gate_person_name, remarks, place,	bags_quantity, weighbridge_weight, invoice_bridge_weight, invoice) 
@@ -446,10 +497,21 @@ for ($i = 0; $i < count($sanitized_product_name_id); $i++) {
 
       // Delete from process_master using id
 
-      $stmt1 = $conn->prepare("DELETE FROM inward_master_v2 WHERE id = ?");
-      $stmt1->bind_param('i', $product_id_inner);
-      $stmt1->execute();
-      $stmt1->close();
+  
+      $kg = floatval($sanitized_available_kg[$i]) - floatval($sanitized_totalkg[$i]);
+
+
+      if ((float)$kg > 0) {
+        $stmt1 = $conn->prepare("UPDATE `inward_master_v2` SET `total_kg` = ? WHERE `id` = ?");
+        $stmt1->bind_param("si", $kg, $sanitized_product_id[$i]);
+        $stmt1->execute();
+        $stmt1->close();
+      } else {
+        $stmt1 = $conn->prepare("DELETE from `inward_master_v2` WHERE `id` = ?");
+        $stmt1->bind_param("i", $sanitized_product_id[$i]);
+        $stmt1->execute();
+        $stmt1->close();
+      }
 
     }
 
@@ -463,84 +525,55 @@ $conn->close();
 ?>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const addFieldsButton = document.getElementById('addFieldsButton');
-  const fieldsContainer = document.getElementById('fieldsContainer');
-  let fieldSetCount = 1; // Initial field set count
 
-  // Function to fetch product options
-  async function fetchProductOptions() {
-    try {
-      const response = await fetch('fetch_products.php');
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Fetch error:', error);
-      return [];
-    }
+
+  $(document).ready(function() {
+  function initializeSection(section) {
+  // Initialize Select2 for the specific section
+  section.find('.product-name-select').select2();
+
+  // Handle change event for the specific product_name dropdown within the section
+  section.find('#product_name').change(function() {
+      var product_name = $(this).val();
+      var section = $(this).closest('.dynamic-section'); // Get the specific section
+
+      $.ajax({
+          url: 'fetch_bags.php',
+          type: 'post',
+          data: { product_name: product_name },
+          dataType: 'json',
+          success: function(response) {
+              section.find('#each_bag_weight').empty();
+              section.find('#max_total_kg_1').text(response[0]['total_kg']);
+              section.find('#max_total_kg_2').text(response[0]['total_kg']);
+              section.find('#available_kg').val(response[0]['total_kg']);
+              section.find('#product_id').val(response[0]['id']);
+              section.find('#lot_no').val(response[0]['lot_no']);
+              section.find('#lbl_lot_no').text(response[0]['lot_no']);
+              section.find('#supplier_name').val(response[0]['supplier_name']);
+              section.find('#lbl_supplier_name').text(response[0]['supplier_name']);
+              section.find('#only_product_name').val(response[0]['product_name']);
+          }
+      });
+  });
   }
 
-  // Function to create a new set of fields
-  async function createFields() {
-    fieldSetCount++; // Increment field set count
+  // Initialize the first section
+  initializeSection($('.dynamic-section:first'));
 
-    // Create a new container for the fields
-    const fieldSetContainer = document.createElement('div');
-    fieldSetContainer.className = 'field-set';
-    fieldSetContainer.id = `field-set-${fieldSetCount}`;
+  // Handle adding new sections
+  $('#add-section').click(function() {
+  var newSection = $('.dynamic-section:first').clone();
+  newSection.find('input').val('');
+  newSection.find('select').val('').trigger('change');
+  $('#form-container').append(newSection);
 
-    // Fetch product options
-    const productOptions = await fetchProductOptions();
-
-    // Set the inner HTML for the new field set
-    fieldSetContainer.innerHTML = `
-      <div class="row mb-4">
-        <label for="product_name_${fieldSetCount}" class="col-sm-2 col-form-label">Product</label>
-        <div class="col-sm-10">
-          <select class="form-select dropdown-class" aria-label="Default select example" id="product_name_${fieldSetCount}" name="product_name[]">
+  // Initialize the new section
+  initializeSection(newSection);
+  });
+  });
 
 
-          <?php
-          $in_sql = "SELECT * FROM inward_master_v2";
-          $in_result = $conn->query($in_sql);
-            if ($in_result->num_rows > 0) {
-              while ($in_row = $in_result->fetch_assoc()) {
-                ?>
-                <option value="<?php echo $in_row["product_name"].",".$in_row["id"] ?>"><?php echo $in_row["product_name"].", Date: ".$in_row["date"].", Lot No: ".$in_row["lot_no"] ?></option>
-                <?php
-              }
-            }
-          ?>
 
-
-          </select>
-          <label id="product_name_${fieldSetCount}_validation" class="text-danger"><small>*Please select a product.</small></label>
-        </div>
-      </div>
-
-      <div class="row mb-4">
-        <label class="col-sm-2 col-form-label">Total kg</label>
-        <div class="col-sm-10">
-          <input class="form-control" placeholder="Enter Total kg" id="totalkg_${fieldSetCount}" name="totalkg[]">
-          <label class="text-danger" id="totalkg_${fieldSetCount}_validation"><small>*Enter Total kg</small></label>
-        </div>
-      </div>
-    `;
-
-    // Append the new field set container to the fields container
-    fieldsContainer.appendChild(fieldSetContainer);
-
-    // Re-initialize select2 for newly added select elements
-    const newSelects = fieldsContainer.querySelectorAll(`select[id^="product_name_"]`);
-    newSelects.forEach(select => {
-      if (!$(select).data('select2')) {
-        $(select).select2();
-      }
-    });
-  }
-
-  // Attach the event listener to the button
-  addFieldsButton.addEventListener('click', createFields);
-});
 </script>
+

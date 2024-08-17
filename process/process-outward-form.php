@@ -1,9 +1,27 @@
 <?php
   include("../config/connection.php");
   // $in_sql = "SELECT * FROM process_master";
+  
+  function getInwardMasterCount($conn) {
+    $sql = "SELECT COUNT(*) as count FROM outward_lot_master";
+    $result = $conn->query($sql);
+
+    if ($result) {
+      $row = $result->fetch_assoc();
+      return $row['count'];
+    } else {
+      return 0;
+    }
+  }
+  $count = getInwardMasterCount($conn) + 1;
+  
+  
   $in_sql = "SELECT final_product, COUNT(*) as total_count FROM process_master GROUP BY final_product";
 
   $in_result = $conn->query($in_sql);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -46,14 +64,16 @@
     checkField("place", "place_validation");
     checkField("product_name", "product_name_validation");
     checkField("quality", "quality_validation");
-    checkField("f_product_name", "f_product_name_validation");
-    checkField("quantity_fg", "quantity_fg_validation");
-    checkField("lot", "lot_validation");
+    // checkField("f_product_name", "f_product_name_validation");
+    // checkField("quantity_fg", "quantity_fg_validation");
+    // checkField("lot", "lot_validation");
     checkField("total_kg", "total_kg_validation");
+    checkField("rate", "rate_validation");
+    checkField("supplier_name", "supplier_name_validation");
     // checkField("two_no", "two_no_validation");
     // checkField("three_no", "three_no_validation");
     // checkField("waste_product_weight", "waste_product_weight_validation");
-    checkField("remarks", "remarks_validation");
+    // checkField("remarks", "remarks_validation");
 
     // function checkNumericField(fieldName, labelId) {
     //   let field = form[fieldName].value;
@@ -76,7 +96,7 @@
     // checkNumericField("bill_weight", "bill_weight_validation");
 
     const formFields = [
-        "date", "place", "product_name", "quality", "f_product_name", "quantity_fg", "lot", "total_kg", "remarks"
+        "date", "place", "product_name", "quality",  "total_kg", "rate", "supplier_name"
     ];
 
   formFields.forEach(fieldName => {
@@ -111,7 +131,13 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title"></h5>
+            <h5 class="card-title" style="border-bottom: 1px solid #daeeff; margin-bottom: 20px;">
+              <?php 
+                $date = date('Y/m/d');
+                $lot_no = "FG/".$date."/".$count;
+                echo $lot_no; 
+              ?>
+              </h5>
               <form  name="dataForm" method="post" action="" onsubmit="return validateForm(true)">
               <div class="row mb-4">
                 <label for="place" class="col-sm-2 col-form-label">Date</label>
@@ -146,8 +172,8 @@
                 <label for="product_name" class="col-sm-2 col-form-label">Product Name</label>
                 <div class="col-sm-10">
                   <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="product_name" name="product_name"> -->
-                  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]" multiple>
-                      <!-- <option value="" selected disabled>- - Select Product - -</option> -->
+                  <select class="form-select dropdown-class" aria-label="Default select example" id="product_name" name="product_name[]">
+                      <option value="" selected disabled>- - Select Product - -</option>
                       <?php
                         // if ($in_result->num_rows > 0) {
                         //   while($in_row = $in_result->fetch_assoc()) {
@@ -172,7 +198,7 @@
                 </div>
                 <input type="hidden" id="used_total_kg" name="used_total_kg">
                 <input type="hidden" id="selected_product_name" name="selected_product_name">
-                <input type="hidden" id="supplier_name" name="supplier_name">
+                <!-- <input type="hidden" id="supplier_name" name="supplier_name"> -->
                 <input type="hidden" id="lot_no" name="lot_no">
               </div>
 
@@ -185,7 +211,7 @@
               <div class="row mb-4">
                   <label class="col-sm-2 col-form-label">Total kg</label>
                   <div class="col-sm-10">
-                    <input class="form-control" placeholder="Enter Total kg" id="total_kg" name="total_kg">
+                    <input class="form-control" placeholder="Enter Total kg" id="total_kg" name="total_kg[]">
                     <label class="text-danger" id="total_kg_validation"><small>*Enter Total kg</small></label>
                   </div>
                 </div>
@@ -202,7 +228,7 @@ $(document).ready(function() {
             <div class="row mb-4">
                 <label for="w_product_name" class="col-sm-2 col-form-label">Product Name</label>
                 <div class="col-sm-10">
-                    <select class="form-select dropdown-class" aria-label="Default select example" id="w_product_name" name="w_product_name">
+                    <select class="form-select dropdown-class" aria-label="Default select example" id="w_product_name" name="product_name[]">
                         <option value="" selected disabled>- - Select Product Name - -</option>
                         <?php
                         $sql = "SELECT * FROM supplier_name_master";
@@ -222,7 +248,7 @@ $(document).ready(function() {
             <div class="row mb-4">
                 <label class="col-sm-2 col-form-label">Enter kg</label>
                 <div class="col-sm-10">
-                    <input class="form-control" placeholder="Enter kg" id="kg" name="kg">
+                    <input class="form-control" placeholder="Enter kg" id="kg" name="total_kg[]">
                 </div>
             </div>
         </div>
@@ -246,10 +272,26 @@ $(document).ready(function() {
                 </div>
               </div>
 
+
               <div class="row mb-4">
+                  <label for="rate" class="col-sm-2 col-form-label">Rate</label>
+                  <div class="col-sm-10">
+                    <input type="number" step="0.00000000001" placeholder="Enter Rate" class="form-control" id="rate" name="rate">
+                    <label id="rate_validation" class="text-danger"><small>*Enter Rate</small></label>
+                  </div>
+              </div>
+
+              <div class="row mb-4">
+                  <label for="supplier_name" class="col-sm-2 col-form-label">Supplier Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" placeholder="Enter Supplier Name" class="form-control" id="supplier_name" name="supplier_name">
+                    <label id="supplier_name_validation" class="text-danger"><small>*Enter supplier_name</small></label>
+                  </div>
+              </div>
+
+              <!-- <div class="row mb-4">
                   <label for="f_product_name" class="col-sm-2 col-form-label">Final Product Name</label>
                   <div class="col-sm-10">
-                    <!-- <input type="text" placeholder="Enter Product Name" class="form-control" id="f_product_name" name="f_product_name"> -->
                     <select class="form-select dropdown-class" aria-label="Default select example" id="f_product_name" name="f_product_name">
                       <option value="" selected disabled>- - Select Final Product Name - -</option>
                       <?php
@@ -260,7 +302,6 @@ $(document).ready(function() {
                         $sql = "SELECT * FROM supplier_name_master";
                         $result = $conn->query($sql);
                         if ($result->num_rows > 0) {
-                          // Output data of each row
                           while($row = $result->fetch_assoc()) {  
                       ?>
                       <option value="<?php echo $row["name"] ?>"><?php echo $row["name"] ?></option>
@@ -277,7 +318,7 @@ $(document).ready(function() {
                   $(document).ready(function() {
                     $('#product_name').select2();
                   });
-                </script>
+                </script> -->
 
 
 
@@ -313,30 +354,30 @@ $(document).ready(function() {
                 </div>
               </div>
  -->
-
+<!-- 
               <div class="row mb-4">
                 <label for="quantity_fg" class="col-sm-2 col-form-label">Quantity FG</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Quantity FG" class="form-control" id="quantity_fg" name="quantity_fg">
                   <label id="quantity_fg_validation" class="text-danger"><small>*Enter Quantity FG</small></label>
                 </div>
-              </div>
+              </div> -->
 
-              <div class="row mb-4">
+              <!-- <div class="row mb-4">
                 <label for="lot" class="col-sm-2 col-form-label">Lot No</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Lot No" class="form-control" id="lot" name="lot">
                   <label id="lot_validation" class="text-danger"><small>*Enter Lot No</small></label>
                 </div>
-              </div>
+              </div> -->
 
-              <div class="row mb-4">
+              <!-- <div class="row mb-4">
                 <label for="remarks" class="col-sm-2 col-form-label">Remarks</label>
                 <div class="col-sm-10">
                   <input type="text" placeholder="Enter Remarks" class="form-control" id="remarks" name="remarks">
                   <label id="remarks_validation" class="text-danger"><small>*Enter Remarks</small></label>
                 </div>
-              </div>
+              </div> -->
 
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"></label>
@@ -374,7 +415,6 @@ $(document).ready(function() {
                         $('#available_quantity').val(response[0]['total_kg']);
                         $('#lbl_available_quantity').text(response[0]['total_kg']);
                         $('#selected_product_name').val(response[0]['product_name']);
-                        $('#supplier_name').val(response[0]['supplier_name']);
                         $('#lot_no').val(response[0]['lot_no']);
                     }
                 });
@@ -403,88 +443,81 @@ $(document).ready(function() {
 if (isset($_POST['btnSubmit'])) {
 
     // Capture and sanitize form data
+    // $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
+    // $selected_product_name = mysqli_real_escape_string($conn, $_POST['f_product_name']);
+    // $available_quantity = (float)$_POST['used_total_kg'];
+    // $used_total_kg = 0;
+    // $one_no =0;
+    // $two_no = 0;
+    // $three_no =0;
+    // $waste_product_weight =0;
+    // $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+    // $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
+    // $quantity_fg = mysqli_real_escape_string($conn, $_POST['quantity_fg']);
+    
     $date = mysqli_real_escape_string($conn, $_POST['date']);
     $place = mysqli_real_escape_string($conn, $_POST['place']);
+    $rate = mysqli_real_escape_string($conn, $_POST['rate']);
+
     // $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
-    $product_name = "";
-    // $selected_product_name = mysqli_real_escape_string($conn, $_POST['selected_product_name']);
-    $selected_product_name = mysqli_real_escape_string($conn, $_POST['f_product_name']);
-    $available_quantity = (float)$_POST['used_total_kg'];
-    $used_total_kg = 0;
-    $quality = mysqli_real_escape_string($conn, $_POST['quality']);
-    $one_no =0;
-    $two_no = 0;
-    $three_no =0;
-    $waste_product_weight =0;
-    $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+    $product_name = $_POST['product_name'];  
+    $sanitized_product_name = [];
+    foreach ($product_name as $product_name) {
+      $sanitized_product_name[] = mysqli_real_escape_string($conn, $product_name);
+    }
+
+    // $total_kg = mysqli_real_escape_string($conn, $_POST['total_kg']);
+    $total_kg = $_POST['total_kg'];  
+    $sanitized_total_kg = [];
+    foreach ($total_kg as $total_kg) {
+      $sanitized_total_kg[] = mysqli_real_escape_string($conn, $total_kg);
+    }
+
     $supplier_name = mysqli_real_escape_string($conn, $_POST['supplier_name']);
-    $lot_no = mysqli_real_escape_string($conn, $_POST['lot_no']);
-    $quantity_fg = mysqli_real_escape_string($conn, $_POST['quantity_fg']);
-    $lot = mysqli_real_escape_string($conn, $_POST['lot']);
+    $quality = mysqli_real_escape_string($conn, $_POST['quality']);
+    $lot = $lot_no;
     
+
+  for ($i = 0; $i < count($sanitized_product_name); $i++) {
+
     
-    $sum_of_kg = (float)$one_no + (float)$two_no + (float)$three_no + (float)$waste_product_weight;
+// Prepare the first statement to insert into inward_master_v2
+$stmt = $conn->prepare("INSERT INTO `inward_master_v2`(`place`, `supplier_name`, `product_name`, `quality`, `total_kg`, `main_kg`, `rate`, `date`, `lot_no`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssddsss", $place, $supplier_name, $sanitized_product_name[$i], $quality, $sanitized_total_kg[$i], $sanitized_total_kg[$i], $rate, $date, $lot_no);
 
-    if ($sum_of_kg == $used_total_kg) {
-      // Prepare and bind
-      $stmt = $conn->prepare("INSERT INTO process_outward_master (date, product_name, quality, one_no, two_no, three_no, waste_product_weight, remarks, available_quantity, supplier_name, lot_no, place) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssssssssss", $date, $selected_product_name, $quality,$one_no,$two_no,$three_no,$waste_product_weight, $remarks, $quantity_fg, $supplier_name, $lot, $place);
-      
-      // Execute the statement
-      if ($stmt->execute()) {
-        echo "<script>alert('Form Submitted Successfully')</script>";
+// Execute the first statement
+if ($stmt->execute()) {
+    echo "<script>alert('working')</script>";
 
-        $activity_details = "entered process outward record";
-        
-        $stmt = $conn->prepare("
-        INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
-        VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
-        $stmt->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
-        $stmt->execute();
+    // Record the activity in the activity_master table
+    $activity_details = "entered process outward record";
+    $stmt1 = $conn->prepare("
+    INSERT INTO activity_master (user_id, email, user_type, activity_timestamp, activity_details)
+    VALUES (?, ?, ?, CURRENT_TIMESTAMP, ?)");
+    $stmt1->bind_param('isss', $_SESSION['id'], $_SESSION['username'], $_SESSION['role'], $activity_details);
+    $stmt1->execute();
+    $stmt1->close();
+}
 
-        // Delete from process_master using id
-        // $stmt1 = $conn->prepare("DELETE FROM process_master WHERE id = ?");
-        // $stmt1->bind_param('i', $product_name);
-        // $stmt1->execute();
-        // $stmt1->close();
+// Close the statement
+$stmt->close();
 
-        $selected_products = $_POST['product_name'];
+    
+  }
+  // $novalue = "";
+  // $stmtlot = $conn->prepare("
+  // INSERT INTO outward_lot_master (lot_no)
+  // VALUES (?)");
+  // $stmtlot->bind_param('s', $novalue);
+  // $stmtlot->execute();
 
-        foreach($selected_products as $product_id) {
-
-
-          $sql = "DELETE FROM process_master WHERE id = ?";
-
-          $stmt1 = $conn->prepare($sql);
-          if ($stmt1) {
-              $stmt1->bind_param("i", $product_id);
-
-              // Execute the statement
-              if ($stmt1->execute()) {
-                  // echo "<script>alert('Deleted')</script>";
-                  // echo "Product ID " . htmlspecialchars($product_id) . " deleted successfully.<br>";
-              } else {
-                  // echo "<script>alert('Not Deleted')</script>";
-
-                  // echo "Error deleting product ID " . htmlspecialchars($product_id) . ": " . $stmt1->error . "<br>";
-              }
-          } 
-          $stmt1->close();
-        }
+  // echo "<script>alert('Form Submitted Successfully')</script>";
 
 
-      } else {
-        echo "Error: " . $stmt->error;
-      }
-      
-      // Close connections
-      $stmt->close();
+
       $conn->close();
       
-    } else {
-      echo "<script>alert('Form Not Submitted')</script>";
-    }
-      
+
   
 }
 ?>
